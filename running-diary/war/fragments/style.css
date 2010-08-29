@@ -1,0 +1,48 @@
+<style type="text/css">
+.body{ margin-top: 25px; font-family:arial, sans-serif;}
+.header { background-color:#3B5998; height:40px; opacity:1; position:absolute;
+	right:0; top:0; width:100%; border:#CCC solid 1px; float:center;}
+.header a { color:#FFFFFF; font-weight:bolder; cursor:pointer;
+	text-decoration:none; white-space:nowrap; margin-top:9px; margin-left:20px; float:center;}
+
+.headerLeft { float:center; margin-top:10px; width:100%; }
+.headerRight { float:right; margin-rigth:20px; padding-right:20px;}
+
+.footer{ margin-top:30px; padding-top:30px; text-align: center; width:100%; clear:both; height:15px;}
+
+.menu { width:15%; position:absolute; left:0px; top:52px; }
+.button { color:#3B5998; background-color:#D8DFEA; padding:4px; margin-top:3px;}
+.button a { color:#3B5998; font-weight:bolder; cursor:pointer; text-decoration:none; }
+.body { width:75%; }
+
+.menuRight { width:15%; position:absolute; right:0px; top:52px;}
+.buttonRight { color:#3B5998; background-color:#D8DFEA; padding:4px; margin-top:3px;}
+.buttonRight a { color:#3B5998; font-weight:bolder; cursor:pointer; text-decoration:none; }
+
+.listTitleBig h1 { color:#3B5998; }
+.listTitleBig { margin-top:45px; }
+
+.content { width:75%; margin-top:15px; text-align:justify; }
+.story { width:75%; clear:both; margin-top:15px; border:3px #D8DFEA solid; padding:7px;
+	border-radius: 9px; }
+.story:hover { width:75%; clear:both; margin-top:15px; border:3px #3B5998 solid; padding:7px;
+	border-radius: 9px; cursor:pointer;}
+.storyTitle { width:97%; text-align:left; color:#3B5998; font-weight:bold;}
+
+
+.caption { width:97%; color:gray; text-align:left; }
+.storyContent { width:97%; }
+.copy { width:97%; text-align:justify; }
+.heightMin { height:90px; float:right; width:1px; }
+
+.clear { clear:both; height:1px; overflow:hidden; }
+
+.image { cursor:pointer; margin-top:2px; margin-bottom:3px; margin-right:5px; float:left;
+	vertical-align:text-top; left:0px; top:0px;}
+.image img { height:60px; }
+.copy a { color:#B8B8B8;}
+
+.searchBox { width:75%; margin-top:65px;}
+.searchContent { width:75%; }
+
+</style>
