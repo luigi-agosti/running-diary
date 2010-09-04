@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1-sources.jar"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- 
+	===================================================================
+	TODO check where these are used
+	===================================================================	
+	 -->
+
+	<!-- titles and labels -->
+	<string name="app_name">MOL</string>
+	<string name="app_item">MOL - article</string>
+	<string name="app_channels">MOL - channels</string>
+	<string name="app_prefs">MOL - preferences</string>
+	<string name="more_pictures_link">More Pictures</string>
+
+	<string name="prefix_url_feed">http://content.dailymail.co.uk/molcontent/mobile/feed/
+	</string>
+	<string name="postfix_url_feed">/json/</string>
+
+	<string name="prefix_url_images">http://i.dailymail.co.uk/</string>
+
+	<!-- other settings -->
+	<integer name="paragraphs_before_link_to_picsgallery">3</integer>
+	
+	
+
+	<!-- 
+	===================================================================
+	Convention : 
+	className where the string is used + _ + a meaningful name
+	if is not used in a particular class Just a meaningful name
+	===================================================================	
+	 -->
+
+
+
+
+	<!-- 
+	===================================================================
+	Single Article view
+	===================================================================	
+	 -->
+	<string name="singleArticleActivity_articleUpdateInfo">By %1$s updated at %2$s</string>
+	 
+	 
+ 	<!-- 
+	===================================================================
+	Searchable view
+	===================================================================	
+	-->
+	<string name="searchableActivity_searchHeader">We found %1$s articles matching your query %2$s</string>
+	 
+	<!-- 
+	===================================================================
+	Activities
+	===================================================================	
+	 -->
+	 
+	<string name="galleryActivity_menuLeft">Left</string>
+	<string name="galleryActivity_menuRight">Right</string>
+	 
+	 
+	<!-- 
+	===================================================================
+	Services and notification string
+	===================================================================	
+	 -->
+	<string name="syncService_start">Content Sync Started.</string>
+	<string name="syncService_finished">Content Sync Finish.</string>
+	<string name="syncService_notConnected">The device is not connected.</string>
+	<string name="syncService_parsingProblem">Problem during parsign. Can\'t sync at the moment, try later!</string>
+	<string name="syncService_faild">Sync for channel %1$s faild!</string>
+	<string name="syncService_startForChannel">Content sync for %1$s started</string>
+	<string name="syncService_finishedForChannel">Content sync for %1$s finished</string>
+
+	<string name="sanityService_start">Start check and clean up of files</string>
+	<string name="sanityService_finished">Check and clean up of files Finished</string>
+	<string name="sanityService_allSyncFinished">Sync finished</string>
+
+	<string name="fileSyncService_allImagesStart">Sync of images started</string>
+	<string name="fileSyncService_allImagesFinished">Sync of images finished</string>
+	<string name="fileSyncService_channelImagesStart">Sync of images for %1$s started</string>
+	<string name="fileSyncService_channelImagesFinished">Sync of images for %1$s finished</string>
+	
+	<!-- 
+	===================================================================
+	Menu
+	===================================================================	
+	 -->
+	<string name="optionsMenuBuilder_settings">Settings</string>
+	<string name="optionsMenuBuilder_fetchAll">Fetch all</string>
+	<string name="optionsMenuBuilder_fetchImages">Fetch Images</string>
+	<string name="optionsMenuBuilder_share">Share</string>
+	<string name="optionsMenuBuilder_flushMemory">Flush memory</string>
+	<string name="optionsMenuBuilder_images">Images</string>
+	<string name="optionsMenuBuilder_relatedArticles">Related Articles</string>
+	<string name="optionsMenuBuilder_search">Search</string>
+	 
+	<!-- 
+	===================================================================
+	layout files
+	===================================================================	
+	 -->
+	<string name="loading_message">Loading...</string>
+
+	<!-- 
+	===================================================================
+	Article activity
+	===================================================================	
+	 -->
+	<string name="articleScrollView_relatedArticlesTitle">Related Article :</string>
+	 
+	 
+	<!-- 
+	===================================================================
+	Preferences
+	===================================================================	
+	-->
+	<string name="prefernces_lastChange">Last sync was : </string>
+	<string name="prefernces_noData">No Data</string>
+	<string name="prefernces_noDataSummary">Please do a synch to get the channels, click here to start a sync</string>
+	<string name="prefernces_defaultAutoDownloadTime">05:00</string>
+	 
+</resources>

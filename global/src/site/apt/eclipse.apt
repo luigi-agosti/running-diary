@@ -1,0 +1,46 @@
+Eclipse
+
+ There are to ways to work with this project within eclipse: using m2 plugin or by "mavenize" the project itself with mvn eclipse:eclipse.
+
+Eclipse maven plugin
+
+ The project is well integrated with eclipse, but you have to make sure you have the following thig well setted up:
+  
+  * make sure you have the sdk and the android plugin for eclipse installed : http://developer.android.com/sdk/installing.html
+  
+  * set up the ANDROID_HOME and make sure that the tools directory is added to the path
+  
+ If you want to use maven inside eclipse you need to look at these plugin :
+  	
+  * install m2eclipse : http://m2eclipse.sonatype.org/
+  	
+  * install m2eclipse-android-integration : http://code.google.com/a/eclipselabs.org/p/m2eclipse-android-integration/wiki/GettingStarted
+
+ The alternative is the use of mvn eclipse:eclipse command to generate all the configuration for the project
+ 
+ It is still very slow do to the mvn build, so if you are working on the ui and you want to see changes asap the best solution is the following. Although is a lot better to import is just sufficient to get the global and job is done.
+  
+  
+Mavenize the project
+
+ This is at the moment the best solution, because hide the mvn build to eclipse. Although there are a couple of quick things to do to make it work properly:
+ 
+ * Run mvn eclipse:eclipse on the global
+ 
+ * Import the dma and the dmaTest project
+ 
+ * Remove from the source folders the /target/generated-sources/r
+ 
+ * Add gen to the source folders
+ 
+ * Add in the dmaTest the dependency on dma (edit classpath -> projects -> add)
+ 
+ * Ask google plugin to fix the project (right click -> android tools -> fix project)
+ 
+ * if you want run a clean 
+ 
+
+Code Style
+
+ We are adhering to the style rules of android base code. Although we don't use the m notation for member.
+ The style to import in eclipse is in the global root, should be imported automatically while doing the mavenize solution, but is better to check it.

@@ -1,101 +1,40 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-	
-	<!-- 
-	====================================
-		Security configuration
-	==================================== 
-	<security-constraint>
-		<web-resource-collection>
-			<url-pattern>/task/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<security-constraint>
-        <web-resource-collection>
-            <url-pattern>/queue/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
-	<security-constraint>
-        <web-resource-collection>
-            <url-pattern>/editor.jsp</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
-	-->
-    
-    <!-- 
-    ====================================
-		Get Service for the Editor
-	 ==================================== 
+
+	<!-- ==================================== Gwt Services ==================================== -->
 
 	<servlet>
 		<servlet-name>editorRpcService</servlet-name>
-		<servlet-class>org.ls.fgf.server.servlet.EditorServiceImpl</servlet-class>
+		<servlet-class>com.la.runners.server.servlet.EditorServiceImpl
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>editorRpcService</servlet-name>
 		<url-pattern>/editor/editorService</url-pattern>
 	</servlet-mapping>
-	 -->
 
-    <!-- 
-    ====================================
-		Task
-	==================================== 
-    <servlet>
-		<servlet-name>keepAliveTask</servlet-name>
-		<servlet-class>org.ls.fgf.server.task.KeepAliveTask</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>keepAliveTask</servlet-name>
-		<url-pattern>/task/keepAliveTask</url-pattern>
-	</servlet-mapping>
-	-->
-	
-	<!-- 
-	====================================
-		Queues
-	==================================== 
-	<servlet>
-		<servlet-name>keepAliveQueue</servlet-name>
-		<servlet-class>org.ls.fgf.server.queue.KeepAliveQueue</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>keepAliveQueue</servlet-name>
-		<url-pattern>/queue/keepAliveQueue</url-pattern>
-	</servlet-mapping>
-	-->
+	<!-- ==================================== clag ==================================== -->
 
-	<!-- 
-	====================================
-		clag
-	==================================== 
-	
 	<servlet>
 		<servlet-name>clag</servlet-name>
 		<servlet-class>novoda.clag.servlet.ClagServlet</servlet-class>
-        <init-param>
-            <param-name>contentClasses</param-name>
-            <param-value>org.ls.fgf.shared.Story,org.ls.fgf.shared.Page</param-value>
-        </init-param>
-	</servlet> 
+		<init-param>
+			<param-name>converter</param-name>
+			<param-value>novoda.clag.converter.json.SqliteJsonConverter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contentClasses</param-name>
+			<param-value>com.la.runners.shared.Run</param-value>
+		</init-param>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>clag</servlet-name>
 		<url-pattern>/data/*</url-pattern>
 	</servlet-mapping>
-	-->
 
-	<!-- ====================================
-		Welcome list
-	 ==================================== -->
+	<!-- ==================================== Welcome list ==================================== -->
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
 </web-app>

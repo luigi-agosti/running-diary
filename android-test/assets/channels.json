@@ -1,0 +1,146 @@
+{
+    "title": "MailOnline",
+    "ver": "1.0",
+    "colours": {
+    	"home": "004DB3",
+	    "moslive": "7E1616",
+	    "news": "00AAD2",
+	    "sport": "0CAC0C",
+	    "tvshowbiz": "E01C44",
+	    "femail": "C562A5",
+	    "health": "33CCCC",
+	    "sciencetech": "FF6600",
+	    "you": "D45699",
+	    "money": "511B80",
+	    "travel": "082340",
+	    "property": "AC46C6",
+	    "motoring": "666666",
+	    "debate": "000000",
+	    "gr1": "F5F5F5",
+	    "gr2": "E3E3E3",
+	    "gr3": "C0C0C0",
+	    "gr4": "999999",
+	    "gr5": "666666",
+	    "gr6": "333333",
+	    "black": "000000"
+    },
+    "channels": [
+        {
+            "title": "MailOnline",
+            "col": "home",
+            "sn": "home",
+			"ds": "/mobile/feed/readchannel/home/",
+			"cache" : 1800,
+			"sync": 1,
+			"imagetypes": ["tn", "lg"]
+        },
+        {
+            "title": "Showbiz",
+            "col": "tvshowbiz",
+            "sn": "tvshowbiz",
+			"ds": "/mobile/feed/readlist/tvshowbiz/",
+			"cache" : 1800,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "Femail",
+            "col": "femail",
+            "sn": "femail",
+			"ds": "/mobile/feed/readchannel/femail/",
+			"cache" : 2700,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "Sport",
+            "col": "sport",
+            "sn": "sport",
+			"ds": "/mobile/feed/readchannel/sport/",
+			"cache" : 1800,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "World News",
+            "col": "news",
+            "sn": "worldnews",
+			"ds": "/mobile/feed/readlist/worldnews/",
+			"cache" : 2700,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+        {
+            "title": "Sci-Tech",
+            "col": "sciencetech",
+            "sn": "sciencetech",
+			"ds": "/mobile/feed/readlist/sciencetech/",
+			"cache" : 10800,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+        {
+            "title": "Health",
+            "col": "health",
+            "sn": "health",
+			"ds": "/mobile/feed/readchannel/health/",
+			"cache" : 10800,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+        {
+            "title": "Debate",
+            "col": "debate",
+            "sn": "debate",
+			"ds": "/mobile/feed/readchannel/debate/",
+			"cache" : 14400,
+			"sync": 1,
+			"imagetypes": ["pf", "lg", "by"]
+        },
+		{
+            "title": "Money",
+            "col": "money",
+            "sn": "money",
+			"ds": "/mobile/feed/readchannel/money/",
+			"cache" : 14400,
+			"sync": 1,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "Motoring",
+            "col": "motoring",
+            "sn": "motoring",
+			"ds": "/mobile/feed/readchannel/motoring/",
+			"cache" : 14400,
+			"sync": 0,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "Travel",
+            "col": "travel",
+            "sn": "travel",
+			"ds": "/mobile/feed/readchannel/travel/",
+			"cache" : 14400,
+			"sync": 0,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "You",
+            "col": "you",
+            "sn": "you",
+			"ds": "/mobile/feed/readchannel/you/",
+			"cache" : 14400,
+			"sync": 0,
+			"imagetypes": ["pf", "lg"]
+        },
+		{
+            "title": "Live",
+            "col": "moslive",
+            "sn": "moslive",
+			"ds": "/mobile/feed/readchannel/moslive/",
+			"cache" : 14400,
+			"sync": 0,
+			"imagetypes": ["pf", "lg"]
+        }
+    ]
+}

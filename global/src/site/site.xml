@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Dailymail Android Application">
+	<bannerLeft>
+		<name>Dailymail Android Application</name>
+		<src>http://maven.apache.org/images/apache-maven-project.png</src>
+	</bannerLeft>
+	<bannerRight>
+		<src>http://maven.apache.org/images/maven-small.gif</src>
+	</bannerRight>
+	<body>
+		<menu name="Developer Docs">
+			<item name="Getting Started" href="getting-started.html" />
+			<item name="Project Structure" href="project-structure.html" />
+			<item name="Git" href="git.html" />
+			<item name="Maven" href="maven.html" />
+			<item name="Eclipse" href="eclipse.html" />
+			<item name="General overview" href="overview.html" />
+			<item name="Release Notes" href="release-notes.html" />
+		</menu>
+		<menu name="Standard Docs">
+			<item name="API" href="apidocs/index.html" />
+			<item name="Project Summary" href="project-summary.html" />
+			<item name="Dependencies" href="dependencies.html" />
+			<item name="Dependency convergence" href="dependency-convergence.html" />
+			<item name="Team List" href="team-list.html" />
+		</menu>
+	</body>
+</project>

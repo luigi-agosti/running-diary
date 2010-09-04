@@ -1,0 +1,19 @@
+Getting started
+
+ This project should be quite easy to set up, although there are a number of things that is better to get first.
+  
+ * {{{http://developer.android.com/sdk/index.html}Android sdk}}
+
+ * {{{project-structure.html}Project structure}}
+
+ * {{{git.html}Git internal doc}} and the {{{http://andtechwiki/index.php/Dev:Projects:Dailymail_GIT}AND wiki}}
+
+ * {{{maven.html}Maven}}
+
+ * {{{eclipse.html}Eclipse}}
+ 
+ * {{{appengine.html}Appengine}}
+
+ * {{{overview.html}Overview}} of the general architecture of the android application.
+ 
+ * {{{release-notes.html}Release notes}}

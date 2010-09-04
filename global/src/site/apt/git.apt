@@ -1,0 +1,13 @@
+Getting started
+
+Some useful command to remember 
+
+ Getting a clone of the repository
+ 
+  * git clone ssh://git@andgit/u01/gitrepo/dailymail-android.git
+ 
+ Make your own branch
+ 
+  * git checkout -b branchname
+ 
+ To find out more about git check out the {{{http://book.git-scm.com/}git community book}}

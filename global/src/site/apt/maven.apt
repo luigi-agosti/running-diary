@@ -1,0 +1,29 @@
+Maven
+
+ Just a few useful thing to know
+ 
+ Complete build with the emulator running for the test : 
+ 
+  * Run the build and test on an emulator : <<mvn clean install>>  (from the global)
+ 
+ Build the site : 
+ 
+  * Build up this documentation as html : <<mvn clean site>>
+  
+ Eclipse : 
+  
+  * Delete project, classpath and settings files of eclipse : <<mvn eclipse:clean>>
+  
+  * Regenerate project, classpath and settings for eclipse : <<mvn eclipse:eclipse>>
+ 
+ Android : 
+ 
+  * In the dma project you can run commands like  <<mvn android:deploy>>. You can find out more information about the android plugin can be found {{{http://www.sonatype.com/books/mvnref-book/reference/android-dev.html}here}}
+  
+ Appengine :
+ 
+  *  
+  
+ Javadoc :
+ 
+  * We try to put information in the code itself so if you build up the javadoc you will find some useful infomation. To do that just run the command <<mvn javadoc:javadoc>>.

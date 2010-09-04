@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.la.runners</groupId>
+	<artifactId>global</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Global - Maven Android Integration</name>
+	<description>Running diary project.</description>
+
+	<modules>
+		<module>../android</module>
+		<module>../android-test</module>
+	</modules>
+
+	<properties>
+		<android.version>2.1_r1</android.version>
+		<junit.version>4.4</junit.version>
+		<jackson.version>1.5.1</jackson.version>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>maven-android-plugin</artifactId>
+					<version>2.5.0</version>
+					<configuration>
+						<sdk>
+							<platform>7</platform>
+						</sdk>
+						<emulator>
+							<avd>22</avd>
+						</emulator>
+						<deleteConflictingFiles>true</deleteConflictingFiles>
+						<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					</configuration>
+					<extensions>true</extensions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.1</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+						<addGroupIdToProjectName>true</addGroupIdToProjectName>
+						<addVersionToProjectName>true</addVersionToProjectName>
+						<additionalConfig>
+							<file>
+								<name>.checkstyle</name>
+								<location>../global/android-formatting.xml</location>
+							</file>
+						</additionalConfig>
+						<additionalProjectnatures>
+							<projectnature>com.android.ide.eclipse.adt.AndroidNature</projectnature>
+						</additionalProjectnatures>
+						<classpathContainers>
+							<classpathContainer>com.android.ide.eclipse.adt.ANDROID_FRAMEWORK</classpathContainer>
+						</classpathContainers>
+						<excludes>
+							<exclude>com.google.android:android</exclude>
+							<exclude>com.google.android:android-test</exclude>
+							<exclude>commons-logging:commons-logging</exclude>
+							<exclude>commons-codec:commons-codec</exclude>
+							<exclude>org.apache.httpcomponents:httpclient</exclude>
+							<exclude>org.apache.httpcomponents:httpcore</exclude>
+							<exclude>org.khronos:opengl-api</exclude>
+							<exclude>xerces:xmlParserAPIs</exclude>
+							<exclude>xpp3:xpp3</exclude>
+							<exclude>junit:junit</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
