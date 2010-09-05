@@ -17,9 +17,9 @@ public class SchemaParser {
 
     private static final String VERSION = "version";
 
-    private static final String DROP_STATEMENT = "dropStatement";
+    private static final String DROP_STATEMENT = "dropStatements";
 
-    private static final String CREATE_STATEMENT = "createStatement";
+    private static final String CREATE_STATEMENT = "createStatements";
 
     private String name;
 

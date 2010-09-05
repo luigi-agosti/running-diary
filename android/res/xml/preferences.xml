@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<!-- <PreferenceCategory android:key="SCREEN" android:title="Screen Preferences"> 
-		<ListPreference android:key="FONT_SIZE" android:title="Font size" android:summary="Choose 
-		the font size you prefer" android:dialogTitle="Font size" android:entries="@array/font_size_label" 
-		android:entryValues="@array/font_size_value" /> </PreferenceCategory> -->
-
 	<PreferenceCategory 
 		android:title="General" >
 		<CheckBoxPreference 
@@ -25,34 +20,6 @@
 			android:title="Automatic sync"
 			android:defaultValue="true" 
 			android:summary="Enable automatic sync"/>
-		<uk.co.and.dailymail.android.preference.DatePickerDialogPrefernce
-			android:key="syncDownloadTime"
-			android:title="Download schedule" 
-			android:defaultValue="05:00"
-			android:summary="Set the time when you want to automaticaly run the sync" />
-
-		<PreferenceScreen 
-			android:background="#ffffff" 
-			android:title="Data to sync"
-			android:summary="Select what you want to sync">
-			<PreferenceCategory 
-				android:key="syncChannelsPreference"
-				android:title="Channels">
-			</PreferenceCategory>
-			<PreferenceCategory 
-				android:title="Images">
-				<CheckBoxPreference 
-					android:key="syncThumbnailImagesEnabled" 
-					android:title="Sync thumbnail images"
-					android:defaultValue="true" 
-					android:summary="Download all the thumbnail images" />
-				<CheckBoxPreference 
-					android:key="syncArticleImagesEnabled" 
-					android:title="Sync article images"
-					android:defaultValue="true" 
-					android:summary="Download all the article images" />
-			</PreferenceCategory>
-		</PreferenceScreen>
 	</PreferenceCategory>
 	
 	<PreferenceCategory 
@@ -61,13 +28,6 @@
 		<Preference 
 			android:key="version" 
 			android:title="Version" />
-		<PreferenceScreen 
-			android:title="About"
-			android:summary="Lorem ipsum dolor sit amet, consectetur">
-			<Preference 
-				android:title="About"
-				android:summary="Lorem ipsum dolor sit amet, consectetur ........." />
-		</PreferenceScreen>
 	</PreferenceCategory>
 
 </PreferenceScreen>

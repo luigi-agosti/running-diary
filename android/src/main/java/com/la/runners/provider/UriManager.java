@@ -17,17 +17,13 @@ public class UriManager extends UriMatcher {
     }
 
     public void setUp() {
-        
-        //TODO
-
-        add(MetaData.Article.NAME, MetaData.Article.INCOMING_COLLECTION);
-        add(MetaData.Article.NAME + MetaData.SEPARATOR + MetaData.ID_INDICATOR,
-                MetaData.Article.INCOMING_ITEM);
-
+        add(Model.Run.NAME, Model.Run.INCOMING_COLLECTION);
+        add(Model.Run.NAME + Model.SEPARATOR + Model.ID_INDICATOR,
+                Model.Run.INCOMING_ITEM);
     }
 
     public void add(String path, int code) {
-        super.addURI(MetaData.AUTHORITY, path, code);
+        super.addURI(Model.AUTHORITY, path, code);
     }
 
     public static final String[] getIdSelectionArgumentsFromUri(Uri uri) {
@@ -35,7 +31,5 @@ public class UriManager extends UriMatcher {
             uri.getPathSegments().get(1)
         };
     }
-
-
-
+    
 }

@@ -33,8 +33,13 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
         try {
             ObjectMapper mapper = new ObjectMapper();
             rootNode = mapper.readValue(stream, JsonNode.class);
-            JsonNode array = rootNode.get(root);
-            nodes = array.getElements();
+            JsonNode array = null;
+            if(rootNode == null) {
+            	array = rootNode.get(root);
+            	nodes = array.getElements();
+            } else {
+            	nodes = rootNode.getElements();
+            }
         } catch (Throwable e) {
             if (AppLogger.isErrorEnabled()) {
                 AppLogger.error("Problem during parsing, probably network is donw!", e);

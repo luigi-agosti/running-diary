@@ -31,14 +31,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>uk.co.and.dailymail.android</groupId>
-			<artifactId>dma</artifactId>
+			<groupId>com.la.runners</groupId>
+			<artifactId>runners</artifactId>
 			<version>${project.version}</version>
 			<type>apk</type>
 		</dependency>
 		<dependency>
-			<groupId>uk.co.and.dailymail.android</groupId>
-			<artifactId>dma</artifactId>
+			<groupId>com.la.runners</groupId>
+			<artifactId>runners</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 			<type>jar</type>

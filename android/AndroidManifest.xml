@@ -27,6 +27,14 @@
 		<provider
 			android:name=".provider.Provider"
 			android:authorities="com.la.runners" />
+
+		<!--
+			===================================================== 
+			Providers
+			=====================================================
+		-->
+		<service
+			android:name=".service.SyncService" />
 			
 			
 		<!--

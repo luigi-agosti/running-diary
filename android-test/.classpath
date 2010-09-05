@@ -1,9 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="target/generated-sources/r" including="**/*.java"/>
-  <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/uk/co/and/dailymail/android/dma/0.0.1-SNAPSHOT/dma-0.0.1-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1-sources.jar"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.la.runners.android-0.0.1-SNAPSHOT"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
