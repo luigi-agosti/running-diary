@@ -88,7 +88,7 @@ public class Provider extends ContentProvider {
     @Override
     public boolean onCreate() {
         if (AppLogger.isDebugEnabled()) {
-            AppLogger.debug("creating DMA Provider");
+            AppLogger.debug("Creating Provider");
         }
         databaseManager = new DatabaseManager(getContext(), NetworkService.getSchema(getContext()));
         database = databaseManager.getWritableDatabase();

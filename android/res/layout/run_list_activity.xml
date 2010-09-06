@@ -1,3 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android">
-	<ListView android:id="@+id/runList" />
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/runListActivity_listViewContainer">
+	<ListView 
+		android:id="@+id/runList" 
+		style="@style/runListActivity_listView"/>
 </LinearLayout>

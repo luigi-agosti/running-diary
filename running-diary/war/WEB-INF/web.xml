@@ -1,11 +1,47 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 
+	<!-- ==================================== Ssecurity-constraint ==================================== -->
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/task/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/queue/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<!-- ==================================== servlet to keep the instance alive ==================================== -->
+	<servlet>
+		<servlet-name>keepAliveTask</servlet-name>
+		<servlet-class>org.appengine.commons.servlet.task.KeepAliveTask</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>keepAliveTask</servlet-name>
+		<url-pattern>/task/keepAliveTask</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>keepAliveQueue</servlet-name>
+		<servlet-class>org.appengine.commons.servlet.queue.KeepAliveQueue</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>keepAliveQueue</servlet-name>
+		<url-pattern>/queue/keepAliveQueue</url-pattern>
+	</servlet-mapping>
+	
 	<!-- ==================================== Gwt Services ==================================== -->
 
 	<servlet>
 		<servlet-name>editorRpcService</servlet-name>
-		<servlet-class>com.la.runners.server.servlet.EditorServiceImpl
-		</servlet-class>
+		<servlet-class>com.la.runners.server.servlet.EditorServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>editorRpcService</servlet-name>

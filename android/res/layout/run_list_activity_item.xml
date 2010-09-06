@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-   xmlns:android="http://schemas.android.com/apk/res/android">
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/runListActivity_itemContainter">
    
    <TextView  
-      android:id="@+id/runListActivity_note"/>
+      android:id="@+id/runListActivity_note"
+      style="@style/runListActivity_note"/>
 
 </LinearLayout>
