@@ -5,6 +5,11 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.la.runners.R;
+import com.la.runners.provider.Model;
 
 public class RunListCursorAdapter extends CursorAdapter {
 
@@ -14,16 +19,16 @@ public class RunListCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		// TODO Auto-generated method stub
-		
+		String note = Model.Run.note(cursor);
+		TextView noteTextView = (TextView)view.findViewById(R.id.runListActivity_note);
+		noteTextView.setText(note);
 	}
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		return null;
+	    LinearLayout ll = new LinearLayout(context);
+        View.inflate(context, R.layout.run_list_activity_item, ll);
+		return ll;
 	}
-	
-	//runListActivity_note
 
 }
