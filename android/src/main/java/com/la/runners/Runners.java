@@ -1,3 +1,4 @@
+
 package com.la.runners;
 
 import android.app.Application;
@@ -5,15 +6,15 @@ import android.app.Application;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.HttpManager;
 
-/** 
+/**
  * @author luigi.agosti
  */
 public class Runners extends Application {
 
     private HttpManager httpManager;
-    
+
     private static Runners instance;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,9 +41,9 @@ public class Runners extends Application {
             AppLogger.info("============================================");
         }
     }
-    
+
     public final HttpManager getHttpManager() {
-        if(httpManager == null) {
+        if (httpManager == null) {
             httpManager = new HttpManager(getApplicationContext());
         }
         return httpManager;

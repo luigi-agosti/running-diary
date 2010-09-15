@@ -12,13 +12,13 @@ public class Query {
 
     public static final String PARAMETER = "= ?";
 
-    private static final String ASCENDANT = " asc";
-
-    private static final String DESCENDANT = " desc";
-
-    private static final String IS_NULL = " is null";
-
-    private static final String AND = " and ";
+//    private static final String ASCENDANT = " asc";
+//
+//    private static final String DESCENDANT = " desc";
+//
+//    private static final String IS_NULL = " is null";
+//
+//    private static final String AND = " and ";
 
     public static class Run {
     	

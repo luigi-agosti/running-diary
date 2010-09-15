@@ -1,10 +1,12 @@
 
 package com.la.runners.util.network;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
@@ -29,6 +31,7 @@ import org.apache.http.protocol.HttpContext;
 import android.content.Context;
 import android.provider.Settings.Secure;
 
+import com.la.runners.activity.Preferences;
 import com.la.runners.util.AppLogger;
 
 /**
@@ -43,7 +46,7 @@ public class HttpManager {
     private static final String HTTPS = "https";
 
     private static final int HTTP_PORT = 80;
-    
+
     private static final int HTTPS_PORT = 443;
 
     private boolean threadSafe;
@@ -63,13 +66,22 @@ public class HttpManager {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(),
                     HTTP_PORT));
-            schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(), HTTPS_PORT));
+            schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(),
+                    HTTPS_PORT));
             ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
             client = new DefaultHttpClient(cm, params);
         } else {
             client = new DefaultHttpClient();
         }
-        
+
+    }
+
+    public DefaultHttpClient getDefaultHttpClient() {
+        return (DefaultHttpClient)client;
+    }
+
+    public String getUrlAsString(String url, final Context context, boolean withDeviceUid) {
+        return convertStreamToString(getUrlAsStream(url, context, withDeviceUid));
     }
 
     public InputStream getUrlAsStream(String url, final Context context, boolean withDeviceUid) {
@@ -84,14 +96,18 @@ public class HttpManager {
         HttpResponse response;
         InputStream is = null;
         try {
+            String acsidCookie = Preferences.getGoogleAcsidCookie(context);
+            if(acsidCookie != null) {
+                get.addHeader("Cookie", acsidCookie);
+            }
             response = client.execute(get);
-            if(withDeviceUid) {
+            if (withDeviceUid) {
                 client.addRequestInterceptor(new HttpRequestInterceptor() {
                     @Override
-                    public void process(HttpRequest request, HttpContext httpContext) throws HttpException,
-                            IOException {
-                        request.addHeader(new BasicHeader(HEADER_DEVICE_UID, 
-                                Secure.getString(context.getContentResolver(), Secure.ANDROID_ID)));
+                    public void process(HttpRequest request, HttpContext httpContext)
+                            throws HttpException, IOException {
+                        request.addHeader(new BasicHeader(HEADER_DEVICE_UID, Secure.getString(
+                                context.getContentResolver(), Secure.ANDROID_ID)));
                     }
                 });
             }
@@ -106,7 +122,7 @@ public class HttpManager {
             return null;
         }
     }
-    
+
     public InputStream getUrlAsStream(String url, Context context) {
         return getUrlAsStream(url, context, false);
     }
@@ -149,5 +165,22 @@ public class HttpManager {
                 AppLogger.info("Problem trying to close some object.", t);
             }
         }
+    }
+
+    private String convertStreamToString(InputStream is) {
+        try {
+            if (is != null) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                return sb.toString();
+            }
+        }catch(Exception e) {
+            closeSilently(is);
+        }
+        return "";
     }
 }

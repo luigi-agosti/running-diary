@@ -2,24 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory 
-		android:title="General" >
-		<CheckBoxPreference 
-			android:key="syncOnWifi"
-			android:title="Wi-Fi Connection"
-			android:summary="Enable auto sync on Wi-Fi connection" />
-		<CheckBoxPreference 
-			android:key="syncOnMobile"
-			android:title="Mobile Connection" 
-			android:summary="Enable auto sync on Mobile connection" />
-	</PreferenceCategory>
-
-	<PreferenceCategory 
-		android:title="Synchronisation">
-		<CheckBoxPreference 
-			android:key="syncEnabled"
-			android:title="Automatic sync"
-			android:defaultValue="true" 
-			android:summary="Enable automatic sync"/>
+		android:key="accountContainer"
+		android:title="Accounts (you need a google account)">
+		<ListPreference
+			android:key="accountPreference"
+			android:title="Account"
+			android:summary="Choose your account" />
 	</PreferenceCategory>
 	
 	<PreferenceCategory 

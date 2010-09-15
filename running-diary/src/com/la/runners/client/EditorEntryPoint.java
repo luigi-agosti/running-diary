@@ -61,7 +61,6 @@ public class EditorEntryPoint implements EntryPoint {
                             message.setText("success loading page, but is null");
                         }
                     }
-
                     @Override
                     public void onFailure(Throwable caught) {
                         message.setText("failure loading page");

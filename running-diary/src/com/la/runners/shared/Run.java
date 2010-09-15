@@ -19,6 +19,9 @@ public class Run implements Serializable {
 
     @Persistent
     private Date date;
+
+    @Persistent
+    private Date modified;
     
     @Persistent
     private Double distance;
@@ -67,6 +70,14 @@ public class Run implements Serializable {
 
     public String getNote() {
         return note;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public Date getModified() {
+        return modified;
     }
     
 }

@@ -8,16 +8,13 @@ import com.la.runners.Runners;
 import com.la.runners.parser.RunParser;
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Constants;
 
 public class NetworkService {
     
-    private static final String SCHEMA_URL = "http://running-diary.appspot.com/data";
-    
-    public static final String RUN_CONTENT_URL = "http://running-diary.appspot.com/data/Run";
-    
     public static final SchemaParser getSchema(Context context) {
-        InputStream is = getHttpManager(context).getUrlAsStream(SCHEMA_URL, context);
-        SchemaParser parser = null; 
+        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.SCHEMA_URL, context);
+        SchemaParser parser = null;
         try {
             parser = new SchemaParser(is);
         } catch(Exception e) {
@@ -25,9 +22,9 @@ public class NetworkService {
         }
         return parser;
     }
-
-	public static final RunParser getRunParser(Context context) {
-		InputStream is = getHttpManager(context).getUrlAsStream(RUN_CONTENT_URL, context);
+    
+    public static final RunParser getRunParser(Context context) {
+        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.RUN_CONTENT_URL, context);
         RunParser parser = null; 
         try {
             parser = new RunParser(is);
@@ -37,7 +34,7 @@ public class NetworkService {
         return parser;
 	}
 	
-	private static final HttpManager getHttpManager(Context context) {
+	public static final HttpManager getHttpManager(Context context) {
 		Runners runners = Runners.getInstance();
 		HttpManager httpManager = null;
         if(runners == null) {
