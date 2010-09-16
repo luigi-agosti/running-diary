@@ -1,17 +1,11 @@
 
 package com.la.runners.util.network;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -26,7 +20,6 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 
 import android.content.Context;
 import android.provider.Settings.Secure;
@@ -49,39 +42,21 @@ public class HttpManager {
 
     private static final int HTTPS_PORT = 443;
 
-    private boolean threadSafe;
-
     private AbstractHttpClient client;
 
-    private HttpUriRequest get;
-
     public HttpManager(Context context) {
-        this(true, context);
-    }
-
-    public HttpManager(boolean threadSafe, final Context c) {
-        this.threadSafe = threadSafe;
-        if (threadSafe == true) {
-            HttpParams params = new BasicHttpParams();
-            SchemeRegistry schemeRegistry = new SchemeRegistry();
-            schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(),
-                    HTTP_PORT));
-            schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(),
-                    HTTPS_PORT));
-            ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-            client = new DefaultHttpClient(cm, params);
-        } else {
-            client = new DefaultHttpClient();
-        }
-
+        HttpParams params = new BasicHttpParams();
+        SchemeRegistry schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(),
+                HTTP_PORT));
+        schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(),
+                HTTPS_PORT));
+        ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+        client = new DefaultHttpClient(cm, params);
     }
 
     public DefaultHttpClient getDefaultHttpClient() {
         return (DefaultHttpClient)client;
-    }
-
-    public String getUrlAsString(String url, final Context context, boolean withDeviceUid) {
-        return convertStreamToString(getUrlAsStream(url, context, withDeviceUid));
     }
 
     public InputStream getUrlAsStream(String url, final Context context, boolean withDeviceUid) {
@@ -89,10 +64,7 @@ public class HttpManager {
             AppLogger.warn("Network is down can't procede with loading resource at url : " + url);
             return null;
         }
-        if (get != null && !this.threadSafe) {
-            get.abort();
-        }
-        get = new HttpGet(url);
+        HttpUriRequest get = new HttpGet(url);
         HttpResponse response;
         InputStream is = null;
         try {
@@ -102,14 +74,9 @@ public class HttpManager {
             }
             response = client.execute(get);
             if (withDeviceUid) {
-                client.addRequestInterceptor(new HttpRequestInterceptor() {
-                    @Override
-                    public void process(HttpRequest request, HttpContext httpContext)
-                            throws HttpException, IOException {
-                        request.addHeader(new BasicHeader(HEADER_DEVICE_UID, Secure.getString(
-                                context.getContentResolver(), Secure.ANDROID_ID)));
-                    }
-                });
+                String deviceUid = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+                AppLogger.logVisibly("adding header : " + deviceUid);
+                get.addHeader(new BasicHeader(HEADER_DEVICE_UID, deviceUid));
             }
             HttpEntity entity = response.getEntity();
             is = entity.getContent();
@@ -166,21 +133,5 @@ public class HttpManager {
             }
         }
     }
-
-    private String convertStreamToString(InputStream is) {
-        try {
-            if (is != null) {
-                StringBuilder sb = new StringBuilder();
-                String line;
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-                return sb.toString();
-            }
-        }catch(Exception e) {
-            closeSilently(is);
-        }
-        return "";
-    }
+    
 }

@@ -60,6 +60,7 @@ public class Provider extends ContentProvider {
             case Model.Run.INCOMING_COLLECTION: {
                 try {
                     long id = database.insertOrThrow(Model.Run.NAME, null, values);
+                    AppLogger.debug("insert : " + values + " id = " + id);
                     result = ContentUris.withAppendedId(Model.Run.CONTENT_URI, id);
                     getContext().getContentResolver().notifyChange(result, null);
                 } catch (SQLException e) {

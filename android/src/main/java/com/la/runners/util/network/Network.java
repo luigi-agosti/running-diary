@@ -11,7 +11,7 @@ import com.la.runners.util.AppLogger;
  * Utility class to verify the availability of networks will be useful when we
  * implements the automatic sync. Change methods to static final
  * 
- * @author fabio.testolin, luigi.agosti
+ * @author luigi.agosti
  */
 public class Network {
 

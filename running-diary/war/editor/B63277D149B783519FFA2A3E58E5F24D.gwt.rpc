@@ -1,7 +1,7 @@
 com.google.gwt.i18n.client.impl.DateRecord, true, true, true, true, com.google.gwt.i18n.client.impl.DateRecord/112389920, 112389920
 com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
 com.la.runners.client.EditorService, false, false, false, false, _, 1239178414
-com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/3764667270, 3764667270
+com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/4027611401, 4027611401
 java.lang.Double, true, true, true, true, java.lang.Double/858496421, 858496421
 java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
 java.lang.Long, true, true, true, true, java.lang.Long/4227064769, 4227064769

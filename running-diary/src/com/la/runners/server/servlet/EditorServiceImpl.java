@@ -1,6 +1,9 @@
 package com.la.runners.server.servlet;
 
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.la.runners.client.EditorService;
 import com.la.runners.server.dao.jdo.JdoRunDao;
@@ -14,6 +17,9 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
 	
 	@Override
 	public void save(Run run) {
+	    UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        run.setUserId(user.getUserId());
 		dao.save(run);
 	}
 

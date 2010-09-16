@@ -18,12 +18,11 @@ import android.os.Bundle;
 
 import com.la.runners.Runners;
 import com.la.runners.activity.Preferences;
+import com.la.runners.parser.AuthCheckParser;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Constants;
 
 public class GoogleAuth {
-
-    private static final String STATUS_VERIFICATION_URL = Constants.Server.APPENGINE_URL + "/auth/check";
 
     private static final String LOGIN_URL = Constants.Server.APPENGINE_URL + "/_ah/login?continue=" +
         Constants.Server.APPENGINE_URL + "&auth=";
@@ -37,8 +36,6 @@ public class GoogleAuth {
     private static final String SEPARATOR = ":";
     
     private static final String SET_COOKIES = "Set-Cookie";
-    
-    private static final String LOGGED_IN = "TRUE";
     
     private static HttpManager httpManager = null;
 
@@ -71,13 +68,21 @@ public class GoogleAuth {
      * @return
      */
     public Boolean isLoggedIn(Context context) {
+        return isLoggedIn(context, true);
+    }
+    
+    private Boolean isLoggedIn(Context context, boolean withRetry) {
         try {
-            String result = httpManager.getUrlAsString(STATUS_VERIFICATION_URL, context, false);
-            if(LOGGED_IN.equals(result)) {
+            AuthCheckParser result = NetworkService.getAuthCheckParser(context);
+            if(result != null && result.isLoggerIn()) {
+                AppLogger.debug("Logged in");
                 return true;
             }
         } catch (Exception e) {
             AppLogger.error("Problem when trying to check the logged status", e);
+            if(withRetry) {
+                return isLoggedIn(context, false);
+            }
         }
         return false;
     }
@@ -88,7 +93,7 @@ public class GoogleAuth {
      * @param selectedAccount
      * @param intent
      */
-    public void login(Context context, String selectedAccount, Intent intent) {
+    public void login(Context context, String selectedAccount, final Intent intent) {
         login(context, selectedAccount, intent, true);
     }
     
@@ -99,7 +104,7 @@ public class GoogleAuth {
      * @param intent
      * @param invalidate
      */
-    public void login(Context context, String selectedAccount, Intent intent, boolean invalidate) {
+    public void login(Context context, String selectedAccount, final Intent intent, boolean invalidate) {
         Account[] accounts = getAccounts(context);
         if (accounts != null && accounts.length > 0) {
             for (Account account : accounts) {
@@ -132,7 +137,7 @@ public class GoogleAuth {
         
         private boolean invalidate;
 
-        public GetAuthTokenCallback(Context context, Intent intent, Account account, boolean invalidate) {
+        public GetAuthTokenCallback(Context context, final Intent intent, Account account, boolean invalidate) {
             this.intent = intent;
             this.context = context;
             this.account = account;
@@ -191,6 +196,7 @@ public class GoogleAuth {
                     Preferences.setGoogleAuthToken(context, token);
                     Preferences.setGoogleAcsidCookie(context, acsidCookie);
                 }
+                context.startService(intent);
             } catch (Exception e) {
                 if(AppLogger.isErrorEnabled()) {
                     AppLogger.error(e);
@@ -198,7 +204,6 @@ public class GoogleAuth {
             } finally {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, true);
             }
-            context.startService(intent);
         }
     }
 

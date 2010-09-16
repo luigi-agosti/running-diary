@@ -3,8 +3,11 @@ package com.la.runners.util.network;
 import java.io.InputStream;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.la.runners.Runners;
+import com.la.runners.activity.Preferences;
+import com.la.runners.parser.AuthCheckParser;
 import com.la.runners.parser.RunParser;
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.util.AppLogger;
@@ -33,6 +36,17 @@ public class NetworkService {
         }
         return parser;
 	}
+
+    public static final AuthCheckParser getAuthCheckParser(Context context) {
+        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.AUTH_CHECK, context);
+        AuthCheckParser parser = null; 
+        try {
+            parser = new AuthCheckParser(is);
+        } catch(Exception e) {
+            AppLogger.error(e);
+        }
+        return parser;
+    }
 	
 	public static final HttpManager getHttpManager(Context context) {
 		Runners runners = Runners.getInstance();

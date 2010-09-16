@@ -8,12 +8,16 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import novoda.clag.introspector.annotation.Clag;
+import novoda.clag.model.MetaEntity.OnConflictPolicy;
+
 @PersistenceCapable
 public class Run implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
     @PrimaryKey
+    @Clag(key=true,unique=true,onConflictPolicy=OnConflictPolicy.REPLACE)
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
@@ -31,6 +35,10 @@ public class Run implements Serializable {
     
     @Persistent
     private String note;
+    
+    @Clag(userId=true,hidden=true)
+    @Persistent
+    private String userId;
 
     public void setId(Long id) {
         this.id = id;
@@ -78,6 +86,14 @@ public class Run implements Serializable {
 
     public Date getModified() {
         return modified;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
     }
     
 }
