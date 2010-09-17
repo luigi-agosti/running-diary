@@ -42,9 +42,7 @@ public class SyncService extends IntentService {
 	    Cursor c = null; 
 	    try {
 	        c = Query.Run.notSync(context);
-	        while(c.moveToNext()) {
-	            AppLogger.debug("new item to submit : " + Model.Run.note(c));
-	        }
+	        NetworkService.postRun(context, Model.Run.convertAll(c));
 	    } finally {
 	        if(c != null) {
 	            c.close();
