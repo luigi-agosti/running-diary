@@ -3,6 +3,11 @@ package com.la.runners.provider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONStringer;
+
+import com.la.runners.util.AppLogger;
+
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -22,11 +27,11 @@ public class Model {
     	
     	public static final String NAME = Run.class.getSimpleName(); 
     	
-
-    	
     	public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
     	
-    	public static final String ID = "id";
+    	public static final String ID = "_id";
+    	
+    	public static final String REMOTE_ID = "id";
     	
     	public static final String TIME = "time";
     	
@@ -48,25 +53,47 @@ public class Model {
             return c.getString(c.getColumnIndex(ID));
         }
 
-        public static Long time(Cursor c) {
+        public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
         }
 
-        public static String distance(Cursor c) {
+        public static final String distance(Cursor c) {
             return c.getString(c.getColumnIndex(DISTANCE));
         }
 
-        public static Long date(Cursor c) {
+        public static final Long date(Cursor c) {
             return c.getLong(c.getColumnIndex(DATE));
         }
 
-        public static String formattedModifiedDate(Cursor c) {
+        public static final String formattedModifiedDate(Cursor c) {
         	Date date = new Date(c.getLong(c.getColumnIndex(DATE)));
         	return DATE_FORMATTER.format(date);
         }
 
-        public static String note(Cursor c) {
+        public static final String note(Cursor c) {
             return c.getString(c.getColumnIndex(NOTE));
+        }
+        
+        public static final String convertAll(Cursor c) {
+            JSONStringer stringer = new JSONStringer();
+            convertRun(stringer, c);
+            return stringer.toString();
+        }
+        
+        private static final void convertRun(JSONStringer js, Cursor c) {
+            try {
+                js.array();
+                while(c.moveToNext()) {
+                    js.object();
+                    js.key(Model.Run.NOTE).value(Model.Run.note(c));
+                    js.endObject();
+                }
+                js.endArray();
+            } catch(JSONException e) {
+                if(AppLogger.isErrorEnabled()) {
+                    AppLogger.error(e);
+                }
+            }
         }
         
     }

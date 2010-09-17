@@ -60,21 +60,14 @@ public class Provider extends ContentProvider {
             case Model.Run.INCOMING_COLLECTION: {
                 try {
                     long id = database.insertOrThrow(Model.Run.NAME, null, values);
-                    AppLogger.debug("insert : " + values + " id = " + id);
+                    if(AppLogger.isDebugEnabled()) {
+                        AppLogger.debug("insert : " + values + " _id = " + id);
+                    }
                     result = ContentUris.withAppendedId(Model.Run.CONTENT_URI, id);
                     getContext().getContentResolver().notifyChange(result, null);
                 } catch (SQLException e) {
                     if (AppLogger.isErrorEnabled()) {
-                        AppLogger.error("===========================================");
-                        AppLogger.error(e);
-                        AppLogger.error("Problem inserting Run with values : ");
-                        AppLogger.error(Model.Run.ID + " : " + values.get(Model.Run.ID));
-                        AppLogger.error(Model.Run.DATE + " : " + values.get(Model.Run.DATE));
-                        AppLogger.error(Model.Run.DISTANCE + " : " + values.get(Model.Run.DISTANCE));
-                        AppLogger.error(Model.Run.NAME + " : " + values.get(Model.Run.NAME));
-                        AppLogger.error(Model.Run.TIME + " : " + values.get(Model.Run.TIME));
-                        AppLogger.error(Model.Run.NOTE + " : " + values.get(Model.Run.NOTE));
-                        AppLogger.error("===========================================");
+                        AppLogger.error("Problem inserting Run", values, e);
                     }
                 }
                 break;

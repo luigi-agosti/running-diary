@@ -19,7 +19,7 @@ public class RunParser extends AbstractJsonParserIterator {
 		ContentValues cv = new ContentValues();
 		JsonNode node = nextNode();
 		if(node!=null) {
-			cv.put(Model.Run.ID, node.get(Model.Run.ID).getValueAsText());
+			cv.put(Model.Run.REMOTE_ID, node.get(Model.Run.REMOTE_ID).getValueAsText());
 			cv.put(Model.Run.TIME, node.get(Model.Run.TIME).getLongValue());
 			cv.put(Model.Run.DATE, node.get(Model.Run.DATE).getLongValue());
 			cv.put(Model.Run.DISTANCE, node.get(Model.Run.DISTANCE).getValueAsText());

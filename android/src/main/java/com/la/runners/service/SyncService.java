@@ -3,10 +3,12 @@ package com.la.runners.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 
 import com.la.runners.activity.Preferences;
 import com.la.runners.parser.RunParser;
 import com.la.runners.provider.Model;
+import com.la.runners.provider.Query;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.GoogleAuth;
 import com.la.runners.util.network.NetworkService;
@@ -31,12 +33,31 @@ public class SyncService extends IntentService {
             googleAuth.login(context, Preferences.getAccount(context), intent);
         }
 	    if(ACTION_SYNC.equals(intent.getAction())) {
-			syncRun(context);
+	        syncUpRun(context);
+			syncDownRun(context);
 		}
 	}
 	
-    private void syncRun(Context context) {
+	private void syncUpRun(Context context) {
+	    Cursor c = null; 
+	    try {
+	        c = Query.Run.notSync(context);
+	        while(c.moveToNext()) {
+	            AppLogger.debug("new item to submit : " + Model.Run.note(c));
+	        }
+	    } finally {
+	        if(c != null) {
+	            c.close();
+	        }
+	    }
+	}
+
+	private void syncDownRun(Context context) {
     	RunParser parser = NetworkService.getRunParser(context);
+    	if(parser == null) {
+    	    AppLogger.error("the parser was null");
+    	    return;
+    	}
     	while(parser.hasNext()) {
     	    AppLogger.debug("inserting new run");
     		getContentResolver().insert(Model.Run.CONTENT_URI, parser.next());

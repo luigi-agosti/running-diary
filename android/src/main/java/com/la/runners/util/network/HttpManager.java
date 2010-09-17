@@ -4,16 +4,21 @@ package com.la.runners.util.network;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -21,6 +26,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.provider.Settings.Secure;
 
@@ -37,6 +43,8 @@ public class HttpManager {
     private static final String HTTP = "http";
 
     private static final String HTTPS = "https";
+    
+    private static final String COOKIES = "Cookie";
 
     private static final int HTTP_PORT = 80;
 
@@ -47,10 +55,8 @@ public class HttpManager {
     public HttpManager(Context context) {
         HttpParams params = new BasicHttpParams();
         SchemeRegistry schemeRegistry = new SchemeRegistry();
-        schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(),
-                HTTP_PORT));
-        schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(),
-                HTTPS_PORT));
+        schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(), HTTP_PORT));
+        schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(), HTTPS_PORT));
         ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
         client = new DefaultHttpClient(cm, params);
     }
@@ -69,15 +75,16 @@ public class HttpManager {
         InputStream is = null;
         try {
             String acsidCookie = Preferences.getGoogleAcsidCookie(context);
-            if(acsidCookie != null) {
-                get.addHeader("Cookie", acsidCookie);
+            if (acsidCookie != null) {
+                get.addHeader(COOKIES, acsidCookie);
             }
-            response = client.execute(get);
             if (withDeviceUid) {
-                String deviceUid = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+                String deviceUid = Secure
+                        .getString(context.getContentResolver(), Secure.ANDROID_ID);
                 AppLogger.logVisibly("adding header : " + deviceUid);
                 get.addHeader(new BasicHeader(HEADER_DEVICE_UID, deviceUid));
             }
+            response = client.execute(get);
             HttpEntity entity = response.getEntity();
             is = entity.getContent();
             return is;
@@ -133,5 +140,39 @@ public class HttpManager {
             }
         }
     }
-    
+
+    public boolean post(final Context context, String url, String data) {
+        if (!Network.isNetworkAvailable(context)) {
+            AppLogger.warn("Network is down can't procede with loading resource at url : " + url);
+            return false;
+        }
+        HttpPost httpPost = new HttpPost(url);
+        HttpResponse response;
+        InputStream is = null;
+        try {
+            String acsidCookie = Preferences.getGoogleAcsidCookie(context);
+            if (acsidCookie != null) {
+                httpPost.addHeader(COOKIES, acsidCookie);
+            }
+            StringEntity tmp = null;
+            try {
+                tmp = new StringEntity(data,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                AppLogger.error("HTTPHelp : UnsupportedEncodingException : ", e);
+            }
+            httpPost.setEntity(tmp);
+            response = client.execute(httpPost);
+            if (response != null && response.getStatusLine().getStatusCode() == 200) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (AppLogger.isErrorEnabled()) {
+                AppLogger.error("Problem loading resource at url " + url, e);
+            }
+            closeSilently(is);
+            return false;
+        }
+    }
+
 }
