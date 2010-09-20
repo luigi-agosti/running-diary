@@ -16,6 +16,17 @@ public class AppLogger {
 
     private static final String TAG = "Runners";
     
+    public interface LoggerConfig {
+
+        boolean IS_DEBUG_ENABLED = true;
+
+        boolean IS_INFO_ENABLED = true;
+
+        boolean IS_WARNING_ENABLED = true;
+
+        boolean IS_ERROR_ENABLED = true;
+    }
+    
     public static final void warn(String message) {
         Log.w(TAG, message);
     }

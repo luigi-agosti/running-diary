@@ -22,6 +22,14 @@ public class Provider extends ContentProvider {
     private DatabaseManager databaseManager;
 
     private SQLiteDatabase database;
+    
+    private SQLiteDatabase getDataBase() {
+        if(database != null) {
+            databaseManager = new DatabaseManager(getContext(), NetworkService.getSchema(getContext()));
+            database = databaseManager.getWritableDatabase();
+        }
+        return database;
+    }
 
     /**
      * Can delete only channel the consistency of the data is held by triggers.
@@ -29,6 +37,10 @@ public class Provider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         switch (urlMatcher.match(uri)) {
+            case Model.Run.INCOMING_ITEM: {
+                //TODO
+                
+            }
             default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
             }
@@ -59,7 +71,7 @@ public class Provider extends ContentProvider {
         switch (urlMatcher.match(uri)) {
             case Model.Run.INCOMING_COLLECTION: {
                 try {
-                    long id = database.insertOrThrow(Model.Run.NAME, null, values);
+                    long id = getDataBase().insertOrThrow(Model.Run.NAME, null, values);
                     if(AppLogger.isDebugEnabled()) {
                         AppLogger.debug("insert : " + values + " _id = " + id);
                     }
@@ -84,8 +96,6 @@ public class Provider extends ContentProvider {
         if (AppLogger.isDebugEnabled()) {
             AppLogger.debug("Creating Provider");
         }
-        databaseManager = new DatabaseManager(getContext(), NetworkService.getSchema(getContext()));
-        database = databaseManager.getWritableDatabase();
         return false;
     }
 
@@ -95,7 +105,7 @@ public class Provider extends ContentProvider {
         Cursor cursor;
         switch (urlMatcher.match(uri)) {
             case Model.Run.INCOMING_COLLECTION: {
-                cursor = database.query(Model.Run.NAME, projection, selection,
+                cursor = getDataBase().query(Model.Run.NAME, projection, selection,
                         selectionArgs, null, null, sortOrder);
                 break;
             }
