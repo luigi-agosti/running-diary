@@ -7,8 +7,15 @@
 		<jsp:include page="/fragments/style.css"/>
 	</head>
 	<body>
-		<jsp:include page="/fragments/left.jsp"/>	
-		<jsp:include page="/fragments/right.jsp"/>
+		<div id="header">
+			<div id="logo">
+				<h1>Running diary</h1>
+				<h2>Keep track of all training</h2>
+			</div>
+			<div id="menu">
+			</div>
+		</div>
+		<div id="header-background"></div>
 		<center>
 			<div class="body">
 				<div class="listBig">

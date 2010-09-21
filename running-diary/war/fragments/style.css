@@ -1,4 +1,47 @@
 <style type="text/css">
 
+#header-background {
+	height: 130px;
+	margin: 0px auto;
+	top:0px;
+	left:0px;
+	position:absolute;
+	padding-top: 10px;
+	width: 100%;
+	background-color: #0099FF;
+	z-index:auto;
+}
+
+#header {
+	height: 130px;
+	margin: 0px auto;
+	position: relative;
+	padding-top: 10px;
+	width: 850px;
+	z-index:100000;
+}
+
+body {
+	color: #6D6D6D;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+#logo h1 {
+	color: white;
+	font-size: 40px;
+	margin: 0px;
+	padding: 5px 0px 0px 5px;
+}
+
+#logo h2 {
+	color: #E1F1FF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin: 0px;
+	padding: 0px 0px 0px 5px;
+	text-transform: uppercase;
+}
+
 
 </style>
