@@ -37,11 +37,55 @@ body {
 #logo h2 {
 	color: #E1F1FF;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
+	font-size: 12px;
 	margin: 0px;
 	padding: 0px 0px 0px 5px;
 	text-transform: uppercase;
 }
 
+#content {
+	width: 700px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+#content .title {
+	padding: 25px 0px 10px 15px;
+	font-weight: bold;
+	text-align:left;
+	font-size: 20px;
+}
+
+#content .list {
+	padding: 5px 0px 10px 15px;
+	text-align:left;
+	font-size: 16px;
+}
+
+#content .sentence {
+	padding: 5px 0px 5px 15px;
+	text-align:justify;
+	font-size: 16px;
+}
+
+#content .visible {
+	padding: 20px;
+	text-align:center;
+}
+
+#content .visible a {
+	font-size: 16px;
+	font-weight: bold;
+	color: black; 
+	background-color: #FFCC00;
+	padding: 5px 15px 5px 15px;
+	margin: 0px 15px 0px 15px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+	border: 1px solid #ffA500;
+	text-decoration: none;
+}
 
 </style>
