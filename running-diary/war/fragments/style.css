@@ -88,4 +88,27 @@ body {
 	text-decoration: none;
 }
 
+#logout a {
+	position: absolute;
+	top : 10px;
+	right: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	color: black; 
+	background-color: #FFCC00;
+	padding: 5px 15px 5px 15px;
+	margin: 0px 15px 0px 15px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+	border: 1px solid #ffA500;
+	text-decoration: none;
+}
+
+#gwtHook {
+	width: 800px;
+	border:1px red solid;
+}
+
 </style>

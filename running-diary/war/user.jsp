@@ -11,15 +11,16 @@
 		<script type="text/javascript" language="javascript" src="editor/editor.nocache.js"></script>
 	</head>
 	<body>
-		<div>
+		<div id="logout">
 	    	<%if (user != null) {%>
 				 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out <%=user.getNickname()%></a>
-			<%} else {%>
-				<a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
 			<%}%>
 		</div>
-		<center>
+		<div id="menu">
+			
+		</div>
+		<div id="gwtcontent">
 			<div id="gwtHook"></div>
-		</center>
+		</div>
 	</body>
 </html>

@@ -28,8 +28,8 @@ public class EditorEntryPoint implements EntryPoint {
     private Button reset = new Button("reset run");
 
     private Label message = new Label();
-
-    private Run run;
+    
+    private RunEditor runEditor = new RunEditor();
 
     @Override
     public void onModuleLoad() {
@@ -94,61 +94,6 @@ public class EditorEntryPoint implements EntryPoint {
         panel.add(submit);
         panel.add(message);
         RootPanel.get(GWT_HOOK_ID).add(panel);
-    }
-    
-    /**
-     * Specific fields for the manipulated model
-     */
-
-    private TextBox id = new TextBox();
-
-    private TextBox date = new TextBox();
-
-    private TextBox distance = new TextBox();
-
-    private TextBox note = new TextBox();
-
-    private TextBox time = new TextBox();
-
-    private void addWidget(FlowPanel panel) {
-        panel.add(new Label("Date"));
-        panel.add(date);
-        panel.add(new Label("Distance"));
-        panel.add(distance);
-        panel.add(new Label("Note"));
-        panel.add(note);
-        panel.add(new Label("Time"));
-        panel.add(time);
-    }
-
-    private void load(Run run) {
-        this.run = run;
-        id.setText("" + run.getId());
-        date.setText("" + run.getDate());
-        distance.setText("" + distance);
-        note.setText("" + run.getNote());
-        time.setText("" + run.getTime());
-    }
-
-    private void reset() {
-        run = new Run();
-        id.setText("");
-        date.setText("");
-        distance.setText("");
-        note.setText("");
-        time.setText("");
-    }
-
-    private Run get() {
-        if (run == null) {
-            run = new Run();
-        }
-        //TODO
-        run.setDate(new Date());
-        run.setDistance(Double.valueOf(distance.getText()));
-        run.setNote(note.getText());
-        run.setTime(Long.valueOf(time.getText()));
-        return run;
     }
 
 }
