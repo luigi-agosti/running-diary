@@ -1,6 +1,8 @@
 package com.la.runners.server.servlet;
 
 
+import java.util.List;
+
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -27,5 +29,10 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
 	public Run get(Long id) {
 		return dao.get(id);
 	}
+
+    @Override
+    public List<Run> search() {
+        return dao.search();
+    }
 
 }
