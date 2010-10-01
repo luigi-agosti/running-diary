@@ -14,12 +14,14 @@ public class RunGrid extends Composite {
     private EditorServiceAsync service;
     
     public RunGrid(HandlerManager eventBus, EditorServiceAsync _service) {
-        setStyleName(RunGrid.class.getName());
         this.eventBus = eventBus;
         this.service = _service;
         panel = new FlowPanel();
         panel.add(new Label("should show the list of runs of the user here"));
         initWidget(panel);
+        setStyleName(RunGrid.class.getName());
     }
+    
+    
    
 }

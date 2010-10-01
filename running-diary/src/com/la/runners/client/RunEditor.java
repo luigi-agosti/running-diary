@@ -42,7 +42,6 @@ public class RunEditor extends Composite {
     private TextBox time = new TextBox();
     
     public RunEditor(HandlerManager eventBus, EditorServiceAsync _service) {
-        setStyleName(RunEditor.class.getName());
         this.service = _service;
         this.eventBus = eventBus;
         panel = new FlowPanel();
@@ -73,6 +72,7 @@ public class RunEditor extends Composite {
             }
         });
         initWidget(panel);
+        setStyleName(RunEditor.class.getName());
     }
     
     public void load(Run run) {

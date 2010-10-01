@@ -25,9 +25,10 @@ public class EditorEntryPoint implements EntryPoint {
         runEditor = new RunEditor(eventBus, editorService);
         runGrid = new RunGrid(eventBus, editorService);
         FlowPanel panel = new FlowPanel();
-        panel.add(runGrid);
         panel.add(runEditor);
+        panel.add(runGrid);
         RootPanel.get(GWT_HOOK_ID).add(panel);
+        panel.setStyleName(EditorEntryPoint.class.getName());
     }
 
 }
