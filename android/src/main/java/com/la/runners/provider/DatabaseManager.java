@@ -16,11 +16,11 @@ import com.la.runners.util.AppLogger;
  * @author luigi.agosti
  */
 public class DatabaseManager extends SQLiteOpenHelper {
-
+	
     private SchemaParser schema;
     
     public DatabaseManager(Context context, SchemaParser schema) {
-        super(context, schema.getName() + ".db", null, schema.getVersion());
+        super(context, Model.Database.NAME, null, Model.Database.VERSION);
         this.schema = schema;
     }
 

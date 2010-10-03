@@ -37,6 +37,12 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     
     private static final String GOOGLE_ACSID_COOKIE = "googleAcidCookie";
 
+	private static final String HEART_RATE = "heartRate";
+
+	private static final String SHOES = "shoes";
+
+	private static final String WEIGHT = "weight";
+
     /**
      * Prepare the intent to load the preferences.
      * 
@@ -98,7 +104,19 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         return PreferenceManager.getDefaultSharedPreferences(context).getString(
                 ACCOUNT_KEY, null);
     }
-
+    
+    public static final Boolean getHeartRate(Context context) {
+    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(HEART_RATE, false);
+    }
+    
+    public static final Boolean getWeight(Context context) {
+    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(WEIGHT, false);
+    }
+    
+    public static final Boolean getShoes(Context context) {
+    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SHOES, false);
+    }
+    
     public static final Boolean getFirstRun(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 FIRST_RUN, true);

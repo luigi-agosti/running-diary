@@ -1,6 +1,7 @@
 package com.la.runners.server.servlet;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.users.User;
@@ -32,7 +33,22 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
 
     @Override
     public List<Run> search() {
-        return dao.search();
+    	List<Run> result = dao.search();
+    	if(result == null) {
+    		return null;
+    	}
+    	List<Run> runs = new ArrayList<Run>();
+        for(Run run : result) {
+        	Run newRun  = new Run();
+        	newRun.setId(run.getId());
+        	newRun.setDistance(run.getDistance());
+        	newRun.setDate(run.getDate());
+        	newRun.setTime(run.getTime());
+        	newRun.setNote(run.getNote());
+        	newRun.setModified(run.getModified());
+        	runs.add(newRun);
+        }
+    	return runs;
     }
 
 }

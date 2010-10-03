@@ -71,6 +71,7 @@ public class RunEditor extends Composite {
                 });
             }
         });
+        panel.add(submit);
         initWidget(panel);
         setStyleName(RunEditor.class.getName());
     }

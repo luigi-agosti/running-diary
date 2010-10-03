@@ -13,7 +13,7 @@ import com.la.runners.shared.Run;
 
 public class JdoRunDao extends BaseDaoImpl<Run> implements BaseDao<Run> {
     
-    private static final String ORDER = "created desc";
+    private static final String ORDER = "date desc";
     
     public JdoRunDao(Class<Run> clazz) {
         super(clazz);
@@ -25,7 +25,6 @@ public class JdoRunDao extends BaseDaoImpl<Run> implements BaseDao<Run> {
         Query q = pm.newQuery(Run.class);
         q.setRange(0, PAGE_SIZE);
         q.setOrdering(ORDER);
-        
         List<Run> runs = (List<Run>) q.execute();
         if(runs == null) {
             runs = new ArrayList<Run>();

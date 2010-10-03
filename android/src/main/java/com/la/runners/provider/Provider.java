@@ -24,7 +24,7 @@ public class Provider extends ContentProvider {
     private SQLiteDatabase database;
     
     private SQLiteDatabase getDataBase() {
-        if(database != null) {
+        if(database == null) {
             databaseManager = new DatabaseManager(getContext(), NetworkService.getSchema(getContext()));
             database = databaseManager.getWritableDatabase();
         }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="FormText">
+		<item name="android:textColor">#4876FF</item>
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+	</style>
+	
+	<style name="EditText">
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+	</style>
+	
+	<style name="Button">
+		<item name="android:padding">6dp</item>
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+  		<item name="android:layout_gravity">center_horizontal</item>
+	</style>
+	
+	<style name="SeekBar">
+		<item name="android:padding">6dp</item>
+		<item name="android:paddingBottom">6dp</item>
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+	</style>
+	
+	<style name="TimePicker">
+		<item name="android:padding">6dp</item>
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+	</style>
+	
+	<style name="DatePicker">
+		<item name="android:padding">6dp</item>
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_height">wrap_content</item>
+	</style>
+</resources>

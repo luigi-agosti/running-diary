@@ -36,9 +36,23 @@ public class Run implements Serializable {
     @Persistent
     private String note;
     
+    @Persistent
+    private String shoes;
+    
+    @Persistent
+    private Integer heartRate;
+    
+    @Persistent
+    private Integer weight;
+    
+    @Persistent
+    private Boolean share;
+    
     @Clag(userId=true,hidden=true)
     @Persistent
     private String userId;
+    
+    public Run(){}
 
     public void setId(Long id) {
         this.id = id;
@@ -95,5 +109,37 @@ public class Run implements Serializable {
     public String getUserId() {
         return userId;
     }
+
+	public void setShoes(String shoes) {
+		this.shoes = shoes;
+	}
+
+	public String getShoes() {
+		return shoes;
+	}
+
+	public void setHeartRate(Integer heartRate) {
+		this.heartRate = heartRate;
+	}
+
+	public Integer getHeartRate() {
+		return heartRate;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setShare(Boolean share) {
+		this.share = share;
+	}
+
+	public Boolean getShare() {
+		return share;
+	}
     
 }

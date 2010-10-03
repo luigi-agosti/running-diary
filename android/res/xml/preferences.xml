@@ -10,6 +10,23 @@
 			android:summary="Choose your account" />
 	</PreferenceCategory>
 	
+	<PreferenceCategory
+		android:key="formFields"
+		android:title="Personalize Data">
+		
+		<CheckBoxPreference
+			android:key="heartRate"
+			android:title="Heart Rate"/>
+		<CheckBoxPreference
+			android:key="weight"
+			android:title="Weight"
+		/>
+		<CheckBoxPreference 
+			android:key="shoes"
+			android:title="Shoes"
+		/>
+		</PreferenceCategory>
+	
 	<PreferenceCategory 
 		android:key="general"
 		android:title="General">
@@ -17,5 +34,7 @@
 			android:key="version" 
 			android:title="Version" />
 	</PreferenceCategory>
+	
+	
 
 </PreferenceScreen>

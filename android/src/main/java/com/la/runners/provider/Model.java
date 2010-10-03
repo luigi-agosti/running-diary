@@ -22,6 +22,14 @@ public class Model {
     public static final String AUTHORITY = "com.la.runners";
 
     private static final String CONTENT_PREFIX = "content://";
+    
+    public interface Database {
+    	
+    	String NAME = "com.la.runners.RunnersDiary.db";
+    	
+    	int VERSION = 1;
+    	
+    }
 
     public static class Run {
     	
@@ -40,6 +48,12 @@ public class Model {
     	public static final String DATE = "date";
     	
     	public static final String NOTE = "note";
+    	
+    	public static final String HEART_RATE ="heartRate";
+    	
+    	public static final String WEIGHT = "weight";
+    	
+    	public static final String SHOES = "shoes";
 
 		public static final int INCOMING_COLLECTION = 10;
 
