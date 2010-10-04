@@ -3,9 +3,22 @@
 <LinearLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
    style="@style/runListActivity_itemContainter">
-   
-   <TextView  
-      android:id="@+id/runListActivity_note"
-      style="@style/runListActivity_note"/>
+    
+     <TextView
+     	android:id="@+id/runListActivity_date"
+     	style="@style/runListActivity_note"/>
+     	
+     <TextView
+     	android:id="@+id/runListActivity_distance"
+     	style="@style/runListActivity_note"/>
+     	
+   	<TextView
+   		android:id="@+id/runListActivity_time"
+   		style="@style/runListActivity_note"/>
+      
+   	<TextView  
+      	android:id="@+id/runListActivity_note"
+      	style="@style/runListActivity_note"/>
+     
 
 </LinearLayout>

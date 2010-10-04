@@ -1,6 +1,11 @@
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/runListActivity_listViewContainer">
+	style="@style/runListActivity_listViewContainer"
+	android:orientation="vertical">
+	<TextView
+	style="@style/TitleHeader"
+	android:text="Run List"
+	/>
 	<ListView 
 		android:id="@+id/runList" 
 		style="@style/runListActivity_listView"/>
