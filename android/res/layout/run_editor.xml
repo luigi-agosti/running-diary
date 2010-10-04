@@ -13,7 +13,19 @@
 	   	<TextView
 	   		style="@style/TitleHeader"
 	   		android:text="Run Editor" />
-		   		
+	   		
+	   	<!-- Error message -->
+	   	<LinearLayout
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:padding="6dp">
+	   		<TextView
+	   		android:id="@+id/errorMessage"
+	   		style="@style/ErrorMessage"
+	   		android:visibility="gone"/>
+		</LinearLayout>	
+		
 		<LinearLayout
 		android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
@@ -78,7 +90,8 @@
 		  	<EditText
 		  		android:id="@+id/heart_rate"
 		   		style="@style/EditText"
-		   		android:visibility="gone"/>
+		   		android:visibility="gone"
+		   		android:inputType="number"/>
 		   		
 			<!-- Weight -->
 			
@@ -92,7 +105,8 @@
 		  	<EditText
 		  		android:id="@+id/weight"
 		   		style="@style/EditText"
-		   		android:visibility="gone"/>
+		   		android:visibility="gone"
+		   		android:inputType="number"/>
 			
 			<!-- Shoes -->
 			 
