@@ -61,8 +61,9 @@ public class Provider extends ContentProvider {
                 type = Model.Run.ITEM_TYPE;
                 break;
             }
-            default:
+            default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
+            }
         }
         return type;
     }
@@ -76,6 +77,7 @@ public class Provider extends ContentProvider {
                     long id = getDataBase().insertOrThrow(Model.Run.NAME, null, values);
                     if(AppLogger.isDebugEnabled()) {
                         AppLogger.debug("insert : " + values + " _id = " + id);
+                        AppLogger.debug(values.toString());
                     }
                     result = ContentUris.withAppendedId(Model.Run.CONTENT_URI, id);
                     getContext().getContentResolver().notifyChange(result, null);

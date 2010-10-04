@@ -20,9 +20,9 @@ public class RunListCursorAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		
-		String distance = Model.Run.distance(cursor);
+		Float distance = Model.Run.distance(cursor);
 		TextView distanceTextView = (TextView)view.findViewById(R.id.runListActivity_distance);
-		distanceTextView.setText(distance);
+		distanceTextView.setText("" + distance);
 		
 		String note = Model.Run.note(cursor);
 		TextView noteTextView = (TextView)view.findViewById(R.id.runListActivity_note);

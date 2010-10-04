@@ -27,7 +27,7 @@ public class Model {
     	
     	String NAME = "com.la.runners.RunnersDiary.db";
     	
-    	int VERSION = 1;
+    	int VERSION = 5;
     	
     }
 
@@ -64,6 +64,12 @@ public class Model {
 		public static final String ITEM_TYPE = "vnd.android.cursor.item/vnd.runners.run";
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.run";
+
+		public static final String YEAR = "year";
+		
+		public static final String MONTH = "month";
+		
+		public static final String DAY = "day";
     	
         public static final String id(Cursor c) {
             return c.getString(c.getColumnIndex(ID));
@@ -73,8 +79,8 @@ public class Model {
             return c.getLong(c.getColumnIndex(TIME));
         }
 
-        public static final String distance(Cursor c) {
-            return c.getString(c.getColumnIndex(DISTANCE));
+        public static final Float distance(Cursor c) {
+            return c.getFloat(c.getColumnIndex(DISTANCE));
         }
 
         public static final Long date(Cursor c) {
@@ -101,7 +107,46 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    js.key(Model.Run.NOTE).value(Model.Run.note(c));
+                    Long date = Model.Run.date(c);
+                    if(date != null) {
+                    	js.key(Model.Run.DATE).value(date);
+                    }
+                    Integer year = Model.Run.year(c);
+                    if(year != null) {
+                    	js.key(Model.Run.YEAR).value(year);
+                    }
+                    Integer month = Model.Run.month(c);
+                    if(month != null) {
+                    	js.key(Model.Run.MONTH).value(month);
+                    }
+                    Integer day = Model.Run.day(c);
+                    if(day != null) {
+                    	js.key(Model.Run.DAY).value(day);
+                    }
+                    Float distance = Model.Run.distance(c);
+                    if(distance != null) {
+                    	js.key(Model.Run.DISTANCE).value(distance);
+                    }
+                    String shoes = Model.Run.shoes(c);
+                    if(shoes != null) {
+                    	js.key(Model.Run.SHOES).value(shoes);
+                    }
+                    Long time = Model.Run.time(c);
+                    if(time != null) {
+                    	js.key(Model.Run.TIME).value(time);
+                    }
+                    Integer heartRate = Model.Run.heartRate(c);
+                    if(heartRate != null) {
+                    	js.key(Model.Run.HEART_RATE).value(heartRate);
+                    }
+                    Integer weight = Model.Run.weight(c);
+                    if(weight != null) {
+                    	js.key(Model.Run.WEIGHT).value(weight);
+                    }
+                    String note = Model.Run.note(c);
+                    if(note != null) {
+                    	js.key(Model.Run.NOTE).value(note);
+                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -111,6 +156,30 @@ public class Model {
                 }
             }
         }
+
+		private static Integer weight(Cursor c) {
+			return c.getInt(c.getColumnIndex(WEIGHT));
+		}
+
+		private static Integer heartRate(Cursor c) {
+			return c.getInt(c.getColumnIndex(HEART_RATE));
+		}
+
+		private static String shoes(Cursor c) {
+			return c.getString(c.getColumnIndex(SHOES));
+		}
+
+		private static Integer day(Cursor c) {
+			return c.getInt(c.getColumnIndex(DAY));
+		}
+
+		private static Integer month(Cursor c) {
+			return c.getInt(c.getColumnIndex(MONTH));
+		}
+
+		private static Integer year(Cursor c) {
+			return c.getInt(c.getColumnIndex(YEAR));
+		}
         
     }
 

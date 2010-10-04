@@ -24,19 +24,15 @@ public class Run implements Serializable {
     @Persistent
     private Date date;
 
-    @Clag(hidden=true)
     @Persistent
     private Integer year;
     
-    @Clag(hidden=true)
     @Persistent
     private Integer day;
     
-    @Clag(hidden=true)
     @Persistent
     private Integer month;
     
-    @Clag(hidden=true)
     @Persistent
     private Integer hour;
 

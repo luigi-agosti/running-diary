@@ -63,8 +63,10 @@ public class RunEditorActivity extends BaseActivity implements
 			GregorianCalendar calendar = new GregorianCalendar(year, month, day);
 			
 			long dateInMillisecons = calendar.getTimeInMillis();
-
 			cv.put(Model.Run.DATE, dateInMillisecons);
+			cv.put(Model.Run.YEAR, year);
+			cv.put(Model.Run.MONTH, month);
+			cv.put(Model.Run.DAY, day);
 			
 			Float distance = null;
 			if(isFieldNotEmpty(R.id.distance_edit_view)){
