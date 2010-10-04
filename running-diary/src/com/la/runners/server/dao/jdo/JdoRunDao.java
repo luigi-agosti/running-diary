@@ -20,7 +20,7 @@ public class JdoRunDao extends BaseDaoImpl<Run> implements BaseDao<Run> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Run> search() {
+    public List<Run> search(Integer year, Integer month) {
         PersistenceManager pm = getPM();
         Query q = pm.newQuery(Run.class);
         q.setRange(0, PAGE_SIZE);

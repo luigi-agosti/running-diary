@@ -13,6 +13,6 @@ public interface EditorService extends RemoteService {
 
 	Run get(Long id);
 	
-	List<Run> search();
+	List<Run> search(Integer year, Integer month);
 	
 }

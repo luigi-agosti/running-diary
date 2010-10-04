@@ -1,6 +1,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 
-	<!-- ==================================== Ssecurity-constraint ==================================== -->
+	<!-- ==================================== Security-constraint ==================================== -->
 	<security-constraint>
 		<web-resource-collection>
 			<url-pattern>/task/*</url-pattern>
@@ -43,7 +43,7 @@
         </user-data-constraint>
 	</security-constraint>-->
 
-	<!-- ==================================== servlet to keep the instance alive ==================================== -->
+	<!-- ==================================== Servlet to keep the instance alive ==================================== -->
 	<servlet>
 		<servlet-name>keepAliveTask</servlet-name>
 		<servlet-class>org.appengine.commons.servlet.task.KeepAliveTask</servlet-class>
@@ -73,7 +73,7 @@
 		<url-pattern>/editor/editorService</url-pattern>
 	</servlet-mapping>
 
-	<!-- ==================================== clag ==================================== -->
+	<!-- ==================================== Clag ==================================== -->
 
 	<servlet>
 		<servlet-name>clag</servlet-name>
@@ -92,7 +92,7 @@
 		<url-pattern>/data/*</url-pattern>
 	</servlet-mapping>
 	
-	<!-- ==================================== auth check ==================================== -->
+	<!-- ==================================== Auth check ==================================== -->
 	<servlet>
 		<servlet-name>authServlet</servlet-name>
 		<servlet-class>org.appengine.commons.servlet.AuthServlet</servlet-class>

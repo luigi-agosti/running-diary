@@ -20,9 +20,25 @@ public class Run implements Serializable {
     @Clag(key=true,unique=true,onConflictPolicy=OnConflictPolicy.REPLACE)
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
-
+    
     @Persistent
     private Date date;
+
+    @Clag(hidden=true)
+    @Persistent
+    private Integer year;
+    
+    @Clag(hidden=true)
+    @Persistent
+    private Integer day;
+    
+    @Clag(hidden=true)
+    @Persistent
+    private Integer month;
+    
+    @Clag(hidden=true)
+    @Persistent
+    private Integer hour;
 
     @Persistent
     private Date modified;
@@ -60,14 +76,6 @@ public class Run implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public void setDistance(Double distance) {
@@ -141,5 +149,45 @@ public class Run implements Serializable {
 	public Boolean getShare() {
 		return share;
 	}
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
     
 }

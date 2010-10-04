@@ -6,6 +6,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.la.runners.client.widget.RunEditor;
+import com.la.runners.client.widget.RunGrid;
 
 public class EditorEntryPoint implements EntryPoint {
 
@@ -28,7 +30,7 @@ public class EditorEntryPoint implements EntryPoint {
         panel.add(runGrid);
         panel.add(runEditor);
         RootPanel.get(GWT_HOOK_ID).add(panel);
-        panel.setStyleName(EditorEntryPoint.class.getName());
+        panel.setStyleName("EditorEntryPoint");
     }
 
 }

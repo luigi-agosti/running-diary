@@ -11,6 +11,6 @@ public interface EditorServiceAsync {
 
 	void get(Long id, AsyncCallback<Run> callback);
 
-    void search(AsyncCallback<List<Run>> callback);
+    void search(Integer year, Integer month, AsyncCallback<List<Run>> callback);
 
 }

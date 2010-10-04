@@ -32,8 +32,8 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
 	}
 
     @Override
-    public List<Run> search() {
-    	List<Run> result = dao.search();
+    public List<Run> search(Integer year, Integer month) {
+    	List<Run> result = dao.search(year, month);
     	if(result == null) {
     		return null;
     	}
@@ -43,6 +43,9 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
         	newRun.setId(run.getId());
         	newRun.setDistance(run.getDistance());
         	newRun.setDate(run.getDate());
+        	newRun.setYear(run.getYear());
+        	newRun.setMonth(run.getMonth());
+        	newRun.setDay(run.getDay());
         	newRun.setTime(run.getTime());
         	newRun.setNote(run.getNote());
         	newRun.setModified(run.getModified());

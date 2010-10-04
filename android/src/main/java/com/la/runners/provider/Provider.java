@@ -36,15 +36,17 @@ public class Provider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        int rows = 0;
         switch (urlMatcher.match(uri)) {
-            case Model.Run.INCOMING_ITEM: {
-                //TODO
-                
+            case Model.Run.INCOMING_COLLECTION: {
+                rows = getDataBase().delete(Model.Run.NAME, selection, selectionArgs);
+                break;
             }
             default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
             }
         }
+        return rows;
     }
 
     @Override

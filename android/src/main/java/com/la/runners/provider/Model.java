@@ -54,6 +54,8 @@ public class Model {
     	public static final String WEIGHT = "weight";
     	
     	public static final String SHOES = "shoes";
+    	
+    	public static final String SHARE = "share";
 
 		public static final int INCOMING_COLLECTION = 10;
 
