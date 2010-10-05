@@ -68,6 +68,15 @@ Form
 	margin-right:5%;
 }
 
+.RunEditor-DateContainer {
+	width:100%;
+}
+
+.RunEditor-DateContainer .gwt-DatePicker {
+	font-size: 14px;
+	width:90%;
+	margin:5%;
+}
 /* 
 =============================================   
 Grid

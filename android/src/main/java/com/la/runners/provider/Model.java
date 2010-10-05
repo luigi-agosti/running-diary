@@ -99,7 +99,11 @@ public class Model {
         public static final String convertAll(Cursor c) {
             JSONStringer stringer = new JSONStringer();
             convertRun(stringer, c);
-            return stringer.toString();
+            String result = stringer.toString();
+            if(AppLogger.isDebugEnabled()) {
+                AppLogger.debug(result);
+            }
+            return result;
         }
         
         private static final void convertRun(JSONStringer js, Cursor c) {

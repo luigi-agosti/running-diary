@@ -33,7 +33,9 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
 
     @Override
     public List<Run> search(Integer year, Integer month) {
-    	List<Run> result = dao.search(year, month);
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+    	List<Run> result = dao.search(year, month, user.getUserId());
     	if(result == null) {
     		return null;
     	}

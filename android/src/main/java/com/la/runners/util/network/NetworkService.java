@@ -35,8 +35,8 @@ public class NetworkService {
         return parser;
 	}
     
-    public static final void postRun(Context context, String runs) {
-        getHttpManager(context).post(context, Constants.Server.RUN_CONTENT_URL, runs);
+    public static final boolean postRun(Context context, String runs) {
+        return getHttpManager(context).post(context, Constants.Server.RUN_CONTENT_URL, runs);
     }
 
     public static final AuthCheckParser getAuthCheckParser(Context context) {

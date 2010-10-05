@@ -57,7 +57,7 @@ public class GridBar extends Composite {
         monthListBox = new ListBox();
         int index = 0;
         for(String value : MONTHS_LIST) {
-            monthListBox.addItem(value);
+            monthListBox.addItem(value, "" + index);
             if(value.startsWith(currentMonth)) {
                 monthListBox.setSelectedIndex(index);
             }
@@ -84,7 +84,7 @@ public class GridBar extends Composite {
     }
     
     private void onSearchFilterChanges() {
-        eventBus.fireEvent(new RunListUpdateEvent());
+        eventBus.fireEvent(new RunListUpdateEvent(getMonth(), getYear()));
     }
 
     public void showMessage(String message) {
@@ -95,7 +95,7 @@ public class GridBar extends Composite {
         if(year == null) {
             return;
         }
-        yearListBox.setSelectedIndex(year);
+        yearListBox.setSelectedIndex(END_YEAR-year);
     }
 
     public void setMonth(Integer month) {

@@ -40,7 +40,7 @@ public class Run implements Serializable {
     private Date modified;
     
     @Persistent
-    private Double distance;
+    private Integer distance;
     
     @Persistent
     private Long time;
@@ -74,11 +74,11 @@ public class Run implements Serializable {
         return id;
     }
 
-    public void setDistance(Double distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 
-    public Double getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 

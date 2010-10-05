@@ -29,34 +29,40 @@ public class SyncService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 	    Context context = getApplicationContext();
+	    notify("Synchronizing data");
 	    try {
 	        GoogleAuth googleAuth = GoogleAuth.getInstance();
 	        if(!googleAuth.isLoggedIn(context)) {
 	            googleAuth.login(context, Preferences.getAccount(context), intent);
 	        }
 	        if(ACTION_SYNC.equals(intent.getAction())) {
-	            syncUp(context);
+	            if(!syncUp(context)) {
+	                notify("Connection problem while sending data to the server");
+	                return;
+	            }
 	            cleanUp(context);
 	            syncDown(context);
 	        }	        
 	    } catch(Exception e) {
+	        notify("Synchronizing failed");
 	        if(AppLogger.isErrorEnabled()) {
 	            AppLogger.error(e);
 	        }
 	        Notifier.notifyBlockingProblemFromBackGround(getApplicationContext(), 
 	                "Connection problem during the sync operation, please try again");
 	    }
+	    notify("Sync successful");
 	}
 	
 	private void cleanUp(Context context) {
         context.getContentResolver().delete(Model.Run.CONTENT_URI, null, null);
     }
 
-    private void syncUp(Context context) {
+    private boolean syncUp(Context context) {
 	    Cursor c = null; 
 	    try {
 	        c = Query.Run.notSync(context);
-	        NetworkService.postRun(context, Model.Run.convertAll(c));
+	        return NetworkService.postRun(context, Model.Run.convertAll(c));
 	    } finally {
 	        if(c != null) {
 	            c.close();
@@ -82,4 +88,7 @@ public class SyncService extends IntentService {
         context.startService(intent);
     }
 
+    private void notify(String message) {
+        Notifier.notifyBlockingProblemFromBackGround(getApplicationContext(), message);
+    }
 }
