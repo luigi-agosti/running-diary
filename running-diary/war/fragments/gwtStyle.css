@@ -75,7 +75,8 @@ Form
 .RunEditor-DateContainer .gwt-DatePicker {
 	font-size: 14px;
 	width:90%;
-	margin:5%;
+	margin-left:5%;
+	margin-right:5%;
 }
 /* 
 =============================================   
@@ -153,33 +154,13 @@ Grid
 	font-weight: bold;
 }
 
-.GridHeaderCell-Date {
+.GridHeaderCell {
 	color:#66CC66;
 }
 
-.GridHeaderCell-Distance {
-	color:#66CC66;
+.GridCell {
 }
 
-.GridHeaderCell-Time {
-	color:#66CC66;
-}
-
-.GridHeaderCell-Note {
-	color:#66CC66;
-}
-
-.GridCell-Date {
-}
-
-.GridCell-Distance {
-}
-
-.GridCell-Time {
-}
-
-.GridCell-Note {
-}
 
 
 </style>

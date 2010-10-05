@@ -27,11 +27,11 @@
 	    		android:background="#fff" 
 	    		android:layout_gravity="center_horizontal|center_vertical"/>
 	    	<TextView
-	    		android:text="New Run" 
+	    		android:text="Run" 
 	    		android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
 	    		android:textSize="19dip"
-      			android:textColor="#000" 
+      			android:textColor="#4876FF" 
       			android:textStyle="bold"
       			android:padding="5dip"
       			android:layout_gravity="center_horizontal|center_vertical"/>
@@ -52,7 +52,7 @@
 	    		android:background="#fff" 
 	    		android:layout_gravity="center_horizontal|center_vertical"/>
 	    	<TextView
-	    		android:text="Statistics" 
+	    		android:text="Stats" 
 	    		android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
 	    		android:textSize="19dip"
@@ -80,7 +80,7 @@
 	    		android:background="#fff" 
 	    		android:layout_gravity="center_horizontal|center_vertical"/>
         	<TextView
-	    		android:text="List runs" 
+	    		android:text="List" 
 	    		android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
 	    		android:textSize="19dip"
@@ -105,7 +105,7 @@
 	    		android:background="#fff" 
 	    		android:layout_gravity="center_horizontal|center_vertical"/>
 	    	<TextView
-	    		android:text="Geo Runs" 
+	    		android:text="GeoRun" 
 	    		android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
 	    		android:textSize="19dip"

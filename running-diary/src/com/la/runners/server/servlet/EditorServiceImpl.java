@@ -49,7 +49,11 @@ public class EditorServiceImpl extends RemoteServiceServlet implements EditorSer
         	newRun.setMonth(run.getMonth());
         	newRun.setDay(run.getDay());
         	newRun.setTime(run.getTime());
+        	newRun.setShare(run.getShare());
+        	newRun.setShoes(run.getShoes());
+        	newRun.setWeight(run.getWeight());
         	newRun.setNote(run.getNote());
+        	newRun.setHeartRate(run.getHeartRate());
         	newRun.setModified(run.getModified());
         	runs.add(newRun);
         }

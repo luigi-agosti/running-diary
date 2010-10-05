@@ -117,10 +117,14 @@ body {
 	text-decoration: none;
 }
 
-#logout a {
+#menu {
 	position: absolute;
-	top : 54px;
+	top : 56px;
 	right: 10px;
+	text-align:right;
+}
+
+#logout a {
 	font-size: 16px;
 	font-weight: bold;
 	color: #0099FF; 

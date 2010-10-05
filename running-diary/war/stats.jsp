@@ -17,18 +17,15 @@
 				<h1>Running diary</h1>
 				<h2>Keep track of all training</h2>
 			</div>
-			<div id="menu">
-				<div id="logout">
-			    	<a href="stats.jsp">Stats</a>
-				</div>
-				<div id="logout">
-			    	<%if (user != null) {%>
-						 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out <%=user.getNickname()%></a>
-					<%}%>
-				</div>
+			<div id="logout">
+		    	<a href="user.jsp">Run editor</a>
+			</div>
+			<div id="logout">
+		    	<%if (user != null) {%>
+					 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out <%=user.getNickname()%></a>
+				<%}%>
 			</div>
 		</div>
-		<div id="header-background-small"></div>
-		<div id="gwtHook"></div>
+		Page is on my head, it will be soon released
 	</body>
 </html>
