@@ -41,7 +41,11 @@ public class SyncService extends IntentService {
 	                return;
 	            }
 	            cleanUp(context);
-	            syncDown(context);
+	            if(syncDown(context)) {
+	                notify("Sync successful");    
+	            } else {
+	                notify("Sync failed, please try again!");
+	            }
 	        }	        
 	    } catch(Exception e) {
 	        notify("Synchronizing failed");
@@ -51,7 +55,6 @@ public class SyncService extends IntentService {
 	        Notifier.notifyBlockingProblemFromBackGround(getApplicationContext(), 
 	                "Connection problem during the sync operation, please try again");
 	    }
-	    notify("Sync successful");
 	}
 	
 	private void cleanUp(Context context) {
@@ -70,16 +73,17 @@ public class SyncService extends IntentService {
 	    }
 	}
 
-	private void syncDown(Context context) {
+	private boolean syncDown(Context context) {
     	RunParser parser = NetworkService.getRunParser(context);
     	if(parser == null) {
     	    AppLogger.error("the parser was null");
-    	    return;
+    	    return false;
     	}
     	while(parser.hasNext()) {
     	    AppLogger.debug("inserting new run");
     		getContentResolver().insert(Model.Run.CONTENT_URI, parser.next());
     	}
+    	return true;
 	}
 
 	public static final void startIntent(Context context) {

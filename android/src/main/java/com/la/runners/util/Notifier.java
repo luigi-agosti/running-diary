@@ -13,11 +13,12 @@ import com.la.runners.activity.DashboardActivity;
 public class Notifier {
 
     private static final String NOTIFICATION_TITLE = "Runner diary";
+    
     private static final int NOTIFICATION_ID = 1;
     
     public static final void notifyBlockingProblemFromBackGround(Context context, String message) {
         NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        int icon = R.drawable.logo;
+        int icon = R.drawable.notification2;
         long when = System.currentTimeMillis();
         Notification notification = new Notification(icon, message, when);
         notification.flags = Notification.FLAG_AUTO_CANCEL;

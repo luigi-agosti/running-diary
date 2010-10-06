@@ -1,118 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="0,1"
+    android:orientation="vertical"
     android:background="#fff" >
 	
 	<TextView
 		android:text="Runner Diary" 
 		style="@style/TitleHeader"/>
-		
-    <TableRow
-    	android:padding="10dip"
-    	>
-    	<LinearLayout
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:gravity="center"
-    		android:orientation="vertical"
-    		android:layout_gravity="center_horizontal|center_vertical">
-	    	<ImageButton
-	    		android:id="@+id/dashboardEditBtn" 
-	    		android:src="@drawable/add"
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:padding="5dip"
-	    		android:background="#fff" 
-	    		android:layout_gravity="center_horizontal|center_vertical"/>
-	    	<TextView
-	    		android:text="Run" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:textSize="19dip"
-      			android:textColor="#4876FF" 
-      			android:textStyle="bold"
-      			android:padding="5dip"
-      			android:layout_gravity="center_horizontal|center_vertical"/>
-    	</LinearLayout>
-    	<LinearLayout
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:gravity="center"
-    		android:orientation="vertical"
-    		android:layout_gravity="center_horizontal|center_vertical"
-    		>
-	    	<ImageButton
-	    		android:id="@+id/dashboardStatisticsBtn" 
-	    		android:src="@drawable/stats" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:padding="5dip"
-	    		android:background="#fff" 
-	    		android:layout_gravity="center_horizontal|center_vertical"/>
-	    	<TextView
-	    		android:text="Stats" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:textSize="19dip"
-      			android:textColor="#000" 
-      			android:textStyle="bold"
-      			android:padding="5dip"
-      			android:layout_gravity="center_horizontal|center_vertical"/>
+	<LinearLayout style="@style/DashboardRow">
+	    <LinearLayout style="@style/DashboardCell">
+		    	<ImageButton
+		    		android:id="@+id/dashboardEditBtn" 
+		    		android:src="@drawable/add_no_btn"
+		    		style="@style/DashboardImage"/>
+		    	<TextView
+		    		android:text="Run" 
+		    		style="@style/DashboardLabel"/>
 	    </LinearLayout>
-    </TableRow>
-
-    <TableRow>
     	<LinearLayout
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:gravity="center"
-    		android:orientation="vertical"
-    		android:layout_gravity="center_horizontal|center_vertical"
-    		>
-	        <ImageButton 
-        		android:id="@+id/dashboardRunsBtn" 
-	        	android:src="@drawable/list"  
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:padding="5dip"
-	    		android:background="#fff" 
-	    		android:layout_gravity="center_horizontal|center_vertical"/>
-        	<TextView
-	    		android:text="List" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:textSize="19dip"
-      			android:textColor="#000" 
-      			android:textStyle="bold"
-      			android:padding="5dip"
-      			android:layout_gravity="center_horizontal|center_vertical"/>
-      	</LinearLayout>
-      	<LinearLayout
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:gravity="center"
-    		android:orientation="vertical"
-    		android:layout_gravity="center_horizontal|center_vertical"
-    		>
-	    	<ImageButton 
-	    		android:id="@+id/dashboardGeoRunsBtn"
-	    		android:src="@drawable/location" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:padding="5dip"
-	    		android:background="#fff" 
-	    		android:layout_gravity="center_horizontal|center_vertical"/>
-	    	<TextView
-	    		android:text="GeoRun" 
-	    		android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-	    		android:textSize="19dip"
-      			android:textColor="#000" 
-      			android:textStyle="bold"
-      			android:padding="5dip"
-      			android:layout_gravity="center_horizontal|center_vertical"/>
-      	</LinearLayout>
-    </TableRow>
-</TableLayout>
+    		android:id="@+id/dashboardGeoStartContainer" 
+    		style="@style/DashboardCell">
+		    	<ImageButton 
+		    		android:id="@+id/dashboardGeoStartBtn"
+		    		android:src="@drawable/location_start_no_btn" 
+		    		style="@style/DashboardImage"/>
+		    	<TextView
+		    		android:text="Start" 
+		    		style="@style/DashboardLabel"/>
+	    </LinearLayout>
+	    <LinearLayout
+	    	android:id="@+id/dashboardGeoStopContainer"
+	    	android:visibility="gone" 
+	    	style="@style/DashboardCell">
+		    	<ImageButton 
+		    		android:id="@+id/dashboardGeoStopBtn"
+		    		android:src="@drawable/location_stop_no_btn" 
+		    		style="@style/DashboardImage"/>
+		    	<TextView
+		    		android:text="Stop" 
+		    		style="@style/DashboardLabel"/>
+	    </LinearLayout>
+	</LinearLayout>
+	
+	<LinearLayout style="@style/DashboardRow">
+		<LinearLayout style="@style/DashboardCell">
+		        <ImageButton 
+	        		android:id="@+id/dashboardRunsBtn" 
+		        	android:src="@drawable/list_no_btn"  
+		    		style="@style/DashboardImage"/>
+	        	<TextView
+		    		android:text="List" 
+		    		style="@style/DashboardLabel"/>
+		</LinearLayout>
+		<LinearLayout style="@style/DashboardCell">
+		    	<ImageButton
+		    		android:id="@+id/dashboardStatisticsBtn" 
+		    		android:src="@drawable/stats_no_btn" 
+		    		style="@style/DashboardImage"/>
+		    	<TextView
+		    		android:text="Stats" 
+		    		style="@style/DashboardLabel"/>
+		</LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout style="@style/DashboardRow">
+		<LinearLayout style="@style/DashboardCell">
+		    	<ImageButton 
+		    		android:id="@+id/dashboardProfileBtn"
+		    		android:src="@drawable/logo_no_btn" 
+		    		style="@style/DashboardImage"/>
+		    	<TextView
+		    		android:text="Profile" 
+		    		style="@style/DashboardLabel"/>
+	    </LinearLayout>
+		<LinearLayout style="@style/DashboardCell">
+		        <ImageButton 
+	        		android:id="@+id/dashboardDownloadBtn" 
+		        	android:src="@drawable/download_no_btn"  
+		    		style="@style/DashboardImage"/>
+	        	<TextView
+		    		android:text="Sync" 
+		    		style="@style/DashboardLabel"/>
+		</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
