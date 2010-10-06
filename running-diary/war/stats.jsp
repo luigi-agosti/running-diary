@@ -12,20 +12,27 @@
 		<script type="text/javascript" language="javascript" src="editor/editor.nocache.js"></script>
 	</head>
 	<body>
-		<div id="header-small">
-			<div id="logo">
-				<h1>Running diary</h1>
-				<h2>Keep track of all training</h2>
+		<div id="header-background-small">
+			<div id="header-small">
+				<div id="logo">
+					<h1>Running diary</h1>
+					<h2>Keep track of all training</h2>
+				</div>
 			</div>
-			<div id="logout">
-		    	<a href="user.jsp">Run editor</a>
-			</div>
-			<div id="logout">
-		    	<%if (user != null) {%>
-					 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out <%=user.getNickname()%></a>
-				<%}%>
+			<div id="menu">
+				<div id="menu-btn">
+			    	<a href="user.jsp">Home</a>
+				</div>
+				<div id="menu-btn-selected">
+			    	<a href="stats.jsp">Stats</a>
+				</div>
+				<div id="menu-btn">
+			    	<%if (user != null) {%>
+						 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out <%=user.getNickname()%></a>
+					<%}%>
+				</div>
 			</div>
 		</div>
-		Page is on my head, it will be soon released
+		<div>Stats</div>
 	</body>
 </html>

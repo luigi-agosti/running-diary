@@ -1,13 +1,5 @@
 <style type="text/css">
 
-#gwtHook {
-	text-align:center;
-	position:absolute;
-	top:150px;
-	width:80%;
-	margin:0 10% 0 10%;
-}
-
 #header-background {
 	height: 130px;
 	margin: 0px auto;
@@ -21,12 +13,11 @@
 }
 
 #header-background-small {
-	height: 80px;
+	height: 70px;
 	margin: 0px auto;
 	top:0px;
 	left:0px;
-	position:absolute;
-	padding-top: 10px;
+	position:relative;
 	width: 100%;
 	background-color: #0099FF;
 	z-index:auto;
@@ -42,12 +33,12 @@
 }
 
 #header-small {
-	height: 80px;
+	bottom: 6px;
+	left: 50px;
 	margin: 0px auto;
-	position: relative;
+	position: absolute;
 	padding-top: 10px;
 	width: 90%;
-	z-index:100000;
 }
 
 body {
@@ -119,12 +110,17 @@ body {
 
 #menu {
 	position: absolute;
-	top : 56px;
-	right: 10px;
+	bottom : 0px;
+	right : 5px;
 	text-align:right;
 }
 
-#logout a {
+#menu-btn-selected {
+	float:left;
+	margin-left: 6px;
+}
+
+#menu-btn-selected a {
 	font-size: 16px;
 	font-weight: bold;
 	color: #0099FF; 
@@ -132,6 +128,31 @@ body {
 	padding: 5px 15px 5px 15px;
 	margin: 0px 15px 0px 15px;
 	text-decoration: none;
+	margin:0px;
 }
 
+#menu-btn {
+	float:left;
+	margin-left: 6px;
+}
+
+#menu-btn a {
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF; 
+	background-color: #0099FF;
+	padding: 5px 15px 0px 15px;
+	margin: 0px 15px 0px 15px;
+	text-decoration: none;
+	margin:0px;
+	border: 1px solid #FFFFFF;
+}
+
+#gwtHook {
+	text-align:center;
+	position:absolute;
+	top:110px;
+	width:80%;
+	margin:0 10% 0 10%;
+}
 </style>
