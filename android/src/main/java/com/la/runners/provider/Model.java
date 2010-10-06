@@ -159,6 +159,14 @@ public class Model {
                     if(note != null) {
                     	js.key(Model.Run.NOTE).value(note);
                     }
+                    Long modified = Model.Run.modified(c);
+                    if(modified != null) {
+                    	js.key(Model.Run.MODIFIED).value(modified);
+                    }
+                    Boolean shared = Model.Run.share(c);
+                    if(shared != null) {
+                    	js.key(Model.Run.SHARE).value(shared);
+                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -168,6 +176,18 @@ public class Model {
                 }
             }
         }
+
+		private static Boolean share(Cursor c) {
+			int share = c.getInt(c.getColumnIndex(SHARE));
+			if(share == 1) {
+				return Boolean.TRUE;
+			} 
+			return Boolean.FALSE;
+		}
+
+		private static Long modified(Cursor c) {
+			return c.getLong(c.getColumnIndex(MODIFIED));
+		}
 
 		private static Long dayTime(Cursor c) {
             return c.getLong(c.getColumnIndex(DAY_TIME));

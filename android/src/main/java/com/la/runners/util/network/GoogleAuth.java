@@ -166,6 +166,7 @@ public class GoogleAuth {
                 if(AppLogger.isErrorEnabled()) {
                     AppLogger.error(e);
                 }
+                throw new RuntimeException("problem getting authorization");
             }
         }
 
@@ -201,6 +202,7 @@ public class GoogleAuth {
                 if(AppLogger.isErrorEnabled()) {
                     AppLogger.error(e);
                 }
+                throw new RuntimeException("problem getting authorization");
             } finally {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, true);
             }
