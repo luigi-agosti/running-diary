@@ -6,4 +6,5 @@ public interface RunListUpdateHandler extends EventHandler {
 	
 	void updateRunList(RunListUpdateEvent event);
 
+	
 }
