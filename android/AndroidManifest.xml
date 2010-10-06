@@ -50,6 +50,7 @@
 			=====================================================
 		-->
 		<activity
+			android:screenOrientation="portrait"
 			android:name=".activity.DashboardActivity">
 			<intent-filter>
 				<action
@@ -72,13 +73,11 @@
 			</intent-filter>
 		</activity>
 		<activity
+			android:screenOrientation="portrait"
 			android:name=".activity.RunEditorActivity">
 		</activity>
 		<activity
 			android:name=".activity.RunStatisticsActivity">
-		</activity>
-		<activity
-			android:name=".activity.GeoRunActivity">
 		</activity>
 		
 		<!--

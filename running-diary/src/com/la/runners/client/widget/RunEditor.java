@@ -28,6 +28,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
     private static final DateTimeFormat DAY_FORMATTER = DateTimeFormat.getFormat("dd");
     
     private static final Label DATE_LABEL = new Label("Date *");
+    private static final Label DAY_TIME_LABEL = new Label("Day Time *");
     private static final Label DISTANCE_LABEL = new Label("Distance (meter)*");
     private static final Label TIME_LABEL = new Label("Time *");
     private static final Label NOTE_LABEL = new Label("Note");
@@ -41,6 +42,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
     
     static {
         DATE_LABEL.setStyleName("RunEditorLabel");
+        DAY_TIME_LABEL.setStyleName("RunEditorLabel");
         DISTANCE_LABEL.setStyleName("RunEditorLabel");
         NOTE_LABEL.setStyleName("RunEditorLabel");
         TIME_LABEL.setStyleName("RunEditorLabel");
@@ -83,6 +85,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
     private TextBox distanceInput = new TextBox();
     private TextArea noteInput = new TextArea();
     private TextBox timeInput = new TextBox();
+    private TextBox dayTimeInput = new TextBox();
     private TextBox shoesInput = new TextBox();
     private TextBox heartRateInput = new TextBox();
     private TextBox weightInput = new TextBox();
@@ -92,6 +95,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
         distanceInput.setStyleName("RunEditorInput");
         noteInput.setStyleName("RunEditorInput");
         timeInput.setStyleName("RunEditorInput");
+        dayTimeInput.setStyleName("RunEditorInput");
         heartRateInput.setStyleName("RunEditorInput");
         shoesInput.setStyleName("RunEditorInput");
         weightInput.setStyleName("RunEditorInput");
@@ -113,6 +117,8 @@ public class RunEditor extends Composite implements LoadRunHandler {
         panel.add(DATE_LABEL);
         DATE_CONTAINER.add(dateInput);
         panel.add(DATE_CONTAINER);
+        panel.add(DAY_TIME_LABEL);
+        panel.add(dayTimeInput);
         panel.add(DISTANCE_LABEL);
         panel.add(distanceInput);
         panel.add(TIME_LABEL);
@@ -137,6 +143,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
         this.run = run;
         idInput.setText("" + run.getId());
         dateInput.setValue(run.getDate());
+        dayTimeInput.setText("" + run.getDayTime());
         distanceInput.setText("" + run.getDistance());
         noteInput.setText("" + run.getNote());
         timeInput.setText("" + run.getTime());
@@ -166,6 +173,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
         run = new Run();
         idInput.setText("");
         dateInput.setValue(new Date());
+        dayTimeInput.setText("");
         distanceInput.setText("");
         noteInput.setText("");
         timeInput.setText("");
@@ -188,6 +196,7 @@ public class RunEditor extends Composite implements LoadRunHandler {
         run.setDistance(Integer.valueOf(distanceInput.getText()));
         run.setNote(noteInput.getText());
         run.setTime(Long.valueOf(timeInput.getText()));
+        run.setDayTime(Long.valueOf(dayTimeInput.getText()));
         run.setModified(new Date());
         
         setHeartRateValue(run);

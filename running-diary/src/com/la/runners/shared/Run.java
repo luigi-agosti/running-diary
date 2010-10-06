@@ -32,9 +32,6 @@ public class Run implements Serializable {
     
     @Persistent
     private Integer month;
-    
-    @Persistent
-    private Integer hour;
 
     @Persistent
     private Date modified;
@@ -42,6 +39,9 @@ public class Run implements Serializable {
     @Persistent
     private Integer distance;
     
+    @Persistent
+    private Long dayTime;
+
     @Persistent
     private Long time;
     
@@ -88,6 +88,14 @@ public class Run implements Serializable {
 
     public Long getTime() {
         return time;
+    }
+
+    public void setDayTime(Long dayTime) {
+        this.dayTime = dayTime;
+    }
+    
+    public Long getDayTime() {
+        return dayTime;
     }
 
     public void setNote(String note) {
@@ -168,14 +176,6 @@ public class Run implements Serializable {
 
     public Integer getMonth() {
         return month;
-    }
-
-    public void setHour(Integer hour) {
-        this.hour = hour;
-    }
-
-    public Integer getHour() {
-        return hour;
     }
 
     public void setDate(Date date) {

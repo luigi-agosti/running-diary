@@ -70,6 +70,10 @@ public class Model {
 		public static final String MONTH = "month";
 		
 		public static final String DAY = "day";
+
+        public static final String MODIFIED = "modified";
+
+        public static final String DAY_TIME = "dayTime";
     	
         public static final String id(Cursor c) {
             return c.getString(c.getColumnIndex(ID));
@@ -139,6 +143,10 @@ public class Model {
                     if(time != null) {
                     	js.key(Model.Run.TIME).value(time);
                     }
+                    Long dayTime = Model.Run.dayTime(c);
+                    if(dayTime != null) {
+                        js.key(Model.Run.DAY_TIME).value(dayTime);
+                    }
                     Integer heartRate = Model.Run.heartRate(c);
                     if(heartRate != null) {
                     	js.key(Model.Run.HEART_RATE).value(heartRate);
@@ -161,7 +169,11 @@ public class Model {
             }
         }
 
-		private static Integer weight(Cursor c) {
+		private static Long dayTime(Cursor c) {
+            return c.getLong(c.getColumnIndex(DAY_TIME));
+        }
+
+        private static Integer weight(Cursor c) {
 			return c.getInt(c.getColumnIndex(WEIGHT));
 		}
 

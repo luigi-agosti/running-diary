@@ -40,6 +40,16 @@
 		  	<!-- Run Date -->	
 		  	<DatePicker android:id="@+id/date"
 		  		style="@style/DatePicker"/>
+		  		
+		  	<!-- Run Time  -->
+			<TextView
+				style="@style/FormText"
+				android:text="Day Time"
+				android:paddingTop="6dp"/>
+		  		
+			<TimePicker
+				android:id="@+id/dayTime"
+				style="@style/TimePicker"/>
 				
 			<!--  Run Distance -->
 			<TextView

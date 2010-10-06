@@ -21,6 +21,7 @@ public class RunParser extends AbstractJsonParserIterator {
 		if(node!=null) {
 			cv.put(Model.Run.REMOTE_ID, node.get(Model.Run.REMOTE_ID).getValueAsText());
 			cv.put(Model.Run.TIME, node.get(Model.Run.TIME).getLongValue());
+			cv.put(Model.Run.DAY_TIME, node.get(Model.Run.DAY_TIME).getLongValue());
 			cv.put(Model.Run.DATE, node.get(Model.Run.DATE).getLongValue());
 			cv.put(Model.Run.YEAR, node.get(Model.Run.YEAR).getIntValue());
 			cv.put(Model.Run.MONTH, node.get(Model.Run.MONTH).getIntValue());
