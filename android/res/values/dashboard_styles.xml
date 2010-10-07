@@ -13,6 +13,7 @@
     	<item name="android:layout_height">wrap_content</item>
     	<item name="android:background">#fff</item>
     	<item name="android:layout_gravity">center</item>
+    	<item name="android:padding">20dip</item>
     </style>
     <style name="DashboardRow">
     	<item name="android:layout_weight">1</item>
@@ -26,6 +27,6 @@
     	<item name="android:layout_weight">1</item>
     	<item name="android:orientation">vertical</item>
     	<item name="android:gravity">center|fill_horizontal|fill_vertical</item>
-    	<item name="android:padding">10px</item>
+    	<item name="android:padding">10dip</item>
     </style>
 </resources>
