@@ -10,7 +10,7 @@
 Form
 =============================================
 */
-.RunEditor {
+.Editor {
 	position:absolute;
 	top:0px;
 	right:0px;
@@ -20,10 +20,10 @@ Form
 	border-top-right-radius: 10px 10px;
 	border-bottom-left-radius: 10px 10px;
 	border-bottom-right-radius: 10px 10px;
-	border:1px solid #0099FF;
+	border: 1px solid #0099FF;
 }
 
-.RunEditorTitle {
+.EditorHeader {
 	width:100%;
 	background:#0099FF;
 	color:#FFFFFF;
@@ -37,7 +37,7 @@ Form
 	border-top-right-radius: 10px 10px;
 }
 
-.RunEditorFooter {
+.EditorFooter {
 	width:100%;
 	background:#0099FF;
 	color:#FFFFFF;
@@ -51,39 +51,50 @@ Form
 	border-bottom-right-radius: 10px 10px;
 }
 
-.RunEditorLabel {
+.EditorLabel {
 	margin-top:5px;
 }
 
-.RunEditorButton {
+.EditorButton {
 	margin-top:15px;
 	width:90%;
 	margin-left:5%;
 	margin-right:5%;
+	padding-top:5px;
+	padding-bottom:5px;
 }
 
-.RunEditorInput {
+.EditorTextBox {
 	width:90%;
 	margin-left:5%;
 	margin-right:5%;
 }
 
-.RunEditor-DateContainer {
+.EditorDateContainer {
 	width:100%;
 }
 
-.RunEditor-DateContainer .gwt-DatePicker {
+.EditorDateContainer .gwt-DatePicker {
 	font-size: 14px;
 	width:90%;
 	margin-left:5%;
 	margin-right:5%;
+}
+
+.EditorSubTitle {
+	background:#0099FF;
+	font-weight:bold;
+	margin-top: 15px;
+	padding-top:2px;
+	padding-bottom:2px;
+	color:#FFFFFF;
 }
 /* 
 =============================================   
 Grid
 =============================================
 */
-.RunGrid {
+.Grid {
 	text-align:left;
 	position:absolute;
 	top:0px;
@@ -95,6 +106,24 @@ Grid
 	border-top-left-radius: 10px 10px;
 	border-top-right-radius: 10px 10px;
 }
+
+.GridTable {
+	padding:1%;
+	width:98%;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.GridHeaderCell {
+	color:#66CC66;
+}
+
+.GridCell {
+}
+
+/*    
+Grid Bars
+*/
 
 .GridBar-top {
 	position:relative;
@@ -146,21 +175,6 @@ Grid
 	padding-left:5px;
 	margin-right:10px;
 }
-
-.GridTable {
-	padding:1%;
-	width:98%;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-.GridHeaderCell {
-	color:#66CC66;
-}
-
-.GridCell {
-}
-
 
 
 </style>

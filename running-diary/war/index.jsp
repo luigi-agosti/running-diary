@@ -50,10 +50,10 @@
 				</div>
 				<div class="visible">
 					<%if (user != null) {%>
-						<a href="user.jsp">go to your home</a>
-						<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out <%=user.getNickname()%></a>
+						<a href="home.jsp">go to your home</a>
+						<a href="<%= userService.createLogoutURL("/") %>">sign out <%=user.getNickname()%></a>
 					<%} else {%>
-						<a href="user.jsp">try it now!</a>
+						<a href="home.jsp">try it now!</a>
 					<%}%>
 				</div>
 				<div class="sentence">
