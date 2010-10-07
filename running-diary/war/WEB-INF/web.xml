@@ -19,7 +19,7 @@
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<url-pattern>/user.jsp</url-pattern>
+			<url-pattern>/home.jsp</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>*</role-name>
@@ -28,6 +28,22 @@
 	<security-constraint>
 		<web-resource-collection>
 			<url-pattern>/stats.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/search.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/profile.jsp</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>*</role-name>
@@ -74,11 +90,23 @@
 
 	<servlet>
 		<servlet-name>editorRpcService</servlet-name>
-		<servlet-class>com.la.runners.server.servlet.EditorServiceImpl</servlet-class>
+		<servlet-class>com.la.runners.server.servlet.ServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>editorRpcService</servlet-name>
-		<url-pattern>/editor/editorService</url-pattern>
+		<url-pattern>/home/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/statistics/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/profile/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/search/service</url-pattern>
 	</servlet-mapping>
 
 	<!-- ==================================== Clag ==================================== -->
@@ -92,7 +120,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contentClasses</param-name>
-			<param-value>com.la.runners.shared.Run</param-value>
+			<param-value>com.la.runners.shared.Run,com.la.runners.shared.Profile</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
