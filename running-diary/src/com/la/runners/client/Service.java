@@ -24,4 +24,8 @@ public interface Service extends RemoteService {
 	
 	List<Run> search(Integer year, Integer month);
 	
+	List<Profile> searchProfile(String nickname);
+
+    void sendInvite(String email, String message);
+	
 }

@@ -11,26 +11,17 @@ import com.la.runners.client.widget.grid.RunGrid;
 
 public class HomeEntryPoint implements EntryPoint {
 
-    private final ServiceAsync editorService = GWT.create(Service.class);
-
-    private static final String GWT_HOOK_ID = "gwtHook";
-
-    private RunEditor runEditor;
-    
-    private RunGrid runGrid;
-    
-    private HandlerManager eventBus;
-
     @Override
     public void onModuleLoad() {
-        eventBus = new HandlerManager(null);
-        runEditor = new RunEditor(eventBus, editorService);
-        runGrid = new RunGrid(eventBus, editorService);
+        ServiceAsync editorService = GWT.create(Service.class);
+        HandlerManager eventBus = new HandlerManager(null);
+        RunEditor runEditor = new RunEditor(eventBus, editorService);
+        RunGrid runGrid = new RunGrid(eventBus, editorService);
         FlowPanel panel = new FlowPanel();
         panel.add(runGrid);
         panel.add(runEditor);
-        RootPanel.get(GWT_HOOK_ID).add(panel);
         panel.setStyleName("EditorEntryPoint");
+        RootPanel.get("gwtHook").add(panel);
     }
 
 }

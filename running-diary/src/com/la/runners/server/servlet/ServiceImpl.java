@@ -10,8 +10,10 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.la.runners.client.Service;
+import com.la.runners.server.dao.jdo.JdoInviteDao;
 import com.la.runners.server.dao.jdo.JdoProfileDao;
 import com.la.runners.server.dao.jdo.JdoRunDao;
+import com.la.runners.shared.Invite;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
 
@@ -24,6 +26,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 	
 	private JdoRunDao runDao = new JdoRunDao(Run.class);
 	private JdoProfileDao profileDao = new JdoProfileDao(Profile.class);
+	private JdoInviteDao inviteDao = new JdoInviteDao(Invite.class);
 	
 	@Override
 	public void save(Run run) {
@@ -103,4 +106,29 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         User user = userService.getCurrentUser();
         return user.getUserId();
     }
+
+    @Override
+    public List<Profile> searchProfile(String nickname) {
+        List<Profile> profiles = profileDao.search(nickname);
+        List<Profile> followers = new ArrayList<Profile>();
+        for(Profile profile : profiles) {
+            followers.add(new Profile(profile.getUserId(), profile.getNickname()));
+        }
+        return followers;
+    }
+
+    @Override
+    public void sendInvite(String email, String message) {
+        String userId = getUserId();
+        String nickname = null;
+        Profile profile = getProfile();
+        if(profile != null) {
+            nickname = getProfile().getNickname();
+        }
+        //TODO store invite
+        //TODO generate specific url with some hased code so that I can link the two users;
+        String subject = "";
+        String content = "";
+    }
+    
 }

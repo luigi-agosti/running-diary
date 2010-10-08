@@ -22,4 +22,8 @@ public interface ServiceAsync {
 
     void getFollowers(AsyncCallback<List<Profile>> callback);
 
+    void searchProfile(String nickname, AsyncCallback<List<Profile>> callback);
+    
+    void sendInvite(String email, String message, AsyncCallback<Void> callback);
+
 }

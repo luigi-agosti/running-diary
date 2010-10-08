@@ -3,18 +3,26 @@ package com.la.runners.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.la.runners.client.widget.form.ProfileEditor;
+import com.la.runners.client.widget.form.SearchForm;
+import com.la.runners.client.widget.grid.FollowersGrid;
+import com.la.runners.client.widget.grid.SearchGrid;
 
 public class SearchEntryPoint implements EntryPoint {
 
-    private final ServiceAsync editorService = GWT.create(Service.class);
-
-    private static final String GWT_HOOK_ID = "gwtHook";
-
     @Override
     public void onModuleLoad() {
-        RootPanel.get(GWT_HOOK_ID).add(new Label("Search"));
+        ServiceAsync editorService = GWT.create(Service.class);
+        FlowPanel panel = new FlowPanel();
+        HandlerManager eventBus = new HandlerManager(null);
+        panel.add(new SearchGrid(eventBus, editorService));
+        panel.add(new SearchForm(eventBus, editorService));
+        panel.setStyleName("EditorEntryPoint");
+        RootPanel.get("gwtHook").add(panel);
     }
 
 }

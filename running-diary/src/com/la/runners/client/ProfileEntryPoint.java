@@ -10,18 +10,14 @@ import com.la.runners.client.widget.grid.FollowersGrid;
 
 public class ProfileEntryPoint implements EntryPoint {
 
-    private final ServiceAsync editorService = GWT.create(Service.class);
-
-    private static final String GWT_HOOK_ID = "gwtHook";
-
     @Override
     public void onModuleLoad() {
+        ServiceAsync editorService = GWT.create(Service.class);
         FlowPanel panel = new FlowPanel();
         panel.add(new FollowersGrid(editorService));
         panel.add(new ProfileEditor(editorService));
-        RootPanel.get(GWT_HOOK_ID).add(panel);
         panel.setStyleName("EditorEntryPoint");
-        RootPanel.get(GWT_HOOK_ID).add(panel);
+        RootPanel.get("gwtHook").add(panel);
     }
 
 }
