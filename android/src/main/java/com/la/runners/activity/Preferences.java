@@ -20,9 +20,6 @@ import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.GoogleAuth;
 
 /**
- * Preference activity for the app. I put some static method to get the values
- * of the preferences from different parts of the app.
- * 
  * @author luigi.agosti
  */
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -43,12 +40,6 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 
 	private static final String WEIGHT = "weight";
 
-    /**
-     * Prepare the intent to load the preferences.
-     * 
-     * @param context
-     * @return
-     */
     public static final Intent getPreferenceIntent(Context context) {
         return new Intent(context, Preferences.class);
     }

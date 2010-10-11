@@ -12,7 +12,7 @@
 	    <LinearLayout style="@style/DashboardCell">
 		    	<ImageButton
 		    		android:id="@+id/dashboardEditBtn" 
-		    		android:src="@drawable/add_no_btn"
+		    		android:src="@drawable/edit"
 		    		style="@style/DashboardImage"/>
 		    	<TextView
 		    		android:text="Run" 
@@ -23,7 +23,7 @@
     		style="@style/DashboardCell">
 		    	<ImageButton 
 		    		android:id="@+id/dashboardGeoStartBtn"
-		    		android:src="@drawable/location_start_no_btn" 
+		    		android:src="@drawable/location_start" 
 		    		style="@style/DashboardImage"/>
 		    	<TextView
 		    		android:text="Start" 
@@ -35,7 +35,7 @@
 	    	style="@style/DashboardCell">
 		    	<ImageButton 
 		    		android:id="@+id/dashboardGeoStopBtn"
-		    		android:src="@drawable/location_stop_no_btn" 
+		    		android:src="@drawable/location_stop" 
 		    		style="@style/DashboardImage"/>
 		    	<TextView
 		    		android:text="Stop" 
@@ -47,7 +47,7 @@
 		<LinearLayout style="@style/DashboardCell">
 		        <ImageButton 
 	        		android:id="@+id/dashboardRunsBtn" 
-		        	android:src="@drawable/list_no_btn"  
+		        	android:src="@drawable/list"  
 		    		style="@style/DashboardImage"/>
 	        	<TextView
 		    		android:text="List" 
@@ -56,7 +56,7 @@
 		<LinearLayout style="@style/DashboardCell">
 		    	<ImageButton
 		    		android:id="@+id/dashboardStatisticsBtn" 
-		    		android:src="@drawable/stats_no_btn" 
+		    		android:src="@drawable/stats" 
 		    		style="@style/DashboardImage"/>
 		    	<TextView
 		    		android:text="Stats" 
@@ -66,18 +66,9 @@
     
     <LinearLayout style="@style/DashboardRow">
 		<LinearLayout style="@style/DashboardCell">
-		    	<ImageButton 
-		    		android:id="@+id/dashboardProfileBtn"
-		    		android:src="@drawable/logo_no_btn" 
-		    		style="@style/DashboardImage"/>
-		    	<TextView
-		    		android:text="Profile" 
-		    		style="@style/DashboardLabel"/>
-	    </LinearLayout>
-		<LinearLayout style="@style/DashboardCell">
 		        <ImageButton 
 	        		android:id="@+id/dashboardDownloadBtn" 
-		        	android:src="@drawable/download_no_btn"  
+		        	android:src="@drawable/download"  
 		    		style="@style/DashboardImage"/>
 	        	<TextView
 		    		android:text="Sync" 

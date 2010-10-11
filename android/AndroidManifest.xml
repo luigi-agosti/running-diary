@@ -16,6 +16,10 @@
 		android:name="android.permission.USE_CREDENTIALS" />
 	<uses-permission
 		android:name="android.permission.READ_OWNER_DATA" />
+	<uses-permission 
+		android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  	<uses-permission 
+  		android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 	<uses-sdk
 		android:minSdkVersion="8" />
@@ -62,6 +66,7 @@
 			</intent-filter>
 		</activity>
 		<activity
+			android:screenOrientation="portrait"
 			android:name=".activity.RunListActivity">
 			<intent-filter>
 				<action
@@ -77,6 +82,7 @@
 			android:name=".activity.RunEditorActivity">
 		</activity>
 		<activity
+			android:screenOrientation="portrait"
 			android:name=".activity.RunStatisticsActivity">
 		</activity>
 		
@@ -91,6 +97,17 @@
 			android:launchMode="singleTask"
 			android:theme="@android:style/Theme.Light">
 		</activity>
+		
+		<!-- 
+		    =====================================================
+		    Services
+			=====================================================
+		 -->
+		 <service 
+		 	android:name="com.la.runners.service.RunTrackingService"
+             android:label="Track Recording Service"
+             android:enabled="true"
+             android:exported="true" />
 
 	</application>
 
