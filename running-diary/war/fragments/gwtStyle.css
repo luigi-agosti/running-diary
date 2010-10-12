@@ -96,9 +96,7 @@ Grid
 */
 .Grid {
 	text-align:left;
-	position:absolute;
-	top:0px;
-	left:0px;
+	margin-bottom:10px;
 	width:74%;
 	border:1px solid #66CC66;
 	border-bottom-left-radius: 10px 10px;

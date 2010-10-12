@@ -19,6 +19,7 @@ public class FollowersGrid extends BaseGrid {
             @Override
             public void onSuccess(List<Profile> result) {
                 drawGrid(result);
+                showMessage("");
             }
             @Override
             public void onFailure(Throwable caught) {
@@ -38,21 +39,31 @@ public class FollowersGrid extends BaseGrid {
             int index = 1;
             for(Profile profile : result) {
                 grid.setWidget(index,0, createLabel(profile.getNickname(), Constants.Style.gridCell));
-                final Long id = profile.getId();
+                final String followerUserId = profile.getUserId();
                 Button btnProfile = new Button("Profile Page");
                 btnProfile.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        //TODO
+                        showMessage("function not implemented yet");
                     }
                 });
                 grid.setWidget(index,1, btnProfile);
-                
+                final int rowIndex = index;
                 Button btnRemove = new Button("Remove");
                 btnRemove.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        //TODO
+                        service.removeFollower(followerUserId, new AsyncCallback<Void>() {
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                showMessage("Umm, there was some problem, try to refresh the browser");
+                            }
+                            @Override
+                            public void onSuccess(Void result) {
+                                showMessage("Success!");
+                                grid.removeRow(rowIndex);
+                            }
+                        });
                     }
                 });
                 grid.setWidget(index,2, btnRemove);

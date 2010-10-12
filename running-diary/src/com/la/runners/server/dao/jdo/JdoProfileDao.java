@@ -11,17 +11,40 @@ import com.la.runners.shared.Profile;
 
 public class JdoProfileDao extends BaseDaoImpl<Profile> implements BaseDao<Profile> {
     
-    public JdoProfileDao(Class<Profile> clazz) {
+    private static final String FOLLOWERS = "followers";
+    
+    private static final String NICKNAME = "nickname";
+    
+    private static final String USER_ID = "userId";
+    
+    public JdoProfileDao() {
         super(Profile.class);
     }
 
     public List<Profile> getFollowers(final String userId) {
+        return searchByProperty(FOLLOWERS, userId);
+    }
+
+    public List<Profile> search(final String nickname) {
+        return query(NICKNAME, nickname);
+    }
+    
+    private List<Profile> query(final String property, final String nickname) {
         return executeQuery(new QueryPersonalizer(Profile.class) {
             @Override
             public void get(Query q) {
                 super.get(q);
-                q.setFilter(getStringFilter("followers", userId));
+                q.setFilter(getStringFilter(NICKNAME, nickname));
             }
         });
     }
+    
+    public Profile get(String userId) {
+        return getByProperty(USER_ID, STRING, userId);
+    }
+    
+    public void delete(String userId) {
+        deleteByProperty(USER_ID, STRING, userId);
+    }
+    
 }

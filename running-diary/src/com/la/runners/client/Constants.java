@@ -12,6 +12,7 @@ public interface Constants {
         String editorHeader = "EditorHeader";
         String editorFooter = "EditorFooter";
         String editorDateContainer = "EditorDateContainer"; 
+        String editorTextArea = "EditorTextArea";        
         
         String gridHeaderCell = "GridHeaderCell";
         String gridCell = "GridCell";
@@ -19,7 +20,7 @@ public interface Constants {
         String gridTable = "GridTable";
         
         String gridBarBottom = "GridBar-bottom";
-        String gridBarTop = "GridBar-top";        
+        String gridBarTop = "GridBar-top";
     }
 
 }

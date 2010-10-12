@@ -21,8 +21,8 @@ public class JdoRunDao extends BaseDaoImpl<Run> implements BaseDao<Run> {
     
     private static final String ORDER = "date desc";
     
-    public JdoRunDao(Class<Run> clazz) {
-        super(clazz);
+    public JdoRunDao() {
+        super(Run.class);
     }
 
     @SuppressWarnings("unchecked")
