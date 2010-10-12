@@ -96,7 +96,6 @@ public class RunTrackingService extends Service implements LocationListener {
 				AppLogger.debug("Not recording. Bad accuracy.");
 				return;
 			}
-
 			// HERE i SHOULD TAKE THE PREVIOUS TRACK
 
 			if (isValidLocation(location)) {
