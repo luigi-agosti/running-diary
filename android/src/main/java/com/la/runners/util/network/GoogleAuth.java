@@ -1,8 +1,11 @@
 
 package com.la.runners.util.network;
 
+import java.io.IOException;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.cookie.Cookie;
@@ -78,7 +81,7 @@ public class GoogleAuth {
                 AppLogger.debug("Logged in");
                 return true;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AppLogger.error("Problem when trying to check the logged status", e);
             if(withRetry) {
                 return isLoggedIn(context, false);
@@ -92,26 +95,20 @@ public class GoogleAuth {
      * @param context
      * @param selectedAccount
      * @param intent
+     * @throws RuntimeException
      */
     public void login(Context context, String selectedAccount, final Intent intent) {
         login(context, selectedAccount, intent, true);
     }
-    
-    /**
-     * Login get a token from the _ah/login and set the token in the preferences
-     * @param context
-     * @param selectedAccount
-     * @param intent
-     * @param invalidate
-     */
-    public void login(Context context, String selectedAccount, final Intent intent, boolean invalidate) {
+
+    private void login(Context context, String selectedAccount, final Intent intent, boolean invalidate) {
         Account[] accounts = getAccounts(context);
         if (accounts != null && accounts.length > 0) {
             for (Account account : accounts) {
                 if (selectedAccount.equals(account.name)) {
                     AccountManager accountManager = AccountManager.get(context);
-                    accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, false, new GetAuthTokenCallback(
-                            context, intent, account, invalidate), null);
+                    accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, false, 
+                    	new GetAuthTokenCallback(context, intent, account, invalidate), null);
                 }
             }
         }
@@ -162,28 +159,23 @@ public class GoogleAuth {
                         onGetAuthToken(token);
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 if(AppLogger.isErrorEnabled()) {
                     AppLogger.error(e);
                 }
-                throw new RuntimeException("problem getting authorization");
             }
         }
 
-        protected void onGetAuthToken(String token) {
+        protected void onGetAuthToken(String token) throws ClientProtocolException, IOException {
             DefaultHttpClient defaultHttpClient = httpManager.getDefaultHttpClient();
             try {
-                defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS,
-                        false);
+                defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
                 HttpGet httpGet = new HttpGet(LOGIN_URL + token);
                 HttpResponse response;
                 response = defaultHttpClient.execute(httpGet);
-                if (response.getStatusLine().getStatusCode() != 302) {
-                    if(AppLogger.isErrorEnabled()) {
-                        AppLogger.error("302 ? there was a problem");
-                    }
-                    return;
-                }
+                //if (response.getStatusLine().getStatusCode() != 302) {
+                //    throw new RuntimeException("302 ? there was a problem");
+                //}
                 Header[] headers = response.getHeaders(SET_COOKIES);
                 String acsidCookie = null;
                 for (Header header: headers) {
@@ -198,11 +190,8 @@ public class GoogleAuth {
                     Preferences.setGoogleAcsidCookie(context, acsidCookie);
                 }
                 context.startService(intent);
-            } catch (Exception e) {
-                if(AppLogger.isErrorEnabled()) {
-                    AppLogger.error(e);
-                }
-                throw new RuntimeException("problem getting authorization");
+            } catch (Throwable t) {
+            	AppLogger.error(t);
             } finally {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, true);
             }

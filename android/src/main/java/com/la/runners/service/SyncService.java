@@ -47,12 +47,12 @@ public class SyncService extends IntentService {
 	                notify("Sync failed, please try again!");
 	            }
 	        }	        
-	    } catch(Exception e) {
+	    } catch(Throwable e) {
 	        notify("Synchronizing failed");
 	        if(AppLogger.isErrorEnabled()) {
 	            AppLogger.error(e);
 	        }
-	        Notifier.notifyBlockingProblemFromBackGround(getApplicationContext(), 
+	        Notifier.notify(getApplicationContext(), 
 	                "Connection problem during the sync operation, please try again");
 	    }
 	}
@@ -93,6 +93,6 @@ public class SyncService extends IntentService {
     }
 
     private void notify(String message) {
-        Notifier.notifyBlockingProblemFromBackGround(getApplicationContext(), message);
+        Notifier.notify(getApplicationContext(), message);
     }
 }

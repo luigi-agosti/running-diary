@@ -16,7 +16,7 @@ public class Notifier {
     
     private static final int NOTIFICATION_ID = 1;
     
-    public static final void notifyBlockingProblemFromBackGround(Context context, String message) {
+    public static final void notify(Context context, String message) {
         NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         int icon = R.drawable.notification2;
         long when = System.currentTimeMillis();
