@@ -24,7 +24,7 @@
 			    	<a href="home.jsp">Home</a>
 				</div>
 				<div id="menu-btn-selected">
-			    	<a href="search.jsp">Make friends</a>
+			    	<a href="search.jsp">Find friends</a>
 				</div>
 				<div id="menu-btn">
 			    	<a href="statistics.jsp">Statistics</a>

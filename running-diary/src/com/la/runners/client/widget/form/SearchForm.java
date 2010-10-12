@@ -24,7 +24,6 @@ public class SearchForm extends BaseForm {
                 eventBus.fireEvent(new SearchProfileEvent(nicknameInput.getText()));
             }
         });
-        showMessage("");
         addSubtitle("Send invite");
         emailInput = addTextBoxWithLabel("E-mail");
         messageInput = addTextAreaWithLabel("Personal Message");
@@ -43,6 +42,7 @@ public class SearchForm extends BaseForm {
                 });
             }
         });
+        showMessage("");
     }
 
 }

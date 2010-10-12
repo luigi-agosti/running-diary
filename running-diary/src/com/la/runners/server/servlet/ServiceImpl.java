@@ -1,9 +1,23 @@
 package com.la.runners.server.servlet;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -19,14 +33,13 @@ import com.la.runners.shared.Run;
 
 public class ServiceImpl extends RemoteServiceServlet implements Service {
 	
+    private static final Logger logger = Logger.getLogger(ServiceImpl.class.getName());
+    
 	private static final long serialVersionUID = 1L;
-
-	private static final String USER_ID = "userId";
-	private static final String STRING = "String";
 	
-	private JdoRunDao runDao = new JdoRunDao(Run.class);
-	private JdoProfileDao profileDao = new JdoProfileDao(Profile.class);
-	private JdoInviteDao inviteDao = new JdoInviteDao(Invite.class);
+	private JdoRunDao runDao = new JdoRunDao();
+	private JdoProfileDao profileDao = new JdoProfileDao();
+	private JdoInviteDao inviteDao = new JdoInviteDao();
 	
 	@Override
 	public void save(Run run) {
@@ -52,9 +65,18 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
 	@Override
 	public Profile getProfile() {
-	    Profile profile = profileDao.getByProperty(USER_ID, STRING, getUserId());
+	    Profile profile = profileDao.get(getUserId());
 	    if(profile != null) {
-	        profile.setFollowers(null);
+	        List<String> followers = profile.getFollowers();
+	        if(followers != null) {
+	            List<String> fs = new ArrayList<String>();
+	            for(String f : followers) {
+	               fs.add(f); 
+	            }
+	            profile.setFollowers(fs);	            
+	        } else {
+	            profile.setFollowers(new ArrayList<String>());
+	        }
 	    }
 	    return profile;
 	}
@@ -88,7 +110,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
     @Override
     public void deleteProfile() {
-        profileDao.deleteByProperty(USER_ID, STRING, getUserId());
+        profileDao.delete(getUserId());
     }
 
     @Override
@@ -119,16 +141,158 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
     @Override
     public void sendInvite(String email, String message) {
-        String userId = getUserId();
+        if(email != null) {
+            return;
+        }
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
         String nickname = null;
         Profile profile = getProfile();
         if(profile != null) {
             nickname = getProfile().getNickname();
         }
-        //TODO store invite
-        //TODO generate specific url with some hased code so that I can link the two users;
-        String subject = "";
-        String content = "";
+        Invite invite = new Invite();
+        UUID uuid = UUID.randomUUID();
+        String token = uuid.toString();
+        sendEmail(email, user.getEmail(), nickname, token);
+        invite.setToken(token);
+        invite.setSenderNickname(nickname);
+        invite.setSenderUserId(user.getUserId());
+        invite.setSentDate(new Date());
+        inviteDao.save(invite);
+    }
+    
+    @Override
+    public void sendInvite(String recipientUserId) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        String nickname = null;
+        Profile profile = getProfile();
+        if(profile != null) {
+            nickname = getProfile().getNickname();
+        }
+        UUID uuid = UUID.randomUUID();
+        String token = uuid.toString();
+        Invite invite = new Invite();
+        invite.setSenderNickname(nickname);
+        invite.setSenderUserId(user.getUserId());
+        invite.setToken(token);
+        invite.setSentDate(new Date());
+        inviteDao.save(invite);
+    }
+
+    private void sendEmail(String recipientEmail, String senderEmail, String nickname, String token) {
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(senderEmail, nickname));
+            msg.addRecipient(Message.RecipientType.TO,
+                             new InternetAddress(recipientEmail));
+            msg.setSubject(nickname + " send you an invite to join the site running-diary.appspot.com");
+            msg.setText("Please if you recognize your friend and you want to try the web site follow this link : " +
+            		"<a href=\"http://running-diary.appspot.com/invite?token=" + token + "\">running-diary.appspot.com/invite</a>");
+            Transport.send(msg);
+
+        } catch (AddressException e) {
+            logger.log(Level.SEVERE, "AddressException", e);
+        } catch (MessagingException e) {
+            logger.log(Level.SEVERE, "MessagingException", e);
+        } catch (UnsupportedEncodingException e) {
+            logger.log(Level.SEVERE, "UnsupportedEncodingException", e);
+        }
+    }
+
+    @Override
+    public void removeFollower(String followerUserId) {
+        Profile followerProfile = profileDao.get(followerUserId);
+        Profile currentProfile = getProfile();
+        if(currentProfile == null) {
+            return;
+        }
+        if(currentProfile.getFollowers() != null) {
+            currentProfile.getFollowers().remove(followerUserId);
+            profileDao.save(currentProfile);
+        }
+        if(followerProfile != null) {
+            if(followerProfile.getFollowers() != null) {
+                followerProfile.getFollowers().remove(getUserId());
+                profileDao.save(followerProfile);
+            }
+        }
+    }
+
+    @Override
+    public void addFollower(String followerUserId) {
+        Profile followerProfile = profileDao.get(followerUserId);
+        Profile currentProfile = getProfile();
+        if(currentProfile == null) {
+            return;
+        }
+        if(currentProfile.getFollowers() != null) {
+            if(!currentProfile.getFollowers().contains(followerUserId)) {
+                currentProfile.getFollowers().add(followerUserId);
+                profileDao.save(currentProfile);
+            }
+        }
+        if(followerProfile != null) {
+            if(followerProfile.getFollowers() != null) {
+                String userId = currentProfile.getUserId();
+                if(!followerProfile.getFollowers().contains(userId)) {
+                    followerProfile.getFollowers().add(userId);
+                    profileDao.save(followerProfile);
+                }
+            }
+        }
+    }
+    
+    @Override
+    public void acceptInvite(String token) {
+        Invite invite = inviteDao.get(token);
+        String userId = getUserId();
+        if(invite != null) {
+            Profile senderProfile = profileDao.get(invite.getSenderUserId());
+            if(senderProfile.getFollowers() == null) {
+                senderProfile.setFollowers(new ArrayList<String>());
+            }
+            senderProfile.getFollowers().add(userId);
+            profileDao.save(senderProfile);
+            
+            Profile receiverProfile = profileDao.get(userId);
+            if(receiverProfile == null) {
+                receiverProfile = new Profile();
+            }
+            receiverProfile.setUserId(userId);
+            receiverProfile.setCreated(new Date());
+            receiverProfile.setFollowers(Arrays.asList(invite.getSenderUserId()));
+            receiverProfile.setModified(new Date());
+            profileDao.save(receiverProfile);
+        }
+        
+        invite.setReceiverUserId(userId);
+        invite.setUsedDate(new Date());
+        inviteDao.save(invite);
+    }
+
+    @Override
+    public List<Invite> getInvites() {
+        List<Invite> invites = inviteDao.search(getUserId());
+        List<Invite> newInivites = new ArrayList<Invite>();
+        for(Invite invite : invites) {
+            Invite newInvite = new Invite();
+            newInvite.setToken(invite.getToken());
+            newInvite.setSenderUserId(invite.getSenderUserId());
+            newInvite.setSenderNickname(invite.getSenderNickname());
+            newInivites.add(newInvite);
+        }
+        return newInivites;
+    }
+
+    @Override
+    public void rejectInvite(String token) {
+        Invite invite = inviteDao.get(token);
+        invite.setUsedDate(new Date(0));
+        inviteDao.save(invite);
     }
     
 }

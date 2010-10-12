@@ -31,24 +31,33 @@ public class SearchGrid extends BaseGrid implements SearchProfileHandler {
             int index = 1;
             for(Profile profile : result) {
                 grid.setWidget(index,0, createLabel(profile.getNickname(), Constants.Style.gridCell));
-                final Long id = profile.getId();
+                final String userId = profile.getUserId();
                 Button btnProfile = new Button("See");
                 btnProfile.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        //TODO
+                        showMessage("function not implemented yet");
                     }
                 });
                 grid.setWidget(index,1, btnProfile);
                 
-                Button btnRemove = new Button("Add");
-                btnRemove.addClickHandler(new ClickHandler() {
+                Button btnInvite = new Button("Invite");
+                btnInvite.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        //TODO
+                        service.sendInvite(userId, new AsyncCallback<Void>() {
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                showMessage("Umm, there was some problem");
+                            }
+                            @Override
+                            public void onSuccess(Void result) {
+                                showMessage("Success!");
+                            }
+                        });
                     }
                 });
-                grid.setWidget(index,2, btnRemove);
+                grid.setWidget(index,2, btnInvite);
                 index++;
             }
             showMessage("");

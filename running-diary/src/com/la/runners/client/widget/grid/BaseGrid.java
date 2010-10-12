@@ -18,20 +18,22 @@ public abstract class BaseGrid extends Composite {
     
     protected MessageBar bottomBar;
     
+    private FlowPanel container;
+    
     public BaseGrid(ServiceAsync service) {
         this.service = service;
-        FlowPanel panel = new FlowPanel();
+        container = new FlowPanel();
         topBar = getTopBar();
-        panel.add(topBar);
+        container.add(topBar);
 
         grid = new FlexTable();
         grid.setStyleName(Constants.Style.gridTable);
-        panel.add(grid);
+        container.add(grid);
         
         bottomBar = getBottomBar();
-        panel.add(bottomBar);
+        container.add(bottomBar);
         
-        initWidget(panel);
+        initWidget(container);
         setStyleName(Constants.Style.grid);
     }
     

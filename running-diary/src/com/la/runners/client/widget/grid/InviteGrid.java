@@ -1,0 +1,84 @@
+package com.la.runners.client.widget.grid;
+
+import java.util.List;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.la.runners.client.Constants;
+import com.la.runners.client.ServiceAsync;
+import com.la.runners.shared.Invite;
+
+public class InviteGrid extends BaseGrid {
+
+    public InviteGrid(ServiceAsync service) {
+        super(service);
+        setVisible(false);
+        service.getInvites(new AsyncCallback<List<Invite>>() {
+            @Override
+            public void onSuccess(List<Invite> result) {
+                drawGrid(result);
+            }
+            @Override
+            public void onFailure(Throwable caught) {}
+        });
+    }
+
+    private void drawGrid(List<Invite> result) {
+        grid.clear();
+        if(result == null || result.isEmpty()) {
+            setVisible(false);
+        } else {
+            grid.setWidget(0,0, createLabel("Invite from nickname", Constants.Style.gridHeaderCell));
+            grid.setWidget(0,1, createLabel("Accept", Constants.Style.gridHeaderCell));
+            grid.setWidget(0,2, createLabel("Reject", Constants.Style.gridHeaderCell));
+            int index = 1;
+            for(Invite invite : result) {
+                grid.setWidget(index,0, createLabel(invite.getSenderNickname(), Constants.Style.gridCell));
+                final String token = invite.getToken();
+                final int rowIndex = index;
+                Button btnAccept = new Button("Accept");
+                btnAccept.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        service.acceptInvite(token, new AsyncCallback<Void>() {
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                showMessage("Umm, there was some problem");
+                            }
+
+                            @Override
+                            public void onSuccess(Void result) {
+                                showMessage("Success!");
+                                grid.removeRow(rowIndex);
+                            }
+                        });
+                    }
+                });
+                grid.setWidget(index,1, btnAccept);
+                Button btnReject = new Button("Reject");
+                btnReject.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        service.rejectInvite(token, new AsyncCallback<Void>() {
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                showMessage("Umm, there was some problem, try to refresh the browser");
+                            }
+                            @Override
+                            public void onSuccess(Void result) {
+                                showMessage("Success!");
+                                grid.removeRow(rowIndex);
+                            }
+                        });
+                    }
+                });
+                grid.setWidget(index,2, btnReject);
+                index++;
+                showMessage("");
+            }
+        }
+    }
+
+}

@@ -5,11 +5,8 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.la.runners.client.widget.form.ProfileEditor;
 import com.la.runners.client.widget.form.SearchForm;
-import com.la.runners.client.widget.grid.FollowersGrid;
 import com.la.runners.client.widget.grid.SearchGrid;
 
 public class SearchEntryPoint implements EntryPoint {

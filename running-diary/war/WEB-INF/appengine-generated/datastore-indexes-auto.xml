@@ -1,8 +1,8 @@
-<!-- Indices written at Fri, 8 Oct 2010 08:59:18 UTC -->
+<!-- Indices written at Tue, 12 Oct 2010 17:48:19 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Run" ancestor="false" source="auto">
         <property name="month" direction="asc"/>
         <property name="userId" direction="asc"/>

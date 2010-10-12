@@ -15,12 +15,14 @@ public class JdoProfileDao extends BaseDaoImpl<Profile> implements BaseDao<Profi
     
     private static final String NICKNAME = "nickname";
     
-    public JdoProfileDao(Class<Profile> clazz) {
+    private static final String USER_ID = "userId";
+    
+    public JdoProfileDao() {
         super(Profile.class);
     }
 
     public List<Profile> getFollowers(final String userId) {
-        return query(FOLLOWERS, userId);
+        return searchByProperty(FOLLOWERS, userId);
     }
 
     public List<Profile> search(final String nickname) {
@@ -35,6 +37,14 @@ public class JdoProfileDao extends BaseDaoImpl<Profile> implements BaseDao<Profi
                 q.setFilter(getStringFilter(NICKNAME, nickname));
             }
         });
+    }
+    
+    public Profile get(String userId) {
+        return getByProperty(USER_ID, STRING, userId);
+    }
+    
+    public void delete(String userId) {
+        deleteByProperty(USER_ID, STRING, userId);
     }
     
 }

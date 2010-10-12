@@ -51,6 +51,14 @@
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
+			<url-pattern>/invite</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
 			<url-pattern>/data/Run</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
@@ -107,6 +115,16 @@
 	<servlet-mapping>
 		<servlet-name>editorRpcService</servlet-name>
 		<url-pattern>/search/service</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ==================================== Invite registration ==================================== -->
+	<servlet>
+		<servlet-name>inviteRegistrationServlet</servlet-name>
+		<servlet-class>com.la.runners.server.servlet.InviteRegistrationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>inviteRegistrationServlet</servlet-name>
+		<url-pattern>/invite</url-pattern>
 	</servlet-mapping>
 
 	<!-- ==================================== Clag ==================================== -->
