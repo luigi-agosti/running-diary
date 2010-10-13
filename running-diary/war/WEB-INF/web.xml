@@ -138,7 +138,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contentClasses</param-name>
-			<param-value>com.la.runners.shared.Run,com.la.runners.shared.Profile</param-value>
+			<param-value>com.la.runners.shared.Run,com.la.runners.shared.Profile,com.la.runners.shared.Location</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

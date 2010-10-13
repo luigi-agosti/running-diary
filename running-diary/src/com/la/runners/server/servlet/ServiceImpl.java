@@ -176,6 +176,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         Invite invite = new Invite();
         invite.setSenderNickname(nickname);
         invite.setSenderUserId(user.getUserId());
+        invite.setReceiverUserId(recipientUserId);
         invite.setToken(token);
         invite.setSentDate(new Date());
         inviteDao.save(invite);

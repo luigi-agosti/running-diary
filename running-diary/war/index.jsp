@@ -34,7 +34,7 @@
 					</ul> 
 				</div>
 				<div class="sentence">
-					So I though why not build a web site to make things easy...
+					So I thought why not build a web site to make things easy...
 				</div>
 				<div class="title">What you can do with this web site?</div>
 				<div class="list"> 
@@ -58,7 +58,7 @@
 				</div>
 				<div class="sentence">
 					I will be very glad to who will give me some feedback about the website and 
-					the android applcation. If you would like some funtionality to be added just drop me 
+					the android applcation. If you would like some functionality to be added just drop me 
 					an email.
 				</div>
 			</div>

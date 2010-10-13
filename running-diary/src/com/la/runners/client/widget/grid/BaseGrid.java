@@ -34,7 +34,7 @@ public abstract class BaseGrid extends Composite {
         container.add(bottomBar);
         
         initWidget(container);
-        setStyleName(Constants.Style.grid);
+        setMainColorStyle(Constants.Style.gridGreen);
     }
     
     protected void showMessage(String message) {
@@ -55,4 +55,10 @@ public abstract class BaseGrid extends Composite {
     protected MessageBar getTopBar() {
         return new MessageBar();
     }
+
+    public void setMainColorStyle(String mainColorStyle) {
+        setStyleName(Constants.Style.grid);
+        addStyleName(mainColorStyle);
+    }
+
 }

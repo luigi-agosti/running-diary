@@ -28,11 +28,7 @@ public class Notifier {
         nm.notify(NOTIFICATION_ID, notification);
     }
    
-    public static final void notifyBlockingProblem(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
-
-    public static final void notifyNotBlockingProblem(Context context, String message) {
+    public static final void toastMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 

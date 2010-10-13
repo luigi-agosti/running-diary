@@ -11,10 +11,11 @@ import com.la.runners.client.ServiceAsync;
 import com.la.runners.shared.Invite;
 
 public class InviteGrid extends BaseGrid {
-
+    
     public InviteGrid(ServiceAsync service) {
         super(service);
         setVisible(false);
+        setMainColorStyle(Constants.Style.gridRed);
         service.getInvites(new AsyncCallback<List<Invite>>() {
             @Override
             public void onSuccess(List<Invite> result) {
@@ -30,6 +31,7 @@ public class InviteGrid extends BaseGrid {
         if(result == null || result.isEmpty()) {
             setVisible(false);
         } else {
+            setVisible(true);
             grid.setWidget(0,0, createLabel("Invite from nickname", Constants.Style.gridHeaderCell));
             grid.setWidget(0,1, createLabel("Accept", Constants.Style.gridHeaderCell));
             grid.setWidget(0,2, createLabel("Reject", Constants.Style.gridHeaderCell));

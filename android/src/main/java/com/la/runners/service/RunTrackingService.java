@@ -1,9 +1,11 @@
+
 package com.la.runners.service;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,162 +15,185 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Notifier;
 
 public class RunTrackingService extends Service implements LocationListener {
 
-	private static final String GPS_PROVIDER = "gps";
+    private static final int MIN_REQUIRED_ACCURACY = 200;
 
-	private static final int MIN_REQUIRED_ACCURACY = 200;
+    private Location lastValidLocation = null;
 
-	private Location lastValidLocation = null;
+    private LocationManager locationManager;
 
-	private LocationManager locationManager;
-	
-	private final Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
-	private final TimerTask checkLocationListener = new TimerTask() {
-		@Override
-		public void run() {
-			handler.post(new Runnable() {
-				public void run() {
-					AppLogger.debug("Re-registering location listener.");
-					unregisterLocationListener();
-					registerLocationListener();
-				}
-			});
-		}
-	};
-	
-	private final Timer timer = new Timer();
+    private final TimerTask checkLocationListener = new TimerTask() {
+        @Override
+        public void run() {
+            handler.post(new Runnable() {
+                public void run() {
+                    AppLogger.debug("Re-registering location listener.");
+                    unregisterLocationListener();
+                    registerLocationListener();
+                }
+            });
+        }
+    };
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		AppLogger.debug("TrackRecordingService.onCreate");
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		registerLocationListener();
-		
-		timer.schedule(checkLocationListener, 1000 * 60 * 5, 1000 * 60);
-	}
+    private final Timer timer = new Timer();
 
-	@Override
-	public void onDestroy() {
-		AppLogger.debug("TrackRecordingService.onDestroy");
-		unregisterLocationListener();
-		checkLocationListener.cancel();
-		timer.cancel();
-		super.onDestroy();
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppLogger.debug("TrackRecordingService.onCreate");
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
-	public void registerLocationListener() {
-		if (locationManager == null) {
-			AppLogger.error("Do not have any location manager.");
-			return;
-		}
-		try {
-			// 30 sec and 5 meters
-			locationManager
-					.requestLocationUpdates(GPS_PROVIDER, 0, 0, this);
-			AppLogger.debug("...location listener now registered");
-		} catch (RuntimeException e) {
-			AppLogger.error("Could not register location listener", e);
-		}
-	}
+        boolean isGgpsEnabled = false;
+        try {
+            isGgpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        if (!isGgpsEnabled) {
+            Notifier.toastMessage(this, "Gps is not enabled! you have to enable it");
+            return;
+        }
+        getCurrentLocation();
+        registerLocationListener();
+        timer.schedule(checkLocationListener, 1000 * 60 * 5, 1000 * 60);
+    }
 
-	public void unregisterLocationListener() {
-		if (locationManager == null) {
-			AppLogger.error("Do not have any location manager.");
-			return;
-		}
-		locationManager.removeUpdates(this);
-		AppLogger.debug("Location listener now unregistered.");
-	}
+    @Override
+    public void onDestroy() {
+        AppLogger.debug("TrackRecordingService.onDestroy");
+        unregisterLocationListener();
+        checkLocationListener.cancel();
+        timer.cancel();
+        super.onDestroy();
+    }
 
-	@Override
-	public void onLocationChanged(Location location) {
-		AppLogger.debug("TrackRecordingService.onLocationChanged");
-		try {
-			if (location == null) {
-				AppLogger.warn("Location changed, but location is null.");
-				return;
-			}
-			if (location.getAccuracy() > MIN_REQUIRED_ACCURACY) {
-				AppLogger.debug("Not recording. Bad accuracy.");
-				return;
-			}
-			// HERE i SHOULD TAKE THE PREVIOUS TRACK
+    public void registerLocationListener() {
+        if (locationManager == null) {
+            AppLogger.error("Do not have any location manager.");
+            return;
+        }
+        try {
+            // 30 sec and 5 meters
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            AppLogger.debug("...location listener now registered");
+        } catch (RuntimeException e) {
+            AppLogger.error("Could not register location listener", e);
+        }
+    }
 
-			if (isValidLocation(location)) {
-				AppLogger.debug("location is valid");
-			} else {
-				AppLogger.debug("location is not valid");
-			}
+    public void unregisterLocationListener() {
+        if (locationManager == null) {
+            AppLogger.error("Do not have any location manager.");
+            return;
+        }
+        locationManager.removeUpdates(this);
+        AppLogger.debug("Location listener now unregistered.");
+    }
 
-			// GETTING LAST LOCATION
+    @Override
+    public void onLocationChanged(Location location) {
+        AppLogger.debug("TrackRecordingService.onLocationChanged");
+        try {
+            if (location == null) {
+                AppLogger.warn("Location changed, but location is null.");
+                return;
+            }
+            if (location.getAccuracy() > MIN_REQUIRED_ACCURACY) {
+                AppLogger.debug("Not recording. Bad accuracy.");
+                return;
+            }
+            storeLocation(location);            
+        } catch (Error e) {
+            AppLogger.error("Error in onLocationChanged", e);
+            throw e;
+        } catch (RuntimeException e) {
+            AppLogger.error("Trapping exception in onLocationChanged", e);
+            throw e;
+        }
+        lastValidLocation = location;
+    }
 
-			if (lastValidLocation == null) {
-				lastValidLocation = location;				
-			}
-			AppLogger.logVisibly("Longitude : " + location.getLongitude() + "Latitude : " + location.getLatitude() + " Distance : "
-					+ location.distanceTo(lastValidLocation));
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
-		} catch (Error e) {
-			AppLogger.error("Error in onLocationChanged", e);
-			throw e;
-		} catch (RuntimeException e) {
-			AppLogger.error("Trapping exception in onLocationChanged", e);
-			throw e;
-		}
-		lastValidLocation = location;
-	}
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
+    }
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
+    @Override
+    public boolean stopService(Intent name) {
+        AppLogger.debug("TrackRecordingService.stopService");
+        unregisterLocationListener();
+        return super.stopService(name);
+    }
 
-	@Override
-	public boolean onUnbind(Intent intent) {
-		return super.onUnbind(intent);
-	}
+    @Override
+    public void onStart(Intent intent, int startId) {
+        
+    }
 
-	@Override
-	public boolean stopService(Intent name) {
-		AppLogger.debug("TrackRecordingService.stopService");
-		unregisterLocationListener();
-		return super.stopService(name);
-	}
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
+    }
 
-	@Override
-	public void onStart(Intent intent, int startId) {
-	}
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		return START_STICKY;
-	}
+    }
 
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
+    private static final boolean isValidLocation(Location location) {
+        return location != null && Math.abs(location.getLatitude()) <= 90
+                && Math.abs(location.getLongitude()) <= 180;
+    }
 
-	}
-
-	public static boolean isValidLocation(Location location) {
-		return location != null && Math.abs(location.getLatitude()) <= 90
-				&& Math.abs(location.getLongitude()) <= 180;
-	}
+    private void getCurrentLocation() {
+        storeLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER), true);
+        
+    }
+    
+    private void storeLocation(Location location) {
+        storeLocation(location, false);
+    }
+    
+    private void storeLocation(Location location, boolean isStart) {
+        if(isValidLocation(location)) {
+            ContentValues cv = new ContentValues();
+            cv.put("start", isStart);
+            cv.put("latitude", location.getLatitude());
+            cv.put("longitude", location.getLongitude());
+            cv.put("accuracy", location.getAccuracy());
+            cv.put("altitude", location.getAltitude());
+            cv.put("speed", location.getSpeed());
+            cv.put("time", location.getTime());
+            if(!isStart) {
+                cv.put("distance", lastValidLocation.distanceTo(location));
+            }
+            AppLogger.logVisibly(cv.toString());
+            lastValidLocation = location;
+        } else {
+            AppLogger.debug("Location is not valid");
+        }
+    }
 
 }

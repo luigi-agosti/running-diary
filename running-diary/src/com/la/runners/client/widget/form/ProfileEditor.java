@@ -6,9 +6,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.event.ProfileUpdateEvent;
+import com.la.runners.client.event.ProfileUpdateHandler;
 import com.la.runners.shared.Profile;
 
-public class ProfileEditor extends BaseForm {
+public class ProfileEditor extends BaseForm implements ProfileUpdateHandler {
 
     private CheckBox heartRateInput;
     private CheckBox weightInput;
@@ -93,6 +95,11 @@ public class ProfileEditor extends BaseForm {
         profile.setShoes(shoesInput.getValue());
         profile.setWeather(weatherInput.getValue());
         return profile;
+    }
+
+    @Override
+    public void updateProfile(ProfileUpdateEvent event) {
+        //TODO
     }
     
 }
