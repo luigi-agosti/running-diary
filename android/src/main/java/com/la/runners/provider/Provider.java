@@ -42,6 +42,10 @@ public class Provider extends ContentProvider {
                 rows = getDataBase().delete(Model.Run.NAME, selection, selectionArgs);
                 break;
             }
+            case Model.Location.INCOMING_COLLECTION: {
+                rows = getDataBase().delete(Model.Location.NAME, selection, selectionArgs);
+                break;
+            }
             default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
             }
@@ -59,6 +63,14 @@ public class Provider extends ContentProvider {
             }
             case Model.Run.INCOMING_ITEM: {
                 type = Model.Run.ITEM_TYPE;
+                break;
+            }
+            case Model.Location.INCOMING_COLLECTION: {
+                type = Model.Location.COLLECTION_TYPE;
+                break;
+            }
+            case Model.Location.INCOMING_ITEM: {
+                type = Model.Location.ITEM_TYPE;
                 break;
             }
             default: {
@@ -88,6 +100,22 @@ public class Provider extends ContentProvider {
                 }
                 break;
             }
+            case Model.Location.INCOMING_COLLECTION: {
+                try {
+                    long id = getDataBase().insertOrThrow(Model.Location.NAME, null, values);
+                    if(AppLogger.isDebugEnabled()) {
+                        AppLogger.debug("insert : " + values + " _id = " + id);
+                        AppLogger.debug(values.toString());
+                    }
+                    result = ContentUris.withAppendedId(Model.Location.CONTENT_URI, id);
+                    getContext().getContentResolver().notifyChange(result, null);
+                } catch (SQLException e) {
+                    if (AppLogger.isErrorEnabled()) {
+                        AppLogger.error("Problem inserting Location", values, e);
+                    }
+                }
+                break;
+            }
             default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
             }
@@ -110,6 +138,11 @@ public class Provider extends ContentProvider {
         switch (urlMatcher.match(uri)) {
             case Model.Run.INCOMING_COLLECTION: {
                 cursor = getDataBase().query(Model.Run.NAME, projection, selection,
+                        selectionArgs, null, null, sortOrder);
+                break;
+            }
+            case Model.Location.INCOMING_COLLECTION: {
+                cursor = getDataBase().query(Model.Location.NAME, projection, selection,
                         selectionArgs, null, null, sortOrder);
                 break;
             }

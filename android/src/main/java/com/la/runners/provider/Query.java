@@ -32,5 +32,17 @@ public class Query {
         }
     	
     }
+    
+    public static class Location {
+    	
+    	public static final Cursor all(ContentResolver resolver) {
+    		return resolver.query(Model.Location.CONTENT_URI, null, null, null, null);
+    	}
+
+        public static final Cursor notSync(Context context) {
+            return context.getContentResolver().query(Model.Location.CONTENT_URI, null, Model.Location.REMOTE_ID + IS_NULL, null, null);
+        }
+    	
+    }
 
 }

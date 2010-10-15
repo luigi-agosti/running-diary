@@ -10,6 +10,8 @@ public interface Constants {
     
         String RUN_CONTENT_URL = APPENGINE_URL + "/data/Run";
         
+        String LOCATION_CONTENT_URL = APPENGINE_URL + "/data/Location";
+        
         String AUTH_CHECK = APPENGINE_URL + "/auth/check";
     }
 

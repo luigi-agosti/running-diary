@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import com.la.runners.activity.Preferences;
+import com.la.runners.parser.LocationParser;
 import com.la.runners.parser.RunParser;
 import com.la.runners.provider.Model;
 import com.la.runners.provider.Query;
@@ -36,12 +37,23 @@ public class SyncService extends IntentService {
 	            googleAuth.login(context, Preferences.getAccount(context), intent);
 	        }
 	        if(ACTION_SYNC.equals(intent.getAction())) {
-	            if(!syncUp(context)) {
+	            if(!syncUpRun(context)) {
 	                notify("Connection problem while sending data to the server");
 	                return;
 	            }
-	            cleanUp(context);
-	            if(syncDown(context)) {
+	            cleanUpRun(context);
+	            if(syncDownRun(context)) {
+	                notify("Sync successful");    
+	            } else {
+	                notify("Sync failed, please try again!");
+	            }
+	            
+	            if(!syncUpLocation(context)) {
+	                notify("Connection problem while sending data to the server");
+	                return;
+	            }
+	            cleanUpLocation(context);
+	            if(syncDownLocation(context)) {
 	                notify("Sync successful");    
 	            } else {
 	                notify("Sync failed, please try again!");
@@ -57,11 +69,15 @@ public class SyncService extends IntentService {
 	    }
 	}
 	
-	private void cleanUp(Context context) {
+	private void cleanUpRun(Context context) {
         context.getContentResolver().delete(Model.Run.CONTENT_URI, null, null);
     }
+	
+	private void cleanUpLocation(Context context) {
+        context.getContentResolver().delete(Model.Location.CONTENT_URI, null, null);
+    }
 
-    private boolean syncUp(Context context) {
+    private boolean syncUpRun(Context context) {
 	    Cursor c = null; 
 	    try {
 	        c = Query.Run.notSync(context);
@@ -72,9 +88,34 @@ public class SyncService extends IntentService {
 	        }
 	    }
 	}
+    
+    private boolean syncUpLocation(Context context) {
+	    Cursor c = null; 
+	    try {
+	        c = Query.Location.notSync(context);
+	        return NetworkService.postRun(context, Model.Location.convertAll(c));
+	    } finally {
+	        if(c != null) {
+	            c.close();
+	        }
+	    }
+	}
 
-	private boolean syncDown(Context context) {
+	private boolean syncDownRun(Context context) {
     	RunParser parser = NetworkService.getRunParser(context);
+    	if(parser == null) {
+    	    AppLogger.error("the parser was null");
+    	    return false;
+    	}
+    	while(parser.hasNext()) {
+    	    AppLogger.debug("inserting new run");
+    		getContentResolver().insert(Model.Run.CONTENT_URI, parser.next());
+    	}
+    	return true;
+	}
+	
+	private boolean syncDownLocation(Context context) {
+    	LocationParser parser = NetworkService.getLocationParser(context);
     	if(parser == null) {
     	    AppLogger.error("the parser was null");
     	    return false;

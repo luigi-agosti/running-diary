@@ -225,6 +225,14 @@ public class Model {
         
         public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
         
+		public static final int INCOMING_COLLECTION = 30;
+
+		public static final int INCOMING_ITEM = 40;
+
+		public static final String ITEM_TYPE = "vnd.android.cursor.item/vnd.runners.location";
+
+		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.location";
+        
         public static final String ID = "_id";
         
         public static final String REMOTE_ID = "id";
@@ -244,6 +252,33 @@ public class Model {
         public static final String LATITUDE = "latitude";
         
         public static final String ACCURACY = "accuracy";
+
+        public static final String convertAll(Cursor c) {
+            JSONStringer stringer = new JSONStringer();
+            convertRun(stringer, c);
+            String result = stringer.toString();
+            if(AppLogger.isDebugEnabled()) {
+                AppLogger.debug(result);
+            }
+            return result;
+        }
+        
+        private static final void convertRun(JSONStringer js, Cursor c) {
+            try {
+                js.array();
+                while(c.moveToNext()) {
+                    js.object();
+                    //TODO
+                    //check all the types of fields
+                    js.endObject();
+                }
+                js.endArray();
+            } catch(JSONException e) {
+                if(AppLogger.isErrorEnabled()) {
+                    AppLogger.error(e);
+                }
+            }
+        }
         
         
         

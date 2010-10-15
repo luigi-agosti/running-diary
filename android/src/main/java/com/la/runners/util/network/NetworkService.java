@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.la.runners.Runners;
 import com.la.runners.parser.AuthCheckParser;
+import com.la.runners.parser.LocationParser;
 import com.la.runners.parser.RunParser;
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.util.AppLogger;
@@ -29,6 +30,17 @@ public class NetworkService {
         RunParser parser = null; 
         try {
             parser = new RunParser(is);
+        } catch(Exception e) {
+            AppLogger.error(e);
+        }
+        return parser;
+	}
+    
+	public static LocationParser getLocationParser(Context context) {
+		InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.LOCATION_CONTENT_URL, context);
+        LocationParser parser = null; 
+        try {
+            parser = new LocationParser(is);
         } catch(Exception e) {
             AppLogger.error(e);
         }
