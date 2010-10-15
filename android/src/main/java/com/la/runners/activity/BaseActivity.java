@@ -18,8 +18,7 @@ public class BaseActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, PREFERENCES_ID, Menu.FIRST + 1,
-            "Settings").setIcon(
+        menu.add(Menu.NONE, PREFERENCES_ID, Menu.FIRST + 1, "Settings").setIcon(
                 android.R.drawable.ic_menu_preferences);
         return super.onCreateOptionsMenu(menu);
     }

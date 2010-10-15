@@ -218,5 +218,36 @@ public class Model {
 		}
         
     }
+    
+    public static class Location {
+        
+        public static final String NAME = Location.class.getSimpleName(); 
+        
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
+        
+        public static final String ID = "_id";
+        
+        public static final String REMOTE_ID = "id";
+        
+        public static final String DISTANCE = "distance";
+        
+        public static final String TIME = "time";
+
+        public static final String SPEED = "speed";
+        
+        public static final String START = "start";
+        
+        public static final String ALTITUDE = "altitude";
+        
+        public static final String LONGITUDE = "longitude";
+        
+        public static final String LATITUDE = "latitude";
+        
+        public static final String ACCURACY = "accuracy";
+        
+        
+        
+        
+    }
 
 }
