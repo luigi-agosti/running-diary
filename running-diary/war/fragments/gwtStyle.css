@@ -70,6 +70,12 @@ Form
 	margin-right:5%;
 }
 
+.EditorTextArea {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
 .EditorDateContainer {
 	width:100%;
 }

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.la.runners.shared.Invite;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
+import com.la.runners.shared.ServerException;
 
 public interface ServiceAsync {
 
@@ -25,9 +26,9 @@ public interface ServiceAsync {
 
     void searchProfile(String nickname, AsyncCallback<List<Profile>> callback);
     
-    void sendInvite(String email, String message, AsyncCallback<Void> callback);
+    void sendInvite(String email, String message, AsyncCallback<Void> callback) throws ServerException;
     
-    void sendInvite(String recipientUserId, AsyncCallback<Void> callback);
+    void sendInvite(String recipientUserId, AsyncCallback<Void> callback) throws ServerException;
 
     void addFollower(String followerUserId, AsyncCallback<Void> callback);
 

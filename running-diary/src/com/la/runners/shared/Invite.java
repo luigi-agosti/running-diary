@@ -34,6 +34,9 @@ public class Invite implements Serializable {
     
     @Persistent
     private Date usedDate;
+    
+    @Persistent
+    private String receiverEmail;
 
     public void setId(Long id) {
         this.id = id;
@@ -89,6 +92,14 @@ public class Invite implements Serializable {
 
     public String getSenderNickname() {
         return senderNickname;
+    }
+
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
+    }
+
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
 }

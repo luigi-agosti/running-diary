@@ -3,7 +3,7 @@ package com.la.runners.client.widget.grid.toolbar;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.Constants;
+import com.la.runners.client.Styles;
 
 public class MessageBar extends Composite {
 
@@ -22,9 +22,9 @@ public class MessageBar extends Composite {
         
         initWidget(panel);
         if(isBottom) {
-            setStyleName(Constants.Style.gridBarBottom);
+            setStyleName(Styles.Grid.gridBarBottom);
         } else {
-            setStyleName(Constants.Style.gridBarTop);
+            setStyleName(Styles.Grid.gridBarTop);
         }
     }
     

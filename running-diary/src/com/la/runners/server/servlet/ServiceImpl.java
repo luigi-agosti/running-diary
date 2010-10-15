@@ -30,6 +30,7 @@ import com.la.runners.server.dao.jdo.JdoRunDao;
 import com.la.runners.shared.Invite;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
+import com.la.runners.shared.ServerException;
 
 public class ServiceImpl extends RemoteServiceServlet implements Service {
 	
@@ -140,67 +141,73 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
     }
 
     @Override
-    public void sendInvite(String email, String message) {
+    public void sendInvite(String email, String message) throws ServerException {
         if(email != null) {
-            return;
+            logger.log(Level.SEVERE, "Send invite can't procede because the email is null");
+            throw new ServerException("Send invite can't procede because the email is not defined");
         }
-        UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-        String nickname = null;
-        Profile profile = getProfile();
-        if(profile != null) {
-            nickname = getProfile().getNickname();
-        }
-        Invite invite = new Invite();
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
-        sendEmail(email, user.getEmail(), nickname, token);
-        invite.setToken(token);
-        invite.setSenderNickname(nickname);
-        invite.setSenderUserId(user.getUserId());
-        invite.setSentDate(new Date());
-        inviteDao.save(invite);
+        Invite invite = persistInvite(null, email);
+        sendEmail(email, invite);
     }
     
     @Override
-    public void sendInvite(String recipientUserId) {
-        UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-        String nickname = null;
-        Profile profile = getProfile();
-        if(profile != null) {
-            nickname = getProfile().getNickname();
-        }
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
+    public void sendInvite(String recipientUserId) throws ServerException {
+        persistInvite(recipientUserId, null);
+    }
+    
+    private Invite persistInvite(String recipientUserId, String recipientEmail) throws ServerException {
         Invite invite = new Invite();
-        invite.setSenderNickname(nickname);
-        invite.setSenderUserId(user.getUserId());
-        invite.setReceiverUserId(recipientUserId);
+        Profile senderProfile = getProfile();
+        if(senderProfile != null) {
+            invite.setSenderNickname(senderProfile.getNickname());
+            invite.setSenderUserId(senderProfile.getUserId());            
+        } else {
+            invite.setSenderUserId(getUserId());
+        }        
+        
+        if(inviteDao.isDuplication(invite.getSenderUserId(), recipientUserId, recipientEmail)) {
+            throw new ServerException("The invite is alredy waiting for the user to accept");
+        }
+        
+        if(recipientUserId != null) {
+            invite.setReceiverUserId(recipientUserId);
+        }
+        String token = UUID.randomUUID().toString();
         invite.setToken(token);
         invite.setSentDate(new Date());
+        invite.setReceiverEmail(recipientEmail);
         inviteDao.save(invite);
+        return invite;
     }
 
-    private void sendEmail(String recipientEmail, String senderEmail, String nickname, String token) {
+    private void sendEmail(String recipientEmail, Invite invite) throws ServerException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         try {
             Message msg = new MimeMessage(session);
+            String nickname = invite.getSenderNickname();
+            UserService userService = UserServiceFactory.getUserService();
+            User user = userService.getCurrentUser();
+            String senderEmail = user.getEmail();
+            if(nickname == null) {
+                nickname = senderEmail;
+            }
             msg.setFrom(new InternetAddress(senderEmail, nickname));
             msg.addRecipient(Message.RecipientType.TO,
                              new InternetAddress(recipientEmail));
             msg.setSubject(nickname + " send you an invite to join the site running-diary.appspot.com");
             msg.setText("Please if you recognize your friend and you want to try the web site follow this link : " +
-            		"<a href=\"http://running-diary.appspot.com/invite?token=" + token + "\">running-diary.appspot.com/invite</a>");
+            		"<a href=\"http://running-diary.appspot.com/invite?token=" + invite.getToken() + "\">running-diary.appspot.com/invite</a>");
             Transport.send(msg);
-
         } catch (AddressException e) {
             logger.log(Level.SEVERE, "AddressException", e);
+            throw new ServerException(e.getMessage());
         } catch (MessagingException e) {
             logger.log(Level.SEVERE, "MessagingException", e);
+            throw new ServerException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
             logger.log(Level.SEVERE, "UnsupportedEncodingException", e);
+            throw new ServerException(e.getMessage());
         }
     }
 

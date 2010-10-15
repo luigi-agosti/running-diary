@@ -2,12 +2,12 @@ package com.la.runners.client.widget.form;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.Context;
 import com.la.runners.client.event.SearchProfileEvent;
+import com.la.runners.shared.ServerException;
 
 public class SearchForm extends BaseForm {
     
@@ -15,34 +15,38 @@ public class SearchForm extends BaseForm {
     private TextBox emailInput;
     private TextArea messageInput;
     
-    public SearchForm(final HandlerManager eventBus, final ServiceAsync service) {
-        super("Search");
-        nicknameInput = addTextBoxWithLabel("Nickname");
-        addButton("Search", new ClickHandler() {
+    public SearchForm(Context _context) {
+        super(_context, _context.strings.searchFormTitle());
+        nicknameInput = addTextBoxWithLabel(context.strings.searchFormNickname());
+        addButton(context.strings.searchFormSearchButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                eventBus.fireEvent(new SearchProfileEvent(nicknameInput.getText()));
+                context.getEventBus().fireEvent(new SearchProfileEvent(nicknameInput.getText()));
             }
         });
-        addSubtitle("Send invite");
-        emailInput = addTextBoxWithLabel("E-mail");
+        addSubtitle(context.strings.searchFormSendInviteSubtitle());
+        emailInput = addTextBoxWithLabel(context.strings.searchFormEmailLabel());
         messageInput = addTextAreaWithLabel("Personal Message");
-        addButton("Invite", new ClickHandler() {
+        addButton(context.strings.searchFormSendInviteButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                service.sendInvite(emailInput.getText(), messageInput.getText(), new AsyncCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        showMessage("Success, invite sent");
-                    }
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        showMessage("Umm, there is a problem!");
-                    }
-                });
+                try {
+                    context.getService().sendInvite(emailInput.getText(), messageInput.getText(), new AsyncCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void result) {
+                            showMessage(context.strings.searchFormInviteSuccess());
+                        }
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            showMessage(context.strings.searchFormInviteFailure());
+                        }
+                    });
+                } catch (ServerException e) {
+                    showMessage(e.getMessage());
+                }
             }
         });
-        showMessage("");
+        addFooterForMessages();
     }
 
 }

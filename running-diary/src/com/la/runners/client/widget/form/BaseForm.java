@@ -1,6 +1,7 @@
 package com.la.runners.client.widget.form;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -9,38 +10,69 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.la.runners.client.Constants;
+import com.google.gwt.user.datepicker.client.DatePicker;
+import com.la.runners.client.Styles;
+import com.la.runners.client.Context;
+import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.res.Strings;
 
 public class BaseForm extends Composite {
     
     private FlowPanel panel = new FlowPanel();
     private Label footer;
     
-    public BaseForm(String title) {
+    protected Context context;
+    
+    public BaseForm(Context context, String title) {
+        this.context = context;
         panel = new FlowPanel();
-        addLabel(title, Constants.Style.editorHeader);
+        addLabel(title, Styles.Form.editorHeader);
         initWidget(panel);
-        setStyleName(Constants.Style.editor);
+        setStyleName(Styles.Form.editor);
+    }
+    
+    protected Strings strings() {
+        return context.strings;
+    }
+    
+    protected ServiceAsync service() {
+        return context.getService();
+    }
+    
+    protected HandlerManager eventBus() {
+        return context.getEventBus();
     }
     
     protected void addLabel(String text) {
-        addLabel(text, Constants.Style.editorLabel);
+        addLabel(text, Styles.Form.editorLabel);
     }
 
     protected void addSubtitle(String text) {
-        addLabel(text, Constants.Style.editorSubTitle);
+        addLabel(text, Styles.Form.editorSubTitle);
     }
 
     protected TextBox addTextBox() {
         TextBox tb = new TextBox();
-        tb.setStyleName(Constants.Style.editorTextBox);
+        tb.setStyleName(Styles.Form.editorTextBox);
         panel.add(tb);
         return tb;
     }
 
+    protected DatePicker addDateWithLabel(String text) {
+        FlowPanel dateContainer = new FlowPanel();
+        dateContainer.setStylePrimaryName(Styles.Form.editorDateContainer);
+        
+        DatePicker dateInput = new DatePicker();
+        dateInput.setStyleName(Styles.Form.editorTextBox);
+        dateContainer.add(dateInput);
+        
+        panel.add(dateContainer);
+        return dateInput;
+    }
+
     protected TextArea addTextArea() {
         TextArea tb = new TextArea();
-        tb.setStyleName(Constants.Style.editorTextArea);
+        tb.setStyleName(Styles.Form.editorTextArea);
         panel.add(tb);
         return tb;
     }
@@ -57,7 +89,7 @@ public class BaseForm extends Composite {
 
     protected CheckBox addCheckBox() {
         CheckBox cb = new CheckBox();
-        cb.setStyleName(Constants.Style.editorCheckBox);
+        cb.setStyleName(Styles.Form.editorCheckBox);
         panel.add(cb);
         return cb;
     }
@@ -67,10 +99,14 @@ public class BaseForm extends Composite {
         return addCheckBox();
     }
     
+    protected void addFooterForMessages() {
+        showMessage("");
+    }
+    
     protected void showMessage(String message) {
         if(footer == null) {
             footer = new Label();
-            footer.setStyleName(Constants.Style.editorFooter);
+            footer.setStyleName(Styles.Form.editorFooter);
             panel.add(footer);
         }
         footer.setText(message);
@@ -78,7 +114,7 @@ public class BaseForm extends Composite {
     
     protected void addButton(String text, ClickHandler clickHandler) {
         Button b = new Button(text);
-        b.setStyleName(Constants.Style.editorButton);
+        b.setStyleName(Styles.Form.editorButton);
         b.addClickHandler(clickHandler);
         panel.add(b);
     }

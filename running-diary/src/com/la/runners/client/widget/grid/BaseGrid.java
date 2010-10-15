@@ -1,18 +1,21 @@
 package com.la.runners.client.widget.grid;
 
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.Constants;
+import com.la.runners.client.Styles;
+import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.res.Strings;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 
 public abstract class BaseGrid extends Composite {
 
     protected FlexTable grid;
     
-    protected ServiceAsync service;
+    private Context context;
     
     protected MessageBar topBar;
     
@@ -20,21 +23,33 @@ public abstract class BaseGrid extends Composite {
     
     private FlowPanel container;
     
-    public BaseGrid(ServiceAsync service) {
-        this.service = service;
+    public BaseGrid(Context context) {
+        this.context = context;
         container = new FlowPanel();
         topBar = getTopBar();
         container.add(topBar);
 
         grid = new FlexTable();
-        grid.setStyleName(Constants.Style.gridTable);
+        grid.setStyleName(Styles.Grid.gridTable);
         container.add(grid);
         
         bottomBar = getBottomBar();
         container.add(bottomBar);
         
         initWidget(container);
-        setMainColorStyle(Constants.Style.gridGreen);
+        setMainColorStyle(Styles.Grid.gridGreen);
+    }
+    
+    protected Strings strings() {
+        return context.strings;
+    }
+    
+    protected ServiceAsync service() {
+        return context.getService();
+    }
+    
+    protected HandlerManager eventBus() {
+        return context.getEventBus();
     }
     
     protected void showMessage(String message) {
@@ -57,7 +72,7 @@ public abstract class BaseGrid extends Composite {
     }
 
     public void setMainColorStyle(String mainColorStyle) {
-        setStyleName(Constants.Style.grid);
+        setStyleName(Styles.Grid.grid);
         addStyleName(mainColorStyle);
     }
 

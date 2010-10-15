@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.la.runners.client.Constants;
-import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.Styles;
+import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
-import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
+import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
 
 public class RunGrid extends BaseGrid implements RunListUpdateHandler {
@@ -22,18 +21,15 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     private static final DateTimeFormat YEAR_FORMATTER = DateTimeFormat.getFormat("dd - EEEE");
     private static final DateTimeFormat FULL_FORMATTER = DateTimeFormat.getFormat("yyyy/mm/dd"); 
     
-    private HandlerManager eventBus;
-    
-    public RunGrid(HandlerManager eventBus, ServiceAsync service) {
-        super(service);
-        this.eventBus = eventBus;
-        eventBus.addHandler(RunListUpdateEvent.TYPE, this);
-        eventBus.fireEvent(new RunListUpdateEvent());
+    public RunGrid(Context context) {
+        super(context);
+        eventBus().addHandler(RunListUpdateEvent.TYPE, this);
+        eventBus().fireEvent(new RunListUpdateEvent());
     }
     
     private void load(Integer year, Integer month) {
         showMessage("Loading...");
-    	service.search(year, month, new AsyncCallback<List<Run>>() {
+    	service().search(year, month, new AsyncCallback<List<Run>>() {
 			@Override
 			public void onSuccess(List<Run> result) {
 				drawGrid(result);
@@ -51,30 +47,30 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     	if(result.isEmpty()) {
     	    showMessage("No result found");
     	} else {
-    	    grid.setWidget(0,0, createLabel("Date", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,1, createLabel("Distance", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,2, createLabel("Time", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,3, createLabel("Heart Rate", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,4, createLabel("Weight", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,5, createLabel("Shoes", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,6, createLabel("Note", Constants.Style.gridHeaderCell));
-    	    grid.setWidget(0,7, createLabel("Edit", Constants.Style.gridHeaderCell));
+    	    grid.setWidget(0,0, createLabel("Date", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,1, createLabel("Distance", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,2, createLabel("Time", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,3, createLabel("Heart Rate", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,4, createLabel("Weight", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,5, createLabel("Shoes", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,6, createLabel("Note", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,7, createLabel("Edit", Styles.Grid.gridHeaderCell));
     	    int index = 1;
 	    	for(Run run : result) {
 	    	    grid.setWidget(index,0, createLabel(YEAR_FORMATTER.format(
-	    	         FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())), Constants.Style.gridCell));
-	            grid.setWidget(index,1, createLabel("" + run.getDistance(), Constants.Style.gridCell));
-	            grid.setWidget(index,2, createLabel("" + run.getTime(), Constants.Style.gridCell));
-	            grid.setWidget(index,3, createLabel("" + run.getHeartRate(), Constants.Style.gridCell));
-	            grid.setWidget(index,4, createLabel("" + run.getWeight(), Constants.Style.gridCell));
-	            grid.setWidget(index,5, createLabel("" + run.getShoes(), Constants.Style.gridCell));
-	            grid.setWidget(index,6, createLabel("" + run.getNote(), Constants.Style.gridCell));
+	    	         FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())), Styles.Grid.gridCell));
+	            grid.setWidget(index,1, createLabel("" + run.getDistance(), Styles.Grid.gridCell));
+	            grid.setWidget(index,2, createLabel("" + run.getTime(), Styles.Grid.gridCell));
+	            grid.setWidget(index,3, createLabel("" + run.getHeartRate(), Styles.Grid.gridCell));
+	            grid.setWidget(index,4, createLabel("" + run.getWeight(), Styles.Grid.gridCell));
+	            grid.setWidget(index,5, createLabel("" + run.getShoes(), Styles.Grid.gridCell));
+	            grid.setWidget(index,6, createLabel("" + run.getNote(), Styles.Grid.gridCell));
 	            final Long id = run.getId();
 	            Button btn = new Button("Edit");
 	            btn.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        eventBus.fireEvent(new LoadRunEvent(id));
+                        eventBus().fireEvent(new LoadRunEvent(id));
                     }
 	            });
 	            grid.setWidget(index,7, btn);
@@ -94,12 +90,12 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     
     @Override
     protected MessageBar getTopBar() {
-        return new RunGridBar(eventBus);
+        return new RunGridBar(eventBus());
     }
     
     @Override
     protected MessageBar getBottomBar() {
-        return new RunGridBar(eventBus, true);
+        return new RunGridBar(eventBus(), Boolean.TRUE);
     }
    
 }

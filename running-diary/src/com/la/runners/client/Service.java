@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.la.runners.shared.Invite;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
+import com.la.runners.shared.ServerException;
 
 @RemoteServiceRelativePath("service")
 public interface Service extends RemoteService {
@@ -27,7 +28,7 @@ public interface Service extends RemoteService {
 	
 	List<Profile> searchProfile(String nickname);
 
-    void sendInvite(String email, String message);
+    void sendInvite(String email, String message) throws ServerException;
 	
     void removeFollower(String followerUserId);
     
@@ -39,6 +40,6 @@ public interface Service extends RemoteService {
 
     void rejectInvite(String token);
 
-    void sendInvite(String recipientUserId);
+    void sendInvite(String recipientUserId) throws ServerException;
     
 }

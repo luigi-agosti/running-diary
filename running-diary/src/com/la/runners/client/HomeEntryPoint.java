@@ -2,8 +2,6 @@
 package com.la.runners.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.la.runners.client.widget.form.RunEditor;
@@ -13,15 +11,14 @@ public class HomeEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        ServiceAsync editorService = GWT.create(Service.class);
-        HandlerManager eventBus = new HandlerManager(null);
-        RunEditor runEditor = new RunEditor(eventBus, editorService);
-        RunGrid runGrid = new RunGrid(eventBus, editorService);
+        Context context = new Context();
+        RunEditor runEditor = new RunEditor(context);
+        RunGrid runGrid = new RunGrid(context);
         FlowPanel panel = new FlowPanel();
         panel.add(runGrid);
         panel.add(runEditor);
-        panel.setStyleName("EditorEntryPoint");
-        RootPanel.get("gwtHook").add(panel);
+        panel.setStyleName(Styles.Form.entryPoint);
+        RootPanel.get(context.strings.gwtHook()).add(panel);
     }
 
 }
