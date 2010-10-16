@@ -10,7 +10,7 @@ import android.content.ContentValues;
 
 public class RunParser extends AbstractJsonParserIterator {
 
-	public RunParser(InputStream stream) throws ParserException {
+	public RunParser(InputStream stream) {
 		super(stream, null);
 	}
 

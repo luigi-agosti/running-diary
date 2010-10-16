@@ -6,8 +6,10 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
+import com.la.runners.activity.Preferences;
 import com.la.runners.util.AppLogger;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -102,7 +104,7 @@ public class Model {
         
         public static final String convertAll(Cursor c) {
             JSONStringer stringer = new JSONStringer();
-            convertRun(stringer, c);
+            convert(stringer, c);
             String result = stringer.toString();
             if(AppLogger.isDebugEnabled()) {
                 AppLogger.debug(result);
@@ -110,62 +112,62 @@ public class Model {
             return result;
         }
         
-        private static final void convertRun(JSONStringer js, Cursor c) {
+        private static final void convert(JSONStringer js, Cursor c) {
             try {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    Long date = Model.Run.date(c);
+                    Long date = date(c);
                     if(date != null) {
-                    	js.key(Model.Run.DATE).value(date);
+                    	js.key(DATE).value(date);
                     }
-                    Integer year = Model.Run.year(c);
+                    Integer year = year(c);
                     if(year != null) {
-                    	js.key(Model.Run.YEAR).value(year);
+                    	js.key(YEAR).value(year);
                     }
-                    Integer month = Model.Run.month(c);
+                    Integer month = month(c);
                     if(month != null) {
-                    	js.key(Model.Run.MONTH).value(month);
+                    	js.key(MONTH).value(month);
                     }
-                    Integer day = Model.Run.day(c);
+                    Integer day = day(c);
                     if(day != null) {
-                    	js.key(Model.Run.DAY).value(day);
+                    	js.key(DAY).value(day);
                     }
-                    Float distance = Model.Run.distance(c);
+                    Float distance = distance(c);
                     if(distance != null) {
-                    	js.key(Model.Run.DISTANCE).value(distance);
+                    	js.key(DISTANCE).value(distance);
                     }
-                    String shoes = Model.Run.shoes(c);
+                    String shoes = shoes(c);
                     if(shoes != null) {
-                    	js.key(Model.Run.SHOES).value(shoes);
+                    	js.key(SHOES).value(shoes);
                     }
-                    Long time = Model.Run.time(c);
+                    Long time = time(c);
                     if(time != null) {
-                    	js.key(Model.Run.TIME).value(time);
+                    	js.key(TIME).value(time);
                     }
-                    Long dayTime = Model.Run.dayTime(c);
+                    Long dayTime = dayTime(c);
                     if(dayTime != null) {
-                        js.key(Model.Run.DAY_TIME).value(dayTime);
+                        js.key(DAY_TIME).value(dayTime);
                     }
-                    Integer heartRate = Model.Run.heartRate(c);
+                    Integer heartRate = heartRate(c);
                     if(heartRate != null) {
-                    	js.key(Model.Run.HEART_RATE).value(heartRate);
+                    	js.key(HEART_RATE).value(heartRate);
                     }
-                    Integer weight = Model.Run.weight(c);
+                    Integer weight = weight(c);
                     if(weight != null) {
-                    	js.key(Model.Run.WEIGHT).value(weight);
+                    	js.key(WEIGHT).value(weight);
                     }
-                    String note = Model.Run.note(c);
+                    String note = note(c);
                     if(note != null) {
-                    	js.key(Model.Run.NOTE).value(note);
+                    	js.key(NOTE).value(note);
                     }
-                    Long modified = Model.Run.modified(c);
+                    Long modified = modified(c);
                     if(modified != null) {
-                    	js.key(Model.Run.MODIFIED).value(modified);
+                    	js.key(MODIFIED).value(modified);
                     }
-                    Boolean shared = Model.Run.share(c);
+                    Boolean shared = share(c);
                     if(shared != null) {
-                    	js.key(Model.Run.SHARE).value(shared);
+                    	js.key(SHARE).value(shared);
                     }
                     js.endObject();
                 }
@@ -243,8 +245,6 @@ public class Model {
 
         public static final String SPEED = "speed";
         
-        public static final String START = "start";
-        
         public static final String ALTITUDE = "altitude";
         
         public static final String LONGITUDE = "longitude";
@@ -255,7 +255,7 @@ public class Model {
 
         public static final String convertAll(Cursor c) {
             JSONStringer stringer = new JSONStringer();
-            convertRun(stringer, c);
+            convert(stringer, c);
             String result = stringer.toString();
             if(AppLogger.isDebugEnabled()) {
                 AppLogger.debug(result);
@@ -263,13 +263,39 @@ public class Model {
             return result;
         }
         
-        private static final void convertRun(JSONStringer js, Cursor c) {
+        private static final void convert(JSONStringer js, Cursor c) {
             try {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    //TODO
-                    //check all the types of fields
+                    Float speed = speed(c);
+                    if(speed != null) {
+                        js.key(SPEED).value(speed);
+                    }
+                    Long time = time(c);
+                    if(time != null) {
+                        js.key(TIME).value(time);
+                    }
+                    Float distance = distance(c);
+                    if(distance != null) {
+                        js.key(DISTANCE).value(distance);
+                    }
+                    Float altitude = altitude(c);
+                    if(altitude != null) {
+                        js.key(ALTITUDE).value(altitude);
+                    }
+                    Long longitude = longitude(c);
+                    if(longitude != null) {
+                        js.key(LONGITUDE).value(longitude);
+                    }
+                    Long latitude = latitude(c);
+                    if(latitude != null) {
+                        js.key(LATITUDE).value(latitude);
+                    }
+                    Float accuracy = accuracy(c);
+                    if(accuracy != null) {
+                        js.key(ACCURACY).value(accuracy);
+                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -280,9 +306,149 @@ public class Model {
             }
         }
         
+        public static final Float distance(Cursor c) {
+            return c.getFloat(c.getColumnIndex(DISTANCE));
+        }
+        
+        public static final Float altitude(Cursor c) {
+            return c.getFloat(c.getColumnIndex(ALTITUDE));
+        }
+        
+        public static final Float accuracy(Cursor c) {
+            return c.getFloat(c.getColumnIndex(ACCURACY));
+        }
+        
+        public static final Float speed(Cursor c) {
+            return c.getFloat(c.getColumnIndex(SPEED));
+        }
+        
+        public static final Long longitude(Cursor c) {
+            return c.getLong(c.getColumnIndex(LONGITUDE));
+        }
+
+        public static final Long latitude(Cursor c) {
+            return c.getLong(c.getColumnIndex(LATITUDE));
+        }
+        
+        public static final Long time(Cursor c) {
+            return c.getLong(c.getColumnIndex(TIME));
+        }        
+        
+    }
+    
+    public static class Profile {
+        
+        public static final String NAME = Profile.class.getSimpleName(); 
+        
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
+        
+        public static final int INCOMING_COLLECTION = 50;
+
+        public static final int INCOMING_ITEM = 60;
+
+        public static final String ITEM_TYPE = "vnd.android.cursor.item/vnd.runners.profile";
+
+        public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.profile";
+        
+        public static final String ID = "_id";
+        
+        public static final String REMOTE_ID = "id";
+        
+        public static final String SHOES = "shoes";
+        
+        public static final String WEIGHT = "weight";
+        
+        public static final String CREATED = "created";
+        
+        public static final String NICKNAME = "nickname";
+        
+        public static final String HEART_RATE = "heartRate";
+        
+        public static final String WEATHER = "weather";
+
+        public static final String MODIFIED = "modified";
         
         
+        public static final String convert(Context c) {
+            try {
+                JSONStringer js = new JSONStringer();
+                js.array();
+                js.object();
+                String nickname = Preferences.getNickname(c);
+                if(nickname != null) {
+                    js.key(NICKNAME).value(nickname);
+                }
+                Boolean shoes = Preferences.getShoes(c);
+                if(shoes != null) {
+                    js.key(SHOES).value(shoes);
+                }
+                Boolean weight = Preferences.getWeight(c);
+                if(weight != null) {
+                    js.key(WEIGHT).value(weight);
+                }
+                Boolean heartRate = Preferences.getHeartRate(c);
+                if(heartRate != null) {
+                    js.key(HEART_RATE).value(heartRate);
+                }
+                Boolean weather = Preferences.getWeather(c);
+                if(weather != null) {
+                    js.key(WEATHER).value(weather);
+                }
+                Long modified = Preferences.getModified(c);
+                if(modified != null) {
+                    js.key(MODIFIED).value(modified);
+                }
+                Long created = Preferences.getCreated(c);
+                if(created != null) {
+                    js.key(CREATED).value(created);
+                }
+                js.endObject();
+                js.endArray();
+                return js.toString();
+            } catch(JSONException e) {
+                return "[]";
+            }
+        }
         
+        public static Boolean shoes(Cursor c) {
+            int shoes = c.getInt(c.getColumnIndex(SHOES));
+            if(shoes == 1) {
+                return Boolean.TRUE;
+            } 
+            return Boolean.FALSE;
+        }
+        
+        public static Boolean weather(Cursor c) {
+            int weather = c.getInt(c.getColumnIndex(WEATHER));
+            if(weather == 1) {
+                return Boolean.TRUE;
+            } 
+            return Boolean.FALSE;
+        }
+        
+        public static Boolean heartRate(Cursor c) {
+            int heartRate = c.getInt(c.getColumnIndex(HEART_RATE));
+            if(heartRate == 1) {
+                return Boolean.TRUE;
+            } 
+            return Boolean.FALSE;
+        }
+        
+        public static Boolean weight(Cursor c) {
+            int weight = c.getInt(c.getColumnIndex(WEIGHT));
+            if(weight == 1) {
+                return Boolean.TRUE;
+            } 
+            return Boolean.FALSE;
+        }
+        
+        public static final String id(Cursor c) {
+            return c.getString(c.getColumnIndex(ID));
+        }
+        
+        public static final String nickname(Cursor c) {
+            return c.getString(c.getColumnIndex(NICKNAME));
+        }
     }
 
 }

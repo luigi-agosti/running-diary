@@ -26,13 +26,10 @@ public class Location implements Serializable {
     private String userId;
     
     @Persistent
-    private Boolean start;
+    private Long latitude;
     
     @Persistent
-    private Integer latitude;
-    
-    @Persistent
-    private Integer longitude;
+    private Long longitude;
     
     @Persistent
     private Float accuracy;
@@ -89,30 +86,6 @@ public class Location implements Serializable {
         return accuracy;
     }
 
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getLongitude() {
-        return longitude;
-    }
-
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
-    }
-
-    public Integer getLatitude() {
-        return latitude;
-    }
-
-    public void setStart(Boolean start) {
-        this.start = start;
-    }
-
-    public Boolean getStart() {
-        return start;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -127,6 +100,22 @@ public class Location implements Serializable {
 
     public String getUserId() {
         return userId;
+    }
+
+    public void setLatitude(Long latitude) {
+        this.latitude = latitude;
+    }
+
+    public Long getLatitude() {
+        return latitude;
+    }
+
+    public void setLongitude(Long longitude) {
+        this.longitude = longitude;
+    }
+
+    public Long getLongitude() {
+        return longitude;
     }
     
     

@@ -1,65 +1,42 @@
 package com.la.runners.util.network;
 
-import java.io.InputStream;
-
 import android.content.Context;
 
 import com.la.runners.Runners;
 import com.la.runners.parser.AuthCheckParser;
-import com.la.runners.parser.LocationParser;
+import com.la.runners.parser.ProfileParser;
 import com.la.runners.parser.RunParser;
 import com.la.runners.parser.SchemaParser;
-import com.la.runners.util.AppLogger;
 import com.la.runners.util.Constants;
 
 public class NetworkService {
     
     public static final SchemaParser getSchema(Context context) {
-        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.SCHEMA_URL, context);
-        SchemaParser parser = null;
-        try {
-            parser = new SchemaParser(is);
-        } catch(Exception e) {
-            AppLogger.error(e);
-        }
-        return parser;
+        return new SchemaParser(getHttpManager(context).getUrlAsStream(Constants.Server.SCHEMA_URL, context));
     }
     
     public static final RunParser getRunParser(Context context) {
-        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.RUN_CONTENT_URL, context);
-        RunParser parser = null; 
-        try {
-            parser = new RunParser(is);
-        } catch(Exception e) {
-            AppLogger.error(e);
-        }
-        return parser;
+        return new RunParser(getHttpManager(context).getUrlAsStream(Constants.Server.RUN_CONTENT_URL, context));
 	}
     
-	public static LocationParser getLocationParser(Context context) {
-		InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.LOCATION_CONTENT_URL, context);
-        LocationParser parser = null; 
-        try {
-            parser = new LocationParser(is);
-        } catch(Exception e) {
-            AppLogger.error(e);
-        }
-        return parser;
-	}
+    public static final ProfileParser getProfileParser(Context context) {
+        return new ProfileParser(getHttpManager(context).getUrlAsStream(Constants.Server.PROFILE_CONTENT_URL, context));
+    }
     
-    public static final boolean postRun(Context context, String runs) {
-        return getHttpManager(context).post(context, Constants.Server.RUN_CONTENT_URL, runs);
+    public static final void postRun(Context context, String runs) {
+        getHttpManager(context).post(context, Constants.Server.RUN_CONTENT_URL, runs);
+    }
+    
+    public static final void postLocation(Context context, String locations) {
+        getHttpManager(context).post(context, Constants.Server.LOCATION_CONTENT_URL, locations);
     }
 
+    public static final void postProfile(Context context, String profile) {
+        getHttpManager(context).post(context, Constants.Server.PROFILE_CONTENT_URL, profile);
+    }
+    
     public static final AuthCheckParser getAuthCheckParser(Context context) {
-        InputStream is = getHttpManager(context).getUrlAsStream(Constants.Server.AUTH_CHECK, context);
-        AuthCheckParser parser = null; 
-        try {
-            parser = new AuthCheckParser(is);
-        } catch(Exception e) {
-            AppLogger.error(e);
-        }
-        return parser;
+        return new AuthCheckParser(getHttpManager(context).getUrlAsStream(Constants.Server.AUTH_CHECK, context));
     }
 	
 	public static final HttpManager getHttpManager(Context context) {

@@ -4,7 +4,6 @@ package com.la.runners.util.network;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,7 +26,9 @@ import org.apache.http.params.HttpParams;
 import android.content.Context;
 import android.provider.Settings.Secure;
 
+import com.la.runners.R;
 import com.la.runners.activity.Preferences;
+import com.la.runners.exception.ConnectionException;
 import com.la.runners.util.AppLogger;
 
 /**
@@ -42,6 +43,8 @@ public class HttpManager {
     private static final String HTTPS = "https";
     
     private static final String COOKIES = "Cookie";
+    
+    private static final String ENCODING = "UTF-8";
 
     private static final int HTTP_PORT = 80;
 
@@ -64,8 +67,7 @@ public class HttpManager {
 
     public InputStream getUrlAsStream(String url, final Context context, boolean withDeviceUid) {
         if (!Network.isNetworkAvailable(context)) {
-            AppLogger.warn("Network is down can't procede with loading resource at url : " + url);
-            return null;
+            throw new ConnectionException(R.string.error_6, url);
         }
         HttpUriRequest get = new HttpGet(url);
         HttpResponse response;
@@ -86,11 +88,8 @@ public class HttpManager {
             is = entity.getContent();
             return is;
         } catch (Exception e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem loading resource at url " + url, e);
-            }
             closeSilently(is);
-            return null;
+            throw new ConnectionException(R.string.error_7, url, e.getMessage());
         }
     }
 
@@ -101,8 +100,7 @@ public class HttpManager {
     public static final ByteArrayOutputStream download(HttpManager httpService, String url,
             Context context) {
         if (!Network.isNetworkAvailable(context)) {
-            AppLogger.warn("Network is down can't procede with loading resource at url : " + url);
-            return null;
+            throw new ConnectionException(R.string.error_6, url);
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         InputStream is = httpService.getUrlAsStream(url, context);
@@ -116,11 +114,8 @@ public class HttpManager {
             }
             return out;
         } catch (Exception e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem during the download for : " + url, e);
-            }
             closeSilently(out);
-            return null;
+            throw new ConnectionException(R.string.error_7, url, e.getMessage());
         } finally {
             closeSilently(is);
         }
@@ -138,10 +133,9 @@ public class HttpManager {
         }
     }
 
-    public boolean post(final Context context, String url, String data) {
+    public void post(final Context context, String url, String data) {
         if (!Network.isNetworkAvailable(context)) {
-            AppLogger.warn("Network is down can't procede with loading resource at url : " + url);
-            return false;
+            throw new ConnectionException(R.string.error_4, url);
         }
         HttpPost httpPost = new HttpPost(url);
         HttpResponse response;
@@ -151,24 +145,16 @@ public class HttpManager {
             if (acsidCookie != null) {
                 httpPost.addHeader(COOKIES, acsidCookie);
             }
-            StringEntity tmp = null;
-            try {
-                tmp = new StringEntity(data,"UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                AppLogger.error("HTTPHelp : UnsupportedEncodingException : ", e);
-            }
+            StringEntity tmp = new StringEntity(data,ENCODING);
             httpPost.setEntity(tmp);
             response = client.execute(httpPost);
             if (response != null && response.getStatusLine().getStatusCode() == 200) {
-                return true;
+                return;
             }
-            return false;
+            throw new ConnectionException();
         } catch (Exception e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem loading resource at url " + url, e);
-            }
             closeSilently(is);
-            return false;
+            throw new ConnectionException(R.string.error_5, url, e.getMessage());
         }
     }
 

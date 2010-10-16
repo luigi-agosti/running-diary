@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
+import com.la.runners.provider.Model;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 
@@ -57,7 +58,7 @@ public class RunTrackingService extends Service implements LocationListener {
             Notifier.toastMessage(this, "Gps is not enabled! you have to enable it");
             return;
         }
-        getCurrentLocation();
+        setCurrentLocation();
         registerLocationListener();
         timer.schedule(checkLocationListener, 1000 * 60 * 5, 1000 * 60);
     }
@@ -96,7 +97,7 @@ public class RunTrackingService extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        AppLogger.debug("TrackRecordingService.onLocationChanged");
+        AppLogger.debug("Location change");
         try {
             if (location == null) {
                 AppLogger.warn("Location changed, but location is null.");
@@ -106,7 +107,7 @@ public class RunTrackingService extends Service implements LocationListener {
                 AppLogger.debug("Not recording. Bad accuracy.");
                 return;
             }
-            storeLocation(location);            
+            changeLocation(location);            
         } catch (Error e) {
             AppLogger.error("Error in onLocationChanged", e);
             throw e;
@@ -114,7 +115,6 @@ public class RunTrackingService extends Service implements LocationListener {
             AppLogger.error("Trapping exception in onLocationChanged", e);
             throw e;
         }
-        lastValidLocation = location;
     }
 
     @Override
@@ -167,29 +167,30 @@ public class RunTrackingService extends Service implements LocationListener {
                 && Math.abs(location.getLongitude()) <= 180;
     }
 
-    private void getCurrentLocation() {
+    private void setCurrentLocation() {
         storeLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER), true);
-        
     }
     
-    private void storeLocation(Location location) {
+    private void changeLocation(Location location) {
         storeLocation(location, false);
     }
     
     private void storeLocation(Location location, boolean isStart) {
         if(isValidLocation(location)) {
             ContentValues cv = new ContentValues();
-            cv.put("start", isStart);
-            cv.put("latitude", location.getLatitude());
-            cv.put("longitude", location.getLongitude());
-            cv.put("accuracy", location.getAccuracy());
-            cv.put("altitude", location.getAltitude());
-            cv.put("speed", location.getSpeed());
-            cv.put("time", location.getTime());
+            cv.put(Model.Location.LATITUDE, location.getLatitude()*1E6);
+            cv.put(Model.Location.LONGITUDE, location.getLongitude()*1E6);
+            cv.put(Model.Location.ACCURACY, location.getAccuracy());
+            cv.put(Model.Location.ALTITUDE, location.getAltitude());
+            cv.put(Model.Location.SPEED, location.getSpeed());
+            cv.put(Model.Location.TIME, location.getTime());
             if(!isStart) {
-                cv.put("distance", lastValidLocation.distanceTo(location));
+                cv.put(Model.Location.DISTANCE, lastValidLocation.distanceTo(location));
+            } else {
+                cv.put(Model.Location.DISTANCE, 0);
             }
-            AppLogger.logVisibly(cv.toString());
+            getContentResolver().insert(Model.Location.CONTENT_URI, cv);
+            Notifier.toastMessage(this, "New location : " + cv);
             lastValidLocation = location;
         } else {
             AppLogger.debug("Location is not valid");

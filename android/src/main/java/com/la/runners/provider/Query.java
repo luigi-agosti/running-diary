@@ -44,5 +44,17 @@ public class Query {
         }
     	
     }
+    
+    public static class Profile {
+        
+        public static final Cursor all(ContentResolver resolver) {
+            return resolver.query(Model.Profile.CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context context) {
+            return context.getContentResolver().query(Model.Profile.CONTENT_URI, null, Model.Profile.REMOTE_ID + IS_NULL, null, null);
+        }
+        
+    }
 
 }

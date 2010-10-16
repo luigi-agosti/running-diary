@@ -5,7 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-import com.la.runners.parser.ParserException;
+import com.la.runners.exception.ParserException;
 import com.la.runners.parser.SchemaParser;
 
 /**

@@ -70,7 +70,7 @@ public class DashboardActivity extends BaseActivity {
         ((ImageButton)findViewById(R.id.dashboardDownloadBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View paramView) {
-                SyncService.startIntent(getApplicationContext());
+                SyncService.startDataSync(getApplicationContext());
             }
         });
     }

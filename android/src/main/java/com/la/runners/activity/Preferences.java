@@ -12,10 +12,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.la.runners.R;
+import com.la.runners.provider.Model;
+import com.la.runners.service.SyncService;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.GoogleAuth;
 
@@ -33,12 +36,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     private static final String GOOGLE_AUTH_TOKEN = "googleAuthToken";
     
     private static final String GOOGLE_ACSID_COOKIE = "googleAcidCookie";
-
-	private static final String HEART_RATE = "heartRate";
-
-	private static final String SHOES = "shoes";
-
-	private static final String WEIGHT = "weight";
+    
+    private static final String SYNC_PROFILE = "syncProfile";
+    
+    private static final String SAVE_PROFILE = "saveProfile";
 
     public static final Intent getPreferenceIntent(Context context) {
         return new Intent(context, Preferences.class);
@@ -51,14 +52,30 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         setAccounts();
         setApplicationInfoPreferences();
+        findPreference(SYNC_PROFILE).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference paramPreference) {
+                SyncService.startSyncProfile(getApplicationContext());
+                return false;
+            }
+        });
+        findPreference(SAVE_PROFILE).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference paramPreference) {
+                SyncService.startSaveProfile(getApplicationContext());
+                return false;
+            }
+        });
     }
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences paramSharedPreferences, String key) {
         if (ACCOUNT_KEY.equals(key)) {
             AppLogger.logVisibly("onSharedPreferenceChanged : " + key);
+            SyncService.startDataSync(getApplicationContext());
+            SyncService.startSyncProfile(getApplicationContext());
             setFirstRun(getApplicationContext(), false);
-        } 
+        }
     }
     
     private void setAccounts() {
@@ -96,48 +113,104 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                 ACCOUNT_KEY, null);
     }
     
-    public static final Boolean getHeartRate(Context context) {
-    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(HEART_RATE, false);
+    public static final Boolean getHeartRate(Context c) {
+    	return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(Model.Profile.HEART_RATE, false);
     }
     
-    public static final Boolean getWeight(Context context) {
-    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(WEIGHT, false);
+    public static final Boolean getWeight(Context c) {
+    	return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(Model.Profile.WEIGHT, false);
     }
     
-    public static final Boolean getShoes(Context context) {
-    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SHOES, false);
+    public static final Boolean getWeather(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(Model.Profile.WEATHER, false);
     }
     
-    public static final Boolean getFirstRun(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-                FIRST_RUN, true);
+    public static final Boolean getShoes(Context c) {
+    	return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(Model.Profile.SHOES, false);
+    }
+    
+    public static final Boolean getFirstRun(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(FIRST_RUN, true);
+    }
+    
+    public static final String getNickname(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getString(Model.Profile.NICKNAME, null);
     }
 
-    public static final void setFirstRun(Context context, boolean value) {
-        Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    public static final void setFirstRun(Context c, boolean value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
         editor.putBoolean(FIRST_RUN, value);
         editor.commit();
     }
 
-    public static final String getGoogleAuthToken(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(
-                GOOGLE_AUTH_TOKEN, null);
+    public static final String getGoogleAuthToken(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getString(GOOGLE_AUTH_TOKEN, null);
     }
     
-    public static final void setGoogleAuthToken(Context context, String value) {
-        Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    public static final void setGoogleAuthToken(Context c, String value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
         editor.putString(GOOGLE_AUTH_TOKEN, value);
         editor.commit();
     }
 
-    public static final String getGoogleAcsidCookie(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(
+    public static final String getGoogleAcsidCookie(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getString(
                 GOOGLE_ACSID_COOKIE, null);
     }
     
-    public static final void setGoogleAcsidCookie(Context context, String value) {
-        Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    public static final void setGoogleAcsidCookie(Context c, String value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
         editor.putString(GOOGLE_ACSID_COOKIE, value);
+        editor.commit();
+    }
+
+    public static void setNickname(Context c, String value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putString(Model.Profile.NICKNAME, value);
+        editor.commit();
+    }
+
+    public static void setHeartRate(Context c, Boolean value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putBoolean(Model.Profile.HEART_RATE, value);
+        editor.commit();
+    }
+
+    public static void setWeather(Context c, Boolean value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putBoolean(Model.Profile.WEATHER, value);
+        editor.commit();
+    }
+
+    public static void setWeight(Context c, Boolean value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putBoolean(Model.Profile.WEIGHT, value);
+        editor.commit();
+    }
+
+    public static void setShoes(Context c, Boolean value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putBoolean(Model.Profile.SHOES, value);
+        editor.commit();
+    }
+
+    public static Long getModified(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getLong(Model.Profile.MODIFIED, System.currentTimeMillis());
+    }
+
+    public static Long getCreated(Context c) {
+        return PreferenceManager.getDefaultSharedPreferences(c).getLong(Model.Profile.CREATED, System.currentTimeMillis());
+    }
+
+    public static void setModified(Context c, Long value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putLong(Model.Profile.MODIFIED, value);
+        editor.commit();
+    }
+    
+    public static void setCreated(Context c, Long value) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+        editor.putLong(Model.Profile.CREATED, value);
         editor.commit();
     }
 

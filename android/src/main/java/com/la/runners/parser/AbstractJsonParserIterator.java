@@ -10,7 +10,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import android.content.ContentValues;
 import android.text.TextUtils;
 
-import com.la.runners.util.AppLogger;
+import com.la.runners.R;
+import com.la.runners.exception.ParserException;
 
 /**
  * Abstract class for all the json parsers that need to iterate through a list.
@@ -29,7 +30,7 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
     
     private int position = 0;
 
-    public AbstractJsonParserIterator(InputStream stream, String root) throws ParserException {
+    public AbstractJsonParserIterator(InputStream stream, String root) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             rootNode = mapper.readValue(stream, JsonNode.class);
@@ -41,24 +42,18 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
             	nodes = rootNode.getElements();
             }
         } catch (Throwable e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem during parsing, probably network is donw!", e);
-            }
-            throw new ParserException("A problem occured during the parsing.");
+            throw new ParserException(R.string.error_3, e.getMessage());
         }
     }
 
-    public AbstractJsonParserIterator(String source, String root) throws ParserException {
+    public AbstractJsonParserIterator(String source, String root) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             rootNode = mapper.readValue(source, JsonNode.class);
             JsonNode array = rootNode.get(root);
             nodes = array.getElements();
         } catch (Throwable e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem during parsing, probably network is donw!", e);
-            }
-            throw new ParserException("A problem occured during the parsing.");
+            throw new ParserException(R.string.error_3, e.getMessage());
         }
     }
 

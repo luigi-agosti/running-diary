@@ -23,6 +23,9 @@ public class UriManager extends UriMatcher {
         add(Model.Location.NAME, Model.Location.INCOMING_COLLECTION);
         add(Model.Location.NAME + Model.SEPARATOR + Model.ID_INDICATOR,
                 Model.Location.INCOMING_ITEM);
+        add(Model.Profile.NAME, Model.Profile.INCOMING_COLLECTION);
+        add(Model.Profile.NAME + Model.SEPARATOR + Model.ID_INDICATOR,
+                Model.Profile.INCOMING_ITEM);
     }
 
     public void add(String path, int code) {

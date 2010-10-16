@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.la.runners.util.AppLogger;
-import com.la.runners.util.network.NetworkService;
+import com.la.runners.util.Notifier;
 
 /**
  * @author luigi.agosti
@@ -25,7 +25,7 @@ public class Provider extends ContentProvider {
     
     private SQLiteDatabase getDataBase() {
         if(database == null) {
-            databaseManager = new DatabaseManager(getContext(), NetworkService.getSchema(getContext()));
+            databaseManager = new DatabaseManager(getContext());
             database = databaseManager.getWritableDatabase();
         }
         return database;
@@ -107,6 +107,7 @@ public class Provider extends ContentProvider {
                         AppLogger.debug("insert : " + values + " _id = " + id);
                         AppLogger.debug(values.toString());
                     }
+                    Notifier.toastMessage(getContext(), values.toString());
                     result = ContentUris.withAppendedId(Model.Location.CONTENT_URI, id);
                     getContext().getContentResolver().notifyChange(result, null);
                 } catch (SQLException e) {

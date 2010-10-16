@@ -12,6 +12,8 @@ public interface Constants {
         
         String LOCATION_CONTENT_URL = APPENGINE_URL + "/data/Location";
         
+        String PROFILE_CONTENT_URL = APPENGINE_URL + "/data/Profile";
+        
         String AUTH_CHECK = APPENGINE_URL + "/auth/check";
     }
 

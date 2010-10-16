@@ -9,7 +9,8 @@ import java.util.List;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.la.runners.util.AppLogger;
+import com.la.runners.R;
+import com.la.runners.exception.ParserException;
 
 public class SchemaParser {
 
@@ -38,10 +39,7 @@ public class SchemaParser {
             dropStms = getListFromArray(rootNode, DROP_STATEMENT);
             createStms = getListFromArray(rootNode, CREATE_STATEMENT);
         } catch (Throwable e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem during parsing, probably network is donw!", e);
-            }
-            throw new ParserException("A problem occured during the parsing.");
+            throw new ParserException(R.string.error_1, e.getMessage());
         }
     }
 
@@ -60,14 +58,6 @@ public class SchemaParser {
 
     public List<String> getCreateStms() {
         return createStms;
-    }
-
-    public static final SchemaParser prepare(InputStream inputStream) {
-        try {
-            return new SchemaParser(inputStream);
-        } catch (ParserException pe) {
-            return null;
-        }
     }
     
     private List<String> getListFromArray(JsonNode rootNode, String attribute) {

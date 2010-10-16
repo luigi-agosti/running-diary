@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- 
+	=================================================================
+	Errors
+	=================================================================
+	 -->
+	<string name="error_1">Problem trying to parse the schema from the json coming from the server : %1$s</string>
+	<string name="error_2">Problem trying to parse the authorization check from the json coming from the server : %1$s</string>
+	<string name="error_3">Problem trying to parse the json coming from the server : %1$s</string>
+	<string name="error_4">Network is down can not procede with loading resource at url : %1$s</string>
+	<string name="error_5">Problem loading resource at url %1$s with cause : %2$s</string>
+	<string name="error_6">Network is down can not procede with loading resource at url : %1$s</string>
+	<string name="error_7">Problem during the download for : %1$s with cause : %2$s</string>
+	<string name="error_8">Unknown problem : %1$s</string>
+	<string name="error_9">You have to choose a google account first</string>
+	 
+</resources>

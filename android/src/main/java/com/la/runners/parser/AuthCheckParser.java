@@ -5,7 +5,8 @@ import java.io.InputStream;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.la.runners.util.AppLogger;
+import com.la.runners.R;
+import com.la.runners.exception.ParserException;
 
 public class AuthCheckParser {
 
@@ -13,23 +14,19 @@ public class AuthCheckParser {
     
     private static final String YES = "yes";
     
-    private boolean isLoggedIn = false;
+    private boolean isLoggedIn = Boolean.FALSE;
     
-    public AuthCheckParser(InputStream inputStream) throws ParserException {
+    public AuthCheckParser(InputStream inputStream) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readValue(inputStream, JsonNode.class);
+            JsonNode rootNode = new ObjectMapper().readValue(inputStream, JsonNode.class);
             String status = rootNode.get(STATUS).getTextValue();
             if(YES.equals(status)) {
-                isLoggedIn = true;
+                isLoggedIn = Boolean.TRUE;
             } else {
-                isLoggedIn = false;
+                isLoggedIn = Boolean.FALSE;
             }
         } catch (Throwable e) {
-            if (AppLogger.isErrorEnabled()) {
-                AppLogger.error("Problem during parsing, probably network is donw!", e);
-            }
-            throw new ParserException("A problem occured during the parsing.");
+            throw new ParserException(R.string.error_2, e.getMessage());
         }
     }
     

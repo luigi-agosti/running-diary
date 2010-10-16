@@ -2,5 +2,18 @@
 <resources>
 
 	<string name="app_name">Running Diary</string>
+	
+	
+	<!-- 
+	=================================================================
+	Notification to user
+	=================================================================
+	 -->
+	<string name="syncService_start">Sync data start</string>
+	<string name="syncService_end">Sync data end</string>
+	<string name="syncService_profile">Profile sync done!</string>
+	<string name="syncService_run">Runs sync done!</string>
+	<string name="syncService_location">Locations sync done!</string>
+	
 	 
 </resources>

@@ -9,19 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Notifier;
+import com.la.runners.util.network.NetworkService;
 
-/**
- * Database Manager responsible to create and upgrade the database.
- * 
- * @author luigi.agosti
- */
 public class DatabaseManager extends SQLiteOpenHelper {
-	
+    
+    private Context context;
     private SchemaParser schema;
     
-    public DatabaseManager(Context context, SchemaParser schema) {
+    public DatabaseManager(Context context) {
         super(context, Model.Database.NAME, null, Model.Database.VERSION);
-        this.schema = schema;
+        this.context = context;
+    }
+    
+    private SchemaParser getSchema() {
+        if(schema == null) {
+            schema = NetworkService.getSchema(context);
+        }
+        return schema;
     }
 
     @Override
@@ -42,14 +47,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         if (AppLogger.isInfoEnabled()) {
             AppLogger.info("Creating the database");
         }
-        exec(db, schema.getCreateStms());
+        exec(db, getSchema().getCreateStms());
     }
 
     private void drop(SQLiteDatabase db) {
         if (AppLogger.isInfoEnabled()) {
             AppLogger.info("Dropping the database");
         }
-        exec(db, schema.getDropStms());
+        exec(db, getSchema().getDropStms());
     }
 
     private final void exec(SQLiteDatabase db, List<String> staments) {
@@ -61,6 +66,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 db.execSQL(stm);
             } catch (RuntimeException re) {
                 AppLogger.error(re);
+                Notifier.toastMessage(context, "Problem in the preparation of the database");
             }
         }
     }

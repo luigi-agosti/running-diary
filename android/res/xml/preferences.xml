@@ -8,12 +8,23 @@
 			android:key="accountPreference"
 			android:title="Account"
 			android:summary="Choose your account" />
+		<EditTextPreference
+			android:key="nickname"
+			android:title="Nickname"
+			android:summary="Choose your nickname" />
 	</PreferenceCategory>
 	
 	<PreferenceCategory
 		android:key="formFields"
 		android:title="Personalize Data">
-		
+		<Preference
+			android:key="saveProfile"
+			android:title="Save profile"
+			android:summary="Send your profile on the website"/>
+		<Preference
+			android:key="syncProfile"
+			android:title="Sync profile"
+			android:summary="get your profile from the website"/>
 		<CheckBoxPreference
 			android:key="heartRate"
 			android:title="Heart Rate"/>
@@ -24,6 +35,10 @@
 		<CheckBoxPreference 
 			android:key="shoes"
 			android:title="Shoes"
+		/>
+		<CheckBoxPreference 
+			android:key="weather"
+			android:title="Weather"
 		/>
 		</PreferenceCategory>
 	

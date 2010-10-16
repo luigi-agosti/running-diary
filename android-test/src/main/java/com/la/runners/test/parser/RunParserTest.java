@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import android.content.ContentValues;
 
-import com.la.runners.parser.ParserException;
+import com.la.runners.exception.ParserException;
 import com.la.runners.parser.RunParser;
 import com.la.runners.provider.Model;
 
