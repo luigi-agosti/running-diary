@@ -31,5 +31,9 @@ public class Notifier {
     public static final void toastMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
+    
+    public static final void fastToastMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 
 }
