@@ -30,6 +30,10 @@ public class Query {
         public static final Cursor notSync(Context context) {
             return context.getContentResolver().query(Model.Run.CONTENT_URI, null, Model.Run.REMOTE_ID + IS_NULL, null, null);
         }
+        
+        public static final Cursor get(Context context, long id) {
+            return context.getContentResolver().query(Model.Run.CONTENT_URI, null, Model.Run.ID + PARAMETER, new String [] {""+id} , null);
+        }
     	
     }
     

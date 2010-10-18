@@ -268,7 +268,7 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    Float speed = speed(c);
+                    Long speed = speed(c);
                     if(speed != null) {
                         js.key(SPEED).value(speed);
                     }
@@ -276,11 +276,11 @@ public class Model {
                     if(time != null) {
                         js.key(TIME).value(time);
                     }
-                    Float distance = distance(c);
+                    Long distance = distance(c);
                     if(distance != null) {
                         js.key(DISTANCE).value(distance);
                     }
-                    Float altitude = altitude(c);
+                    Long altitude = altitude(c);
                     if(altitude != null) {
                         js.key(ALTITUDE).value(altitude);
                     }
@@ -292,10 +292,6 @@ public class Model {
                     if(latitude != null) {
                         js.key(LATITUDE).value(latitude);
                     }
-                    Float accuracy = accuracy(c);
-                    if(accuracy != null) {
-                        js.key(ACCURACY).value(accuracy);
-                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -306,20 +302,20 @@ public class Model {
             }
         }
         
-        public static final Float distance(Cursor c) {
-            return c.getFloat(c.getColumnIndex(DISTANCE));
+        public static final Long distance(Cursor c) {
+            return c.getLong(c.getColumnIndex(DISTANCE));
         }
         
-        public static final Float altitude(Cursor c) {
-            return c.getFloat(c.getColumnIndex(ALTITUDE));
+        public static final Long altitude(Cursor c) {
+            return c.getLong(c.getColumnIndex(ALTITUDE));
         }
         
-        public static final Float accuracy(Cursor c) {
-            return c.getFloat(c.getColumnIndex(ACCURACY));
+        public static final Long accuracy(Cursor c) {
+            return c.getLong(c.getColumnIndex(ACCURACY));
         }
         
-        public static final Float speed(Cursor c) {
-            return c.getFloat(c.getColumnIndex(SPEED));
+        public static final Long speed(Cursor c) {
+            return c.getLong(c.getColumnIndex(SPEED));
         }
         
         public static final Long longitude(Cursor c) {

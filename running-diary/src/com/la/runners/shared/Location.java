@@ -32,33 +32,30 @@ public class Location implements Serializable {
     private Long longitude;
     
     @Persistent
-    private Float accuracy;
-    
-    @Persistent
-    private Float altitude;
+    private Long altitude;
     
     @Persistent
     private Date time;
     
     @Persistent
-    private Float speed;
+    private Long speed;
     
     @Persistent
-    private Float distance;
+    private Long distance;
 
-    public void setDistance(Float distance) {
+    public void setDistance(Long distance) {
         this.distance = distance;
     }
 
-    public Float getDistance() {
+    public Long getDistance() {
         return distance;
     }
 
-    public void setSpeed(Float speed) {
+    public void setSpeed(Long speed) {
         this.speed = speed;
     }
 
-    public Float getSpeed() {
+    public Long getSpeed() {
         return speed;
     }
 
@@ -70,20 +67,12 @@ public class Location implements Serializable {
         return time;
     }
 
-    public void setAltitude(Float altitude) {
+    public void setAltitude(Long altitude) {
         this.altitude = altitude;
     }
 
-    public Float getAltitude() {
+    public Long getAltitude() {
         return altitude;
-    }
-
-    public void setAccuracy(Float accuracy) {
-        this.accuracy = accuracy;
-    }
-
-    public Float getAccuracy() {
-        return accuracy;
     }
 
     public void setId(Long id) {

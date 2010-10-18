@@ -15,7 +15,6 @@ import android.widget.ListView;
 import com.la.runners.R;
 import com.la.runners.provider.Model;
 import com.la.runners.provider.Query;
-import com.la.runners.util.AppLogger;
 
 /**
  * @author luigi.agosti
@@ -34,8 +33,8 @@ public class RunListActivity extends BaseActivity {
         ListView runsList = (ListView)this.findViewById(R.id.runList);
         runsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                AppLogger.logVisibly("click");
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                startActivity(RunEditorActivity.getLoadRunEditor(getApplicationContext(), id));
             }
         });        
         runsList.setAdapter(new RunListCursorAdapter(this, cursor));

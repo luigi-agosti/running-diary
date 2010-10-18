@@ -16,29 +16,30 @@
 	   		
 	   	<!-- Error message -->
 	   	<LinearLayout
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:orientation="vertical"
-	    android:padding="6dp">
+			android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    android:padding="6dp">
 	   		<TextView
-	   		android:id="@+id/errorMessage"
-	   		style="@style/ErrorMessage"
-	   		android:visibility="gone"/>
+		   		android:id="@+id/errorMessage"
+		   		style="@style/ErrorMessage"
+		   		android:visibility="gone"/>
 		</LinearLayout>	
 		
 		<LinearLayout
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:background="#fff" 
-	    android:orientation="vertical"
-	    android:padding="6dp">
+			android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:background="#fff" 
+		    android:orientation="vertical"
+		    android:padding="6dp">
 		   		
 	   		<TextView
-			style="@style/FormText"
-			android:text="Run Date"/>
+				style="@style/FormText"
+				android:text="Run Date"/>
 			
 		  	<!-- Run Date -->	
-		  	<DatePicker android:id="@+id/date"
+		  	<DatePicker 
+		  		android:id="@+id/date"
 		  		style="@style/DatePicker"/>
 		  		
 		  	<!-- Run Time  -->

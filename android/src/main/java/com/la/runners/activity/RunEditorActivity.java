@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -21,6 +22,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.la.runners.R;
 import com.la.runners.provider.Model;
+import com.la.runners.provider.Query;
 import com.la.runners.util.AppLogger;
 
 public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeListener {
@@ -35,6 +37,7 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.run_editor);
+                
         initDistanceSeekBar();
         initTimePicker();
         if (Preferences.getHeartRate(this)) {
@@ -46,6 +49,18 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
         if (Preferences.getWeight(this)) {
             enablePreferencesFields(R.id.weight, R.id.weight_text);
         }
+        if(getIntent().hasExtra(Model.Run.ID)) {
+            Cursor c = managedQuery(Query.Run.get(getApplicationContext(), getIntent().getLongExtra(Model.Run.ID, Long.MAX_VALUE)));
+            DatePicker date = (DatePicker)findViewById(R.id.date);
+            TimePicker dayTime = (TimePicker)findViewById(R.id.dayTime);
+            SeekBar distance = (SeekBar)findViewById(R.id.distance);
+            TimePicker time = (TimePicker)findViewById(R.id.time);
+            
+            //TODO set the all data from the cursor
+            if(c.moveToFirst()) {
+                distance.setProgress((int)Math.abs(Model.Run.distance(c)/100));
+            }
+        }
     }
 
     public void submitFormMethod(View submitButton) {
@@ -54,10 +69,10 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
         submitButton.setEnabled(false);
         try {
-
-            int year = ((DatePicker)findViewById(R.id.date)).getYear();
-            int month = ((DatePicker)findViewById(R.id.date)).getMonth();
-            int day = ((DatePicker)findViewById(R.id.date)).getDayOfMonth();
+            DatePicker dp = (DatePicker)findViewById(R.id.date);
+            int year = dp.getYear();
+            int month = dp.getMonth();
+            int day = dp.getDayOfMonth();
             GregorianCalendar calendar = new GregorianCalendar(year, month, day);
 
             long dateInMillisecons = calendar.getTimeInMillis();
@@ -175,6 +190,12 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
     public static final Intent prepareIntent(Context context) {
         return new Intent(context, RunEditorActivity.class);
+    }
+    
+    public static Intent getLoadRunEditor(Context context, long id) {
+        Intent intent = new Intent(context, RunEditorActivity.class);
+        intent.putExtra(Model.Run.ID, id);
+        return intent;
     }
 
     @Override

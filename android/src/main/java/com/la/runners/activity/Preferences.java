@@ -75,6 +75,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             SyncService.startDataSync(getApplicationContext());
             SyncService.startSyncProfile(getApplicationContext());
             setFirstRun(getApplicationContext(), false);
+            finish();
         }
     }
     
