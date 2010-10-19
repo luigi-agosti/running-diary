@@ -94,6 +94,14 @@ public class Location implements Serializable {
     public void setLatitude(Long latitude) {
         this.latitude = latitude;
     }
+    
+    public double getLatitudeAsDouble() {
+        return latitude/1E6;
+    }
+
+    public double getLongitudeAsDouble() {
+        return longitude/1E6;
+    }
 
     public Long getLatitude() {
         return latitude;

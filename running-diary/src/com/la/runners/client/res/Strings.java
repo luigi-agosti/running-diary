@@ -8,6 +8,8 @@ public interface Strings extends Constants {
      * Other constants 
      */
     String gwtHook();
+    String googleMapsKey();
+    String googleMapsVersion();
     
     /*
      * Search Form
@@ -39,7 +41,10 @@ public interface Strings extends Constants {
     String profileFormInputLabelWeather();
     String profileFormInputLabelShoes();
     
-
+    /*
+     * Dialog
+     */
+    String dialogCloseButton();
     
     
 }

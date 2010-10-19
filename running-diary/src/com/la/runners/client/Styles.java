@@ -2,6 +2,10 @@ package com.la.runners.client;
 
 public interface Styles {
     
+    public interface Map {
+        String mapContainer = "TrackingMap";
+    }
+    
     public interface Form {
         String entryPoint = "EditorEntryPoint";
         String editorLabel = "EditorLabel";

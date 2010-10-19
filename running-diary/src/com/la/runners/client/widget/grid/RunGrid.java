@@ -12,6 +12,7 @@ import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
+import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
@@ -55,6 +56,7 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     	    grid.setWidget(0,5, createLabel("Shoes", Styles.Grid.gridHeaderCell));
     	    grid.setWidget(0,6, createLabel("Note", Styles.Grid.gridHeaderCell));
     	    grid.setWidget(0,7, createLabel("Edit", Styles.Grid.gridHeaderCell));
+    	    grid.setWidget(0,8, createLabel("Map", Styles.Grid.gridHeaderCell));
     	    int index = 1;
 	    	for(Run run : result) {
 	    	    grid.setWidget(index,0, createLabel(YEAR_FORMATTER.format(
@@ -74,6 +76,14 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
                     }
 	            });
 	            grid.setWidget(index,7, btn);
+	            Button btnMap = new Button("Map");
+	            btnMap.addClickHandler(new ClickHandler() {
+	                @Override
+	                public void onClick(ClickEvent event) {
+	                    eventBus().fireEvent(new ShowMapEvent(id));
+	                }
+	            });
+	            grid.setWidget(index,8, btnMap);
 	            index++;
 	    	}
     	}
