@@ -1,4 +1,4 @@
-package com.la.runners.activity;
+package com.la.runners.activity.adapter;
 
 import android.content.Context;
 import android.database.Cursor;

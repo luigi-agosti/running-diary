@@ -14,7 +14,6 @@ import com.la.runners.exception.ParserException;
 import com.la.runners.parser.ProfileParser;
 import com.la.runners.parser.RunParser;
 import com.la.runners.provider.Model;
-import com.la.runners.provider.Query;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.network.GoogleAuth;
@@ -95,7 +94,7 @@ public class SyncService extends IntentService {
     private void syncRun(Context context) {
         Cursor c = null;
         try {
-            c = Query.Run.notSync(context);
+            c = Model.Run.notSync(context);
             NetworkService.postRun(context, Model.Run.convertAll(c));
         } finally {
             if (c != null) {
@@ -112,7 +111,7 @@ public class SyncService extends IntentService {
     private void syncLocation(Context context) {
         Cursor c = null;
         try {
-            c = Query.Location.notSync(context);
+            c = Model.Location.notSync(context);
             NetworkService.postLocation(context, Model.Location.convertAll(c));
         } finally {
             if (c != null) {

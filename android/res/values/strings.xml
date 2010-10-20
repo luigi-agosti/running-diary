@@ -3,6 +3,72 @@
 
 	<string name="app_name">Running Diary</string>
 	
+	<!-- 
+	=================================================================
+	Dashboard icon 
+	=================================================================
+	 -->
+	<string name="dashboard_title">Runner Diary</string> 
+	<string name="dashboard_run">Run</string> 
+	<string name="dashboard_start">Start</string> 
+	<string name="dashboard_list">List</string> 
+	<string name="dashboard_stats">Stats</string> 
+	<string name="dashboard_sync">Sync</string> 
+	
+	<!-- 
+	=================================================================
+	Tracking activity 
+	=================================================================
+	 -->
+	<string name="tracking_title">Tracking...</string>
+	<string name="tracking_computing">Computing...</string>
+	<string name="tracking_distance">Distance : %1$s</string>
+	<string name="tracking_speed">Speed : %1$s</string>
+	<string name="tracking_latitude">Latitude : %1$s</string>
+	<string name="tracking_longitude">Longitude : %1$s</string>
+	<string name="tracking_time">Time : %1$s</string>
+	<string name="tracking_stopButton">Stop</string>
+	 
+
+	<!-- 
+	=================================================================
+	Run list activity 
+	=================================================================
+	 -->
+	<string name="run_list_title">Run list</string> 
+
+	<!-- 
+	=================================================================
+	Run editor activity 
+	=================================================================
+	 -->
+	<string name="run_editor_title">Run Editor</string> 
+	<string name="run_editor_run_date_label">Run Date</string> 
+	<string name="run_editor_day_time_label">Day Time</string> 
+	<string name="run_editor_distance_label">Distance</string>
+	<string name="run_editor_time_label">Time</string>
+	<string name="run_editor_note_label">Note</string> 
+	<string name="run_editor_heart_rate_label">Heart Rate</string>
+	<string name="run_editor_weight_label">Weight</string> 
+	<string name="run_editor_shoes_label">Shoes</string> 
+	<string name="run_editor_submit_label">Submit</string> 
+	
+	<!-- 
+	=================================================================
+	Statistics activity 
+	=================================================================
+	 -->
+	<string name="statistics_title">Run Statistics</string> 
+	
+	<!-- 
+	=================================================================
+	Initial setup dialog
+	=================================================================
+	 -->
+	<string name="setupDialog_title">Setup</string>
+	<string name="setupDialog_message">Before using this up please select a google account to use</string>
+	<string name="setupDialog_okButton">ok</string>
+	<string name="setupDialog_cancelButton">cancel</string>
 	
 	<!-- 
 	=================================================================
@@ -14,6 +80,5 @@
 	<string name="syncService_profile">Profile sync done!</string>
 	<string name="syncService_run">Runs sync done!</string>
 	<string name="syncService_location">Locations sync done!</string>
-	
-	 
+
 </resources>

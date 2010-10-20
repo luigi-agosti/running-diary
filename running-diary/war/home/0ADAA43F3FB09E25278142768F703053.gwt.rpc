@@ -3,8 +3,8 @@ com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, t
 com.la.runners.client.Service, false, false, false, false, _, 1143478601
 com.la.runners.shared.Invite, true, true, false, false, com.la.runners.shared.Invite/1578934146, 1578934146
 [Lcom.la.runners.shared.Invite;, true, true, false, false, [Lcom.la.runners.shared.Invite;/3006916838, 3006916838
-com.la.runners.shared.Location, true, true, false, false, com.la.runners.shared.Location/399518322, 399518322
-[Lcom.la.runners.shared.Location;, true, true, false, false, [Lcom.la.runners.shared.Location;/2875156319, 2875156319
+com.la.runners.shared.Location, true, true, false, false, com.la.runners.shared.Location/3534453430, 3534453430
+[Lcom.la.runners.shared.Location;, true, true, false, false, [Lcom.la.runners.shared.Location;/2440566479, 2440566479
 com.la.runners.shared.Profile, true, true, true, true, com.la.runners.shared.Profile/2188669033, 2188669033
 [Lcom.la.runners.shared.Profile;, true, true, false, false, [Lcom.la.runners.shared.Profile;/788357152, 788357152
 com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/2784987142, 2784987142

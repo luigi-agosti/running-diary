@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class BaseActivity extends Activity {
     
@@ -32,6 +33,10 @@ public class BaseActivity extends Activity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    protected void setText(int resId, int stringId, Object...objects) {
+        ((TextView)findViewById(resId)).setText(String.format(getString(stringId), objects));
     }
     
 }

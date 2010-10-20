@@ -9,6 +9,14 @@ public class AvarageTrackManager implements TrackManager {
 
     private static final double OEF_CONVERTION_TO_CENTIMETERS = 60 * 1.1515 * 160934.4;
     
+    private static final double RAD2DEG_COEF = 180.0 / Math.PI;
+    
+    private static final double DEG2RAD_COEF = Math.PI / 180.0;
+    
+    private static final int MAX_LONGITUDE_DEGREE = 180;
+    
+    private static final int MAX_LATITUDE_DEGREE = 90;
+    
     private static final int DATA_SET_SIZE = 25;
 
     private StoreManager storeManager;
@@ -22,6 +30,10 @@ public class AvarageTrackManager implements TrackManager {
     private Run run;
 
     private double distance;
+    
+    private double totalDistance;
+    
+    private double speed;
 
     private double lastLatitude = 0D;
 
@@ -73,29 +85,30 @@ public class AvarageTrackManager implements TrackManager {
     }
 
     private void setPoint(final Location[] locations) {
-        double latitude = 0D, longitude = 0D, altitude = 0D, speed = 0D;
-        long time = 0L;
+        double latitude = 0D, longitude = 0D, altitude = 0D;
 
         for (Location l : locations) {
             latitude += l.getLatitude();
             longitude += l.getLongitude();
             altitude += l.getAltitude();
-            time += l.getTime();
         }
+        double newLatitude = latitude / dataSetSize;
+        double newLongitude = longitude / dataSetSize;
+        long time = System.currentTimeMillis() - startTime;
 
         if (lastLongitude == 0D && lastLatitude == 0D) {
             distance = 0D;
-            speed = 0F;
+            totalDistance = 0D;
         } else {
-            distance = distance(lastLatitude, lastLongitude, latitude / dataSetSize, longitude
-                    / dataSetSize);
-            speed = distance / (System.currentTimeMillis() - startTime);
+            distance = distance(lastLatitude, lastLongitude, newLatitude, newLongitude);
+            totalDistance += distance;
+            speed = totalDistance / time; 
         }
-        lastLatitude = latitude / dataSetSize;
-        lastLongitude = longitude / dataSetSize;
+        lastLatitude = newLatitude;
+        lastLongitude = newLongitude;
 
-        storeManager.store(latitude / dataSetSize, longitude / dataSetSize, altitude / dataSetSize,
-                time / dataSetSize, speed / dataSetSize, distance);
+        storeManager.store(newLatitude, newLongitude, altitude / dataSetSize,
+                time, System.currentTimeMillis(), speed, distance, totalDistance);
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -105,19 +118,19 @@ public class AvarageTrackManager implements TrackManager {
         dist = Math.acos(dist);
         dist = rad2deg(dist);
         dist = dist * OEF_CONVERTION_TO_CENTIMETERS;
-        return (dist);
+        return dist;
     }
     
     private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
+        return (deg * DEG2RAD_COEF);
     }
 
     private double rad2deg(double rad) {
-        return (rad * 180.0 / Math.PI);
+        return (rad * RAD2DEG_COEF);
     }
 
-    private boolean isValidLocation(Location location) {
-        return location != null && Math.abs(location.getLatitude()) <= 90
-                && Math.abs(location.getLongitude()) <= 180;
+    private boolean isValidLocation(Location l) {
+        return l != null && Math.abs(l.getLatitude()) <= MAX_LATITUDE_DEGREE
+                && Math.abs(l.getLongitude()) <= MAX_LONGITUDE_DEGREE;
     }
 }

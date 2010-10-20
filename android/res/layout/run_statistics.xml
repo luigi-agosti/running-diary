@@ -5,7 +5,7 @@
     android:background="#fff" >
 
    	<TextView
-   		android:text="Run Statistics" 
+   		android:text="@string/statistics_title" 
    		style="@style/TitleHeader"/>
     	
 </LinearLayout>

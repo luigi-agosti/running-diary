@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+
+   	<TextView
+   		android:id="@+id/tracking_title"
+   		android:text="@string/tracking_title" 
+   		style="@style/TitleHeader"/>
+ 
+   	<Button
+   		android:id="@+id/tracking_stopButton" 
+   		android:layout_below="@id/tracking_title"
+   		android:layout_width="wrap_content"
+   		android:layout_height="wrap_content"
+   		android:layout_alignParentRight="true"
+   		android:padding="30dip"
+   		android:layout_marginRight="3dip"
+   		android:layout_marginTop="3dip"
+   		android:text="@string/tracking_stopButton"/>
+   		
+ 	<TextView 
+ 		android:id="@+id/tracking_distance" 
+ 		android:layout_toLeftOf="@id/tracking_stopButton"
+ 		android:layout_below="@id/tracking_title"
+   		style="@style/TrackingInformation" />
+   	<TextView
+   		android:id="@+id/tracking_speed"
+   		android:layout_toLeftOf="@id/tracking_stopButton"
+   		android:layout_below="@id/tracking_distance"  
+   		style="@style/TrackingInformation" />
+   	<TextView
+   		android:id="@+id/tracking_latitude"
+   		android:layout_toLeftOf="@id/tracking_stopButton"
+   		android:layout_below="@id/tracking_speed"  
+   		style="@style/TrackingInformation" />
+   	<TextView
+   		android:id="@+id/tracking_longitude" 
+   		android:layout_toLeftOf="@id/tracking_stopButton"
+   		android:layout_below="@id/tracking_latitude"
+   		style="@style/TrackingInformation" />
+   	<TextView
+   		android:id="@+id/tracking_time" 
+   		android:layout_toLeftOf="@id/tracking_stopButton"
+   		android:layout_below="@id/tracking_longitude"
+   		style="@style/TrackingInformation" />
+   		
+
+ 	<!-- 
+    <com.google.android.maps.MapView 
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:enabled="true"
+        android:clickable="true"
+        android:apiKey="0l4sCTTyRmXTNo7k8DREHvEaLar2UmHGwnhZVHQ"
+        />-->
+ 
+</RelativeLayout>

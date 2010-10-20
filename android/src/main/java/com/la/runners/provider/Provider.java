@@ -106,8 +106,7 @@ public class Provider extends ContentProvider {
                         AppLogger.debug("insert : " + values + " _id = " + id);
                         AppLogger.debug(values.toString());
                     }
-                    result = ContentUris.withAppendedId(Model.Location.CONTENT_URI, id);
-                    getContext().getContentResolver().notifyChange(result, null);
+                    getContext().getContentResolver().notifyChange(Model.Location.CONTENT_URI, null);
                 } catch (SQLException e) {
                     if (AppLogger.isErrorEnabled()) {
                         AppLogger.error("Problem inserting Location", values, e);

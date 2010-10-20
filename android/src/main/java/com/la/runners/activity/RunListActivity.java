@@ -13,8 +13,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.la.runners.R;
+import com.la.runners.activity.adapter.RunListCursorAdapter;
 import com.la.runners.provider.Model;
-import com.la.runners.provider.Query;
 
 /**
  * @author luigi.agosti
@@ -29,7 +29,7 @@ public class RunListActivity extends BaseActivity {
     }
     
     private void load() {
-        Cursor cursor = managedQuery(Query.Run.all(getContentResolver()));
+        Cursor cursor = managedQuery(Model.Run.all(getContentResolver()));
         ListView runsList = (ListView)this.findViewById(R.id.runList);
         runsList.setOnItemClickListener(new OnItemClickListener() {
             @Override

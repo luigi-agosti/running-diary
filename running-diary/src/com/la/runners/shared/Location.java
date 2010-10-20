@@ -35,13 +35,19 @@ public class Location implements Serializable {
     private Long altitude;
     
     @Persistent
-    private Date time;
+    private Long time;
+    
+    @Persistent
+    private Date timestamp;
     
     @Persistent
     private Long speed;
     
     @Persistent
     private Long distance;
+    
+    @Persistent
+    private Long totalDistance;
 
     public void setDistance(Long distance) {
         this.distance = distance;
@@ -59,11 +65,11 @@ public class Location implements Serializable {
         return speed;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
-    public Date getTime() {
+    public Long getTime() {
         return time;
     }
 
@@ -113,6 +119,22 @@ public class Location implements Serializable {
 
     public Long getLongitude() {
         return longitude;
+    }
+
+    public void setTotalDistance(Long totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Long getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
     }
     
     

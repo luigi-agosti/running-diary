@@ -9,20 +9,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.la.runners.R;
 import com.la.runners.provider.Model;
-import com.la.runners.provider.Query;
 import com.la.runners.util.AppLogger;
 
 public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeListener {
@@ -31,7 +29,7 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
     public static final int MILLISECONDS_IN_A_MINUTE = 60000;
 
-    public static int interval = 100;
+    public static int INTERVAL = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +48,16 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
             enablePreferencesFields(R.id.weight, R.id.weight_text);
         }
         if(getIntent().hasExtra(Model.Run.ID)) {
-            Cursor c = managedQuery(Query.Run.get(getApplicationContext(), getIntent().getLongExtra(Model.Run.ID, Long.MAX_VALUE)));
-            DatePicker date = (DatePicker)findViewById(R.id.date);
-            TimePicker dayTime = (TimePicker)findViewById(R.id.dayTime);
-            SeekBar distance = (SeekBar)findViewById(R.id.distance);
-            TimePicker time = (TimePicker)findViewById(R.id.time);
+//            Cursor c = managedQuery(Model.Run.get(getApplicationContext(), getIntent().getLongExtra(Model.Run.ID, Long.MAX_VALUE)));
+//            DatePicker date = (DatePicker)findViewById(R.id.date);
+//            TimePicker dayTime = (TimePicker)findViewById(R.id.dayTime);
+//            SeekBar distance = (SeekBar)findViewById(R.id.distance);
+//            TimePicker time = (TimePicker)findViewById(R.id.time);
             
             //TODO set the all data from the cursor
-            if(c.moveToFirst()) {
-                distance.setProgress((int)Math.abs(Model.Run.distance(c)/100));
-            }
+//            if(c.moveToFirst()) {
+//                distance.setProgress((int)Math.abs(Model.Run.distance(c)/100));
+//            }
         }
     }
 
@@ -200,7 +198,7 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        progress = Math.round(((float)progress) / interval) * interval;
+        progress = Math.round(((float)progress) / INTERVAL) * INTERVAL;
         ((EditText)findViewById(R.id.distance_edit_view)).setText(Integer.toString(progress));
 
     }

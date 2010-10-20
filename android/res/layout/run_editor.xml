@@ -12,7 +12,7 @@
 	    <!-- Title -->
 	   	<TextView
 	   		style="@style/TitleHeader"
-	   		android:text="Run Editor" />
+	   		android:text="@string/run_editor_title" />
 	   		
 	   	<!-- Error message -->
 	   	<LinearLayout
@@ -35,7 +35,7 @@
 		   		
 	   		<TextView
 				style="@style/FormText"
-				android:text="Run Date"/>
+				android:text="@string/run_editor_run_date_label"/>
 			
 		  	<!-- Run Date -->	
 		  	<DatePicker 
@@ -45,7 +45,7 @@
 		  	<!-- Run Time  -->
 			<TextView
 				style="@style/FormText"
-				android:text="Day Time"
+				android:text="@string/run_editor_day_time_label"
 				android:paddingTop="6dp"/>
 		  		
 			<TimePicker
@@ -55,7 +55,7 @@
 			<!--  Run Distance -->
 			<TextView
 				style="@style/FormText"
-				android:text="Distance"/>
+				android:text="@string/run_editor_distance_label"/>
 		  		
 			<SeekBar
 				android:id="@+id/distance"
@@ -70,7 +70,7 @@
 			<!-- Run Time  -->
 			<TextView
 				style="@style/FormText"
-				android:text="Time"
+				android:text="@string/run_editor_time_label"
 				android:paddingTop="6dp"/>
 		  		
 			<TimePicker
@@ -80,7 +80,7 @@
 			<!-- Run Note -->		
 			<TextView
 		  		style="@style/FormText"
-		  		android:text="Note"
+		  		android:text="@string/run_editor_note_label"
 		  		android:paddingBottom="6dp"/>
 		  		
 		  	<EditText
@@ -94,7 +94,7 @@
 		  	<TextView
 		  		android:id="@+id/heart_rate_text"
 		  		style="@style/FormText"
-		  		android:text="Heart Rate"
+		  		android:text="@string/run_editor_heart_rate_label"
 		  		android:paddingBottom="6dp"
 		  		android:visibility="gone"/>
 		  		
@@ -109,7 +109,7 @@
 			<TextView
 				android:id="@+id/weight_text"
 		  		style="@style/FormText"
-		  		android:text="Weight"
+		  		android:text="@string/run_editor_weight_label"
 		  		android:paddingBottom="6dp"
 		  		android:visibility="gone"/>
 		  		
@@ -124,7 +124,7 @@
 			<TextView
 				android:id="@+id/shoes_text"
 		  		style="@style/FormText"
-		  		android:text="Shoes"
+		  		android:text="@string/run_editor_shoes_label"
 		  		android:paddingBottom="6dp"
 		  		android:visibility="gone"/>
 		  		
@@ -158,7 +158,7 @@
 		  	<Button
 		  		android:id="@+id/run_editor_submit"
 		  		style="@style/Button"
-		  		android:text="submit"
+		  		android:text="@string/run_editor_submit_label"
 		  		android:onClick="submitFormMethod"/>
 		    	
 		</LinearLayout>

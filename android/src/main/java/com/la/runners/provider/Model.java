@@ -1,5 +1,6 @@
 package com.la.runners.provider;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import org.json.JSONStringer;
 import com.la.runners.activity.Preferences;
 import com.la.runners.util.AppLogger;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,6 +18,9 @@ import android.net.Uri;
 public class Model {
     
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
+    private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
+    private static final DecimalFormat SHORT_DECIMAL_FORMATTER = new DecimalFormat("#.##");
+    private static final DecimalFormat LONG_DECIMAL_FORMATTER = new DecimalFormat("##.######");
     
     public static final String SEPARATOR = "/";
     
@@ -24,6 +29,13 @@ public class Model {
     public static final String AUTHORITY = "com.la.runners";
 
     private static final String CONTENT_PREFIX = "content://";
+    
+    public static final String PARAMETER = "= ?";
+    
+    private static final String DESCENDANT = " desc";
+
+    private static final String IS_NULL = " is null";
+
     
     public interface Database {
     	
@@ -218,6 +230,19 @@ public class Model {
 		private static Integer year(Cursor c) {
 			return c.getInt(c.getColumnIndex(YEAR));
 		}
+		
+		
+		public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
+        }
+        
+        public static final Cursor get(Context c, long id) {
+            return c.getContentResolver().query(CONTENT_URI, null, ID + PARAMETER, new String [] {""+id} , null);
+        }
         
     }
     
@@ -242,6 +267,8 @@ public class Model {
         public static final String DISTANCE = "distance";
         
         public static final String TIME = "time";
+        
+        public static final String TIMESTAMP = "timestamp";
 
         public static final String SPEED = "speed";
         
@@ -252,6 +279,8 @@ public class Model {
         public static final String LATITUDE = "latitude";
         
         public static final String ACCURACY = "accuracy";
+
+        public static final String TOTAL_DISTANCE = "totalDistance";
 
         public static final String convertAll(Cursor c) {
             JSONStringer stringer = new JSONStringer();
@@ -276,9 +305,17 @@ public class Model {
                     if(time != null) {
                         js.key(TIME).value(time);
                     }
+                    Long timestamp = timestamp(c);
+                    if(timestamp != null) {
+                        js.key(TIMESTAMP).value(timestamp);
+                    }
                     Long distance = distance(c);
                     if(distance != null) {
                         js.key(DISTANCE).value(distance);
+                    }
+                    Long totalDistance = totalDistance(c);
+                    if(totalDistance != null) {
+                        js.key(TOTAL_DISTANCE).value(totalDistance);
                     }
                     Long altitude = altitude(c);
                     if(altitude != null) {
@@ -305,6 +342,18 @@ public class Model {
         public static final Long distance(Cursor c) {
             return c.getLong(c.getColumnIndex(DISTANCE));
         }
+
+        public static final String formattedDistance(Cursor c) {
+            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(DISTANCE))/100D);
+        }
+
+        public static final Long totalDistance(Cursor c) {
+            return c.getLong(c.getColumnIndex(TOTAL_DISTANCE));
+        }
+
+        public static final String formattedTotalDistance(Cursor c) {
+            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(TOTAL_DISTANCE))/100D);
+        }
         
         public static final Long altitude(Cursor c) {
             return c.getLong(c.getColumnIndex(ALTITUDE));
@@ -318,18 +367,51 @@ public class Model {
             return c.getLong(c.getColumnIndex(SPEED));
         }
         
+        public static final String formattedSpeed(Cursor c) {
+            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(SPEED))/27777.778D);
+        }
+        
         public static final Long longitude(Cursor c) {
             return c.getLong(c.getColumnIndex(LONGITUDE));
+        }
+        
+        public static final String formattedLongitude(Cursor c) {
+            return LONG_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(LONGITUDE))/1000000D);
         }
 
         public static final Long latitude(Cursor c) {
             return c.getLong(c.getColumnIndex(LATITUDE));
         }
+
+        public static final String formattedLatitude(Cursor c) {
+            return LONG_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(LATITUDE))/1000000D);
+        }
         
+        public static final Long timestamp(Cursor c) {
+            return c.getLong(c.getColumnIndex(TIMESTAMP));
+        }   
+
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
-        }        
+        }   
         
+        public static final String fomatterTime(Cursor c) {
+            return TIME_FORMATTER.format(new Date(c.getLong(c.getColumnIndex(TIME))));
+        }   
+        
+        public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
+        }
+        
+        public static final Cursor getLast(Context c) {
+            //Limit is a trick I should have it in the content provider 
+            return c.getContentResolver().query(CONTENT_URI, null, null, null, TIMESTAMP + DESCENDANT + " LIMIT 1");
+        }
+
     }
     
     public static class Profile {
@@ -444,6 +526,14 @@ public class Model {
         
         public static final String nickname(Cursor c) {
             return c.getString(c.getColumnIndex(NICKNAME));
+        }
+        
+        public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
         }
     }
 

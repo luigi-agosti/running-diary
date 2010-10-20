@@ -19,14 +19,14 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
         if (Preferences.getFirstRun(getApplicationContext())) {
-            new AlertDialog.Builder(this).setTitle("Setup")
-                    .setMessage("Before using this up please select a google account to use")
-                    .setPositiveButton("ok", new OnClickListener() {
+            new AlertDialog.Builder(this).setTitle(getString(R.string.setupDialog_title))
+                    .setMessage(getString(R.string.setupDialog_message))
+                    .setPositiveButton(R.string.setupDialog_okButton, new OnClickListener() {
                         @Override
                         public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                             startPreferences();
                         }
-                    }).setNegativeButton("cancel", new OnClickListener() {
+                    }).setNegativeButton(R.string.setupDialog_cancelButton, new OnClickListener() {
                         @Override
                         public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                             finish();
@@ -54,17 +54,8 @@ public class DashboardActivity extends BaseActivity {
         ((ImageButton)findViewById(R.id.dashboardGeoStartBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View paramView) {
-                findViewById(R.id.dashboardGeoStartContainer).setVisibility(View.GONE);
-                findViewById(R.id.dashboardGeoStopContainer).setVisibility(View.VISIBLE);
+                startActivity(TrackingActivity.prepareIntent(getApplicationContext()));
                 startService(new Intent(DashboardActivity.this.getApplicationContext(), RunTrackingService.class));
-            }
-        });
-        ((ImageButton)findViewById(R.id.dashboardGeoStopBtn)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View paramView) {
-                findViewById(R.id.dashboardGeoStartContainer).setVisibility(View.VISIBLE);
-                findViewById(R.id.dashboardGeoStopContainer).setVisibility(View.GONE);
-                stopService(new Intent(DashboardActivity.this.getApplicationContext(), RunTrackingService.class));
             }
         });
         ((ImageButton)findViewById(R.id.dashboardDownloadBtn)).setOnClickListener(new View.OnClickListener() {

@@ -27,7 +27,7 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     
     private static final double MULTIPLIER = 1000000D;
 
-    private TrackManager trackManager = new AvarageTrackManager(this, 30);
+    private TrackManager trackManager = new AvarageTrackManager(this, 5);
 
     private LocationManager locationManager;
 
@@ -127,35 +127,31 @@ public class RunTrackingService extends Service implements LocationListener, Sto
 
     @Override
     public void onProviderDisabled(String provider) {
-        AppLogger.debug("Provider is disabled");
+        AppLogger.debug("onProviderDisabled");
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        AppLogger.debug("Provider is enabled");
+        AppLogger.debug("onProviderEnabled");
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        AppLogger.debug("Provider is enabled");
     }
 
     @Override
-    public void store(double latitude, double longitude, double altitude, long time, double speed,
-            double distance) {
+    public void store(double latitude, double longitude, double altitude, long time, long timestamp, 
+            double speed, double distance, double totalDistance) {
         ContentValues cv = new ContentValues();
         cv.put(Model.Location.LATITUDE, (long)(latitude * MULTIPLIER));
         cv.put(Model.Location.LONGITUDE, (long)(longitude * MULTIPLIER));
         cv.put(Model.Location.ALTITUDE, (long)(altitude * MULTIPLIER));
         cv.put(Model.Location.SPEED, (long)(speed * MULTIPLIER));
         cv.put(Model.Location.TIME, time);
+        cv.put(Model.Location.TIMESTAMP, timestamp);
         cv.put(Model.Location.DISTANCE, (long)distance);
-        AppLogger.debug("latitude : " + latitude + " " + latitude * MULTIPLIER);
-        AppLogger.debug("longitude : " + longitude + " " + longitude * MULTIPLIER);
-        AppLogger.debug("altitude : " + altitude + " " + altitude * MULTIPLIER);
-        AppLogger.debug("speed : " + speed + " " + speed * MULTIPLIER);
-        AppLogger.debug("time : " + time);
-        AppLogger.debug("distance : " + distance);
-        Notifier.fastToastMessage(getApplicationContext(), "Distance : " + distance + " speed : " + speed);
+        cv.put(Model.Location.TOTAL_DISTANCE, (long)totalDistance);
         getContentResolver().insert(Model.Location.CONTENT_URI, cv);
     }
 
