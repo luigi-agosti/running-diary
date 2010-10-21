@@ -1,3 +1,4 @@
+
 package com.la.runners.activity;
 
 import android.content.Context;
@@ -14,7 +15,7 @@ import com.la.runners.provider.Model;
 import com.la.runners.service.RunTrackingService;
 
 public class TrackingActivity extends BaseActivity {
-    
+
     public static final Intent prepareIntent(Context context) {
         return new Intent(context, TrackingActivity.class);
     }
@@ -23,32 +24,56 @@ public class TrackingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tracking);
-        
-        setText(R.id.tracking_distance, R.string.tracking_distance, getString(R.string.tracking_computing));
-        setText(R.id.tracking_speed, R.string.tracking_speed, getString(R.string.tracking_computing));
-        setText(R.id.tracking_latitude, R.string.tracking_latitude, getString(R.string.tracking_computing));
-        setText(R.id.tracking_longitude, R.string.tracking_longitude, getString(R.string.tracking_computing));
+
+        setText(R.id.tracking_distance, R.string.tracking_distance,
+                getString(R.string.tracking_computing));
+        setText(R.id.tracking_speed, R.string.tracking_speed,
+                getString(R.string.tracking_computing));
+        setText(R.id.tracking_latitude, R.string.tracking_latitude,
+                getString(R.string.tracking_computing));
+        setText(R.id.tracking_longitude, R.string.tracking_longitude,
+                getString(R.string.tracking_computing));
         setText(R.id.tracking_time, R.string.tracking_time, getString(R.string.tracking_computing));
+
+        ((Button)findViewById(R.id.tracking_stopButton))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View paramView) {
+                        stopService(new Intent(getApplicationContext(), RunTrackingService.class));
+                        finish();
+                    }
+                });
         
-        ((Button)findViewById(R.id.tracking_stopButton)).setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.tracking_mapButton))
+        .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View paramView) {
-                stopService(new Intent(getApplicationContext(), RunTrackingService.class));
-                finish();
+                startActivity(MapTrackingActivity.prepareIntent(getApplicationContext()));
             }
         });
-        
+
         findViewById(R.id.tracking_distance);
     }
-    
+
     private void updateRunInformation() {
-        Cursor c = managedQuery(Model.Location.getLast(this));
-        if(c.moveToFirst()) {
-            setText(R.id.tracking_distance, R.string.tracking_distance, Model.Location.formattedTotalDistance(c));
-            setText(R.id.tracking_speed, R.string.tracking_speed, Model.Location.formattedSpeed(c));
-            setText(R.id.tracking_latitude, R.string.tracking_latitude, Model.Location.formattedLatitude(c));
-            setText(R.id.tracking_longitude, R.string.tracking_longitude, Model.Location.formattedLongitude(c));   
-            setText(R.id.tracking_time, R.string.tracking_time, Model.Location.fomatterTime(c));
+        Cursor c = null;
+        try {
+            c = Model.Location.getLast(this);
+            if (c.moveToFirst()) {
+                setText(R.id.tracking_distance, R.string.tracking_distance,
+                        Model.Location.formattedTotalDistance(c));
+                setText(R.id.tracking_speed, R.string.tracking_speed,
+                        Model.Location.formattedSpeed(c));
+                setText(R.id.tracking_latitude, R.string.tracking_latitude,
+                        Model.Location.formattedLatitude(c));
+                setText(R.id.tracking_longitude, R.string.tracking_longitude,
+                        Model.Location.formattedLongitude(c));
+                setText(R.id.tracking_time, R.string.tracking_time, Model.Location.fomatterTime(c));
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
         }
     }
 
@@ -61,14 +86,14 @@ public class TrackingActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        getContentResolver().registerContentObserver(Model.Location.CONTENT_URI, Boolean.TRUE, contentObserver);
+        getContentResolver().registerContentObserver(Model.Location.CONTENT_URI, Boolean.TRUE,
+                contentObserver);
         super.onResume();
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
         getContentResolver().unregisterContentObserver(contentObserver);
     }
-
 }

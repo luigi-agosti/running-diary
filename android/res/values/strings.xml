@@ -28,6 +28,7 @@
 	<string name="tracking_longitude">Longitude : %1$s</string>
 	<string name="tracking_time">Time : %1$s</string>
 	<string name="tracking_stopButton">Stop</string>
+	<string name="tracking_mapButton">Map</string>
 	 
 
 	<!-- 
