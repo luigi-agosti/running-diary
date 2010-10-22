@@ -8,11 +8,9 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 import com.la.runners.R;
 import com.la.runners.activity.map.LocationItemizedOverlay;
 import com.la.runners.provider.Model;

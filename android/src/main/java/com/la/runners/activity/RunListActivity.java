@@ -20,7 +20,9 @@ import com.la.runners.provider.Model;
  * @author luigi.agosti
  */
 public class RunListActivity extends BaseActivity {
-
+    
+    private ListView runsList;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +32,12 @@ public class RunListActivity extends BaseActivity {
     
     private void load() {
         Cursor cursor = managedQuery(Model.Run.all(getContentResolver()));
-        ListView runsList = (ListView)this.findViewById(R.id.runList);
         runsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                 startActivity(RunEditorActivity.getLoadRunEditor(getApplicationContext(), id));
             }
-        });        
+        });
         runsList.setAdapter(new RunListCursorAdapter(this, cursor));
     }
 

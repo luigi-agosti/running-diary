@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
+import com.la.runners.R;
 import com.la.runners.provider.Model;
 import com.la.runners.service.track.AvarageTrackManager;
 import com.la.runners.service.track.StoreManager;
@@ -59,7 +60,7 @@ public class RunTrackingService extends Service implements LocationListener, Sto
         } catch (Exception ex) {
         }
         if (!isGgpsEnabled) {
-            Notifier.toastMessage(this, "Gps is not enabled! you have to enable it");
+            Notifier.toastMessage(this, R.string.error_12);
             return;
         }
         registerLocationListener();

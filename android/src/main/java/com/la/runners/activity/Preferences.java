@@ -20,6 +20,7 @@ import com.la.runners.R;
 import com.la.runners.provider.Model;
 import com.la.runners.service.SyncService;
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Notifier;
 import com.la.runners.util.network.GoogleAuth;
 
 /**
@@ -81,6 +82,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     
     private void setAccounts() {
         Account[] accounts = GoogleAuth.getInstance().getAccounts(getApplicationContext());
+        if(accounts == null || accounts.length <= 0) {
+            Notifier.toastMessage(this, R.string.error_10);
+        }
         if(accounts != null && accounts.length > 0) {
             ListPreference lp = (ListPreference)findPreference(ACCOUNT_KEY);
             String[] entries = new String[accounts.length];

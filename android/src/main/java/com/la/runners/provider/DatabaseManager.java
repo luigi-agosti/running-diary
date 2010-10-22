@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.la.runners.R;
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
@@ -66,7 +67,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 db.execSQL(stm);
             } catch (RuntimeException re) {
                 AppLogger.error(re);
-                Notifier.toastMessage(context, "Problem in the preparation of the database");
+                Notifier.toastMessage(context, R.string.error_11);
             }
         }
     }

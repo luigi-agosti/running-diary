@@ -1,9 +1,5 @@
 package com.la.runners.activity;
 
-import com.google.android.maps.MapActivity;
-import com.la.runners.R;
-import com.la.runners.provider.Model;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.view.Menu;

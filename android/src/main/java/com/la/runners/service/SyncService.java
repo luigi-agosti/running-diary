@@ -2,27 +2,19 @@
 package com.la.runners.service;
 
 import android.app.IntentService;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 
 import com.la.runners.R;
 import com.la.runners.activity.Preferences;
-import com.la.runners.exception.ConnectionException;
-import com.la.runners.exception.ParserException;
-import com.la.runners.parser.ProfileParser;
-import com.la.runners.parser.RunParser;
-import com.la.runners.provider.Model;
+import com.la.runners.exception.ResourceException;
 import com.la.runners.service.sync.SyncNotifier;
 import com.la.runners.service.sync.custom.CustomSyncEventListener;
 import com.la.runners.service.sync.custom.LocationSync;
 import com.la.runners.service.sync.custom.ProfileSync;
 import com.la.runners.service.sync.custom.RunSync;
-import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.network.GoogleAuth;
-import com.la.runners.util.network.NetworkService;
 
 public class SyncService extends IntentService {
 
@@ -56,47 +48,39 @@ public class SyncService extends IntentService {
         context.startService(intent);
     }
 
-    private void notify(int resourceId, Object...objects) {
-        String message = String.format(getApplicationContext().getString(resourceId), objects);
-        AppLogger.debug(message);
-        Notifier.notify(getApplicationContext(), message);
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
-        Context context = getApplicationContext();
-        notify(R.string.syncService_start);
+        Context c = getApplicationContext();
+        Notifier.notify(c, R.string.syncService_start);
         try {
-            String account = Preferences.getAccount(context);
+            String account = Preferences.getAccount(c);
             if(account == null) {
-                notify(R.string.error_9);
+                Notifier.notify(c, R.string.error_9);
                 return;
             }
             GoogleAuth googleAuth = GoogleAuth.getInstance();
             int loginAttempts = 0;
-            while(!googleAuth.isLoggedIn(context) || !(loginAttempts < 5)) {
+            while(!googleAuth.isLoggedIn(c) || !(loginAttempts < 5)) {
                 if(loginAttempts == 0) {
-                    googleAuth.login(context, account, intent);
+                    googleAuth.login(c, account, intent);
                 }
                 loginAttempts++;
             }
             SyncNotifier sel = new CustomSyncEventListener();
             if (ACTION_SYNC.equals(intent.getAction())) {
-                new RunSync().sync(context, sel);
-                new LocationSync().sync(context, sel);
+                new RunSync().sync(c, sel);
+                new LocationSync().sync(c, sel);
             } else if(ACTION_SAVE_PROFILE.equals(intent.getAction())) {
-                new ProfileSync().syncUp(context, sel);
+                new ProfileSync().syncUp(c, sel);
             } else if(ACTION_SYNC_PROFILE.equals(intent.getAction())) {
-                new ProfileSync().syncDown(context, sel);
+                new ProfileSync().syncDown(c, sel);
             }
-        } catch (ConnectionException ce) {
-            notify(ce.getResourceId(), ce.getObjects());
-        } catch (ParserException ce) {
-            notify(ce.getResourceId(), ce.getObjects());
+        } catch (ResourceException ce) {
+            Notifier.notify(c, ce.getResourceId(), ce.getMessage());
         } catch (Throwable e) {
-            notify(R.string.error_8, e.getMessage());
+            Notifier.notify(c, R.string.error_8, e.getMessage());
         }
-        notify(R.string.syncService_end);
+        Notifier.notify(c, R.string.syncService_end);
     }
     
 }

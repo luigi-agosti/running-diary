@@ -89,10 +89,6 @@
 		</activity>
 		<activity
 			android:screenOrientation="portrait"
-			android:name=".activity.TrackingActivity">
-		</activity>
-		<activity
-			android:screenOrientation="portrait"
 			android:label="Tracking..."
 			android:name=".activity.MapTrackingActivity">
 		</activity>
