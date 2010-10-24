@@ -27,7 +27,10 @@ public class RunParser extends AbstractJsonParserIterator {
 			cv.put(Model.Run.MONTH, node.get(Model.Run.MONTH).getIntValue());
 			cv.put(Model.Run.DAY, node.get(Model.Run.DAY).getLongValue());
 			cv.put(Model.Run.DISTANCE, node.get(Model.Run.DISTANCE).getValueAsText());
-			cv.put(Model.Run.NOTE, node.get(Model.Run.NOTE).getValueAsText());
+			String note = node.get(Model.Run.NOTE).getTextValue();
+			if(note != null) {
+			    cv.put(Model.Run.NOTE, note);
+			}
 			Boolean share = node.get(Model.Run.SHARE).getBooleanValue();
 			if(share != null && share) { 
 			    cv.put(Model.Run.SHARE, 1);

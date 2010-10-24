@@ -41,6 +41,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     private static final String SYNC_PROFILE = "syncProfile";
     
     private static final String SAVE_PROFILE = "saveProfile";
+    
+    private static final String TRACKING_FREQUENCY = "avarageSize";
+
+    private static final String DEFAULT_TRACKING_FREQUENCY = "10";
 
     public static final Intent getPreferenceIntent(Context context) {
         return new Intent(context, Preferences.class);
@@ -136,6 +140,12 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     
     public static final Boolean getFirstRun(Context c) {
         return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(FIRST_RUN, true);
+    }
+
+    public static final int getAvarageSize(Context c) {
+        //List preference doesn't support integer-array
+        //http://code.google.com/p/android/issues/detail?id=2096
+        return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(c).getString(TRACKING_FREQUENCY, DEFAULT_TRACKING_FREQUENCY));
     }
     
     public static final String getNickname(Context c) {

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import com.la.runners.activity.Preferences;
+import com.la.runners.provider.SyncProvider.Syncable;
 import com.la.runners.util.AppLogger;
 
 import android.content.ContentResolver;
@@ -18,7 +19,7 @@ import android.net.Uri;
 public class Model {
     
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
-    private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
+    private static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
     private static final DecimalFormat SHORT_DECIMAL_FORMATTER = new DecimalFormat("#.##");
     private static final DecimalFormat LONG_DECIMAL_FORMATTER = new DecimalFormat("##.######");
     
@@ -28,7 +29,7 @@ public class Model {
 
     public static final String AUTHORITY = "com.la.runners";
 
-    private static final String CONTENT_PREFIX = "content://";
+    public static final String CONTENT_PREFIX = "content://";
     
     public static final String PARAMETER = "= ?";
     
@@ -45,19 +46,17 @@ public class Model {
     	
     }
 
-    public static class Run {
+    public static class Run extends Syncable {
     	
     	public static final String NAME = Run.class.getSimpleName(); 
     	
     	public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
     	
-    	public static final String ID = "_id";
-    	
-    	public static final String REMOTE_ID = "id";
-    	
     	public static final String TIME = "time";
     	
     	public static final String DISTANCE = "distance";
+    	
+    	public static final String SPEED = "speed";
     	
     	public static final String DATE = "date";
     	
@@ -88,21 +87,21 @@ public class Model {
         public static final String MODIFIED = "modified";
 
         public static final String DAY_TIME = "dayTime";
-    	
-        public static final String id(Cursor c) {
-            return c.getString(c.getColumnIndex(ID));
-        }
 
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
         }
 
-        public static final Float distance(Cursor c) {
-            return c.getFloat(c.getColumnIndex(DISTANCE));
+        public static final Long distance(Cursor c) {
+            return c.getLong(c.getColumnIndex(DISTANCE));
         }
 
         public static final Long date(Cursor c) {
             return c.getLong(c.getColumnIndex(DATE));
+        }
+
+        public static final Long speed(Cursor c) {
+            return c.getLong(c.getColumnIndex(SPEED));
         }
 
         public static final String formattedModifiedDate(Cursor c) {
@@ -145,9 +144,13 @@ public class Model {
                     if(day != null) {
                     	js.key(DAY).value(day);
                     }
-                    Float distance = distance(c);
+                    Long distance = distance(c);
                     if(distance != null) {
                     	js.key(DISTANCE).value(distance);
+                    }
+                    Long speed = speed(c);
+                    if(speed != null) {
+                        js.key(SPEED).value(speed);
                     }
                     String shoes = shoes(c);
                     if(shoes != null) {
@@ -231,7 +234,6 @@ public class Model {
 			return c.getInt(c.getColumnIndex(YEAR));
 		}
 		
-		
 		public static final Cursor all(ContentResolver cr) {
             return cr.query(CONTENT_URI, null, null, null, null);
         }
@@ -243,10 +245,15 @@ public class Model {
         public static final Cursor get(Context c, long id) {
             return c.getContentResolver().query(CONTENT_URI, null, ID + PARAMETER, new String [] {""+id} , null);
         }
+
+        private static final String[] OP1 = new String[] {ID};
+        public static final Cursor currentId(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, OP1, null, null , MODIFIED + DESCENDANT + " LIMIT 1");
+        }
         
     }
     
-    public static class Location {
+    public static class Location extends Syncable {
         
         public static final String NAME = Location.class.getSimpleName(); 
         
@@ -260,9 +267,7 @@ public class Model {
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.location";
         
-        public static final String ID = "_id";
-        
-        public static final String REMOTE_ID = "id";
+        public static final String RUN_ID = "runId";
         
         public static final String DISTANCE = "distance";
         
@@ -297,6 +302,10 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
+                    Long runId = runId(c);
+                    if(runId != null) {
+                        js.key(RUN_ID).value(runId);
+                    }
                     Long speed = speed(c);
                     if(speed != null) {
                         js.key(SPEED).value(speed);
@@ -337,6 +346,10 @@ public class Model {
                     AppLogger.error(e);
                 }
             }
+        }
+        
+        public static final Long runId(Cursor c) {
+            return c.getLong(c.getColumnIndex(RUN_ID));
         }
         
         public static final Long distance(Cursor c) {
@@ -402,19 +415,21 @@ public class Model {
         public static final Cursor all(ContentResolver cr) {
             return cr.query(CONTENT_URI, null, null, null, null);
         }
-
-        public static final Cursor notSync(Context c) {
-            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
-        }
         
         public static final Cursor getLast(Context c) {
             //Limit is a trick I should have it in the content provider 
             return c.getContentResolver().query(CONTENT_URI, null, null, null, TIMESTAMP + DESCENDANT + " LIMIT 1");
         }
+        
+        private static final String[] OP1 = new String[]{LATITUDE, LONGITUDE};
+        public static final Cursor get(Context c, String runId) {
+            //Limit is a trick I should have it in the content provider 
+            return c.getContentResolver().query(CONTENT_URI, OP1, RUN_ID + PARAMETER, new String[]{runId}, TIMESTAMP + DESCENDANT);
+        }
 
     }
     
-    public static class Profile {
+    public static class Profile extends Syncable {
         
         public static final String NAME = Profile.class.getSimpleName(); 
         
@@ -427,10 +442,6 @@ public class Model {
         public static final String ITEM_TYPE = "vnd.android.cursor.item/vnd.runners.profile";
 
         public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.profile";
-        
-        public static final String ID = "_id";
-        
-        public static final String REMOTE_ID = "id";
         
         public static final String SHOES = "shoes";
         
@@ -518,10 +529,6 @@ public class Model {
                 return Boolean.TRUE;
             } 
             return Boolean.FALSE;
-        }
-        
-        public static final String id(Cursor c) {
-            return c.getString(c.getColumnIndex(ID));
         }
         
         public static final String nickname(Cursor c) {

@@ -117,7 +117,6 @@ public class DashboardActivity extends BaseActivity {
     private void stopTracking() {
         findViewById(R.id.tracking_firstRow).setVisibility(View.VISIBLE);
         findViewById(R.id.tracking_lastRow).setVisibility(View.VISIBLE);
-        
         findViewById(R.id.tracking_trackingPanel).setVisibility(View.GONE);
         unregisterObserver();
     }

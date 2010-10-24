@@ -1,12 +1,10 @@
 
 package com.la.runners.provider;
 
-import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.la.runners.util.AppLogger;
@@ -14,43 +12,7 @@ import com.la.runners.util.AppLogger;
 /**
  * @author luigi.agosti
  */
-public class Provider extends ContentProvider {
-
-    private static final UriManager urlMatcher = new UriManager();
-
-    private DatabaseManager databaseManager;
-
-    private SQLiteDatabase database;
-    
-    private SQLiteDatabase getDataBase() {
-        if(database == null) {
-            databaseManager = new DatabaseManager(getContext());
-            database = databaseManager.getWritableDatabase();
-        }
-        return database;
-    }
-
-    /**
-     * Can delete only channel the consistency of the data is held by triggers.
-     */
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        int rows = 0;
-        switch (urlMatcher.match(uri)) {
-            case Model.Run.INCOMING_COLLECTION: {
-                rows = getDataBase().delete(Model.Run.NAME, selection, selectionArgs);
-                break;
-            }
-            case Model.Location.INCOMING_COLLECTION: {
-                rows = getDataBase().delete(Model.Location.NAME, selection, selectionArgs);
-                break;
-            }
-            default: {
-                throw new IllegalArgumentException("Unknown URI " + uri);
-            }
-        }
-        return rows;
-    }
+public class Provider extends SyncProvider {
 
     @Override
     public String getType(Uri uri) {
@@ -73,10 +35,31 @@ public class Provider extends ContentProvider {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("Unknown URI " + uri);
+                super.getType(uri);
             }
         }
         return type;
+    }
+    
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        int rows = 0;
+        switch (urlMatcher.match(uri)) {
+            case Model.Run.INCOMING_COLLECTION: {
+                deleteSyncable(Model.Run.NAME, selection, selectionArgs);
+                rows = getDataBase().delete(Model.Run.NAME, selection, selectionArgs);
+                break;
+            }
+            case Model.Location.INCOMING_COLLECTION: {
+                deleteSyncable(Model.Location.NAME, selection, selectionArgs);
+                rows = getDataBase().delete(Model.Location.NAME, selection, selectionArgs);
+                break;
+            }
+            default: {
+                super.delete(uri, selection, selectionArgs);
+            }
+        }
+        return rows;
     }
 
     @Override
@@ -115,18 +98,10 @@ public class Provider extends ContentProvider {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("Unknown URI " + uri);
+                throw new IllegalArgumentException("The URI '" + uri + "' is not implemented.");
             }
         }
         return result;
-    }
-
-    @Override
-    public boolean onCreate() {
-        if (AppLogger.isDebugEnabled()) {
-            AppLogger.debug("Creating Provider");
-        }
-        return false;
     }
 
     @Override
@@ -145,7 +120,7 @@ public class Provider extends ContentProvider {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("The URI '" + uri + "' is not implemented.");
+                cursor = super.query(uri, projection, selection, selectionArgs, sortOrder);
             }
         }
         return cursor;
@@ -153,11 +128,19 @@ public class Provider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        int rows = 0;
         switch (urlMatcher.match(uri)) {
+            case Model.Run.INCOMING_COLLECTION: {
+                updateSyncable(Model.Run.NAME, values, selection, selectionArgs);
+                rows = getDataBase().update(Model.Run.NAME, values, selection,
+                        selectionArgs);
+                break;
+            }
             default: {
                 throw new IllegalArgumentException("Unknown URI " + uri);
             }
         }
+        return rows;
     }
 
 }

@@ -37,7 +37,7 @@ public class Run implements Serializable {
     private Date modified;
     
     @Persistent
-    private Integer distance;
+    private Long distance;
     
     @Persistent
     private Long dayTime;
@@ -60,6 +60,9 @@ public class Run implements Serializable {
     @Persistent
     private Boolean share;
     
+    @Persistent
+    private Long speed;
+    
     @Clag(userId=true,hidden=true)
     @Persistent
     private String userId;
@@ -74,11 +77,11 @@ public class Run implements Serializable {
         return id;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Long distance) {
         this.distance = distance;
     }
 
-    public Integer getDistance() {
+    public Long getDistance() {
         return distance;
     }
 
@@ -184,6 +187,14 @@ public class Run implements Serializable {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setSpeed(Long speed) {
+        this.speed = speed;
+    }
+
+    public Long getSpeed() {
+        return speed;
     }
     
 }

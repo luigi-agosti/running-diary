@@ -15,6 +15,18 @@
 	</PreferenceCategory>
 	
 	<PreferenceCategory
+		android:title="System">
+		<ListPreference 
+			android:key="avarageSize"
+			android:title="Tracking Frequenzy"
+			android:summary="Select the frequency of tracking points"
+			android:entries="@array/listArray"
+			android:entryValues="@array/listValues">
+		</ListPreference>
+	</PreferenceCategory>
+	
+	
+	<PreferenceCategory
 		android:key="formFields"
 		android:title="Personalize Data">
 		<Preference

@@ -7,12 +7,14 @@ import android.content.Intent;
 
 import com.la.runners.R;
 import com.la.runners.activity.Preferences;
+import com.la.runners.exception.ConnectionException;
 import com.la.runners.exception.ResourceException;
 import com.la.runners.service.sync.SyncNotifier;
 import com.la.runners.service.sync.custom.CustomSyncEventListener;
 import com.la.runners.service.sync.custom.LocationSync;
 import com.la.runners.service.sync.custom.ProfileSync;
 import com.la.runners.service.sync.custom.RunSync;
+import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.network.GoogleAuth;
 
@@ -60,9 +62,12 @@ public class SyncService extends IntentService {
             }
             GoogleAuth googleAuth = GoogleAuth.getInstance();
             int loginAttempts = 0;
-            while(!googleAuth.isLoggedIn(c) || !(loginAttempts < 5)) {
+            while(!googleAuth.isLoggedIn(c)) {
                 if(loginAttempts == 0) {
                     googleAuth.login(c, account, intent);
+                }
+                if(loginAttempts > 3) {
+                    throw new ConnectionException(R.string.error_13);
                 }
                 loginAttempts++;
             }
@@ -75,12 +80,13 @@ public class SyncService extends IntentService {
             } else if(ACTION_SYNC_PROFILE.equals(intent.getAction())) {
                 new ProfileSync().syncDown(c, sel);
             }
+            Notifier.notify(c, R.string.syncService_end);
         } catch (ResourceException ce) {
-            Notifier.notify(c, ce.getResourceId(), ce.getMessage());
+            Notifier.notify(c, ce.getResourceId(), ce.getObjects());
         } catch (Throwable e) {
             Notifier.notify(c, R.string.error_8, e.getMessage());
+            AppLogger.error(e);
         }
-        Notifier.notify(c, R.string.syncService_end);
     }
     
 }

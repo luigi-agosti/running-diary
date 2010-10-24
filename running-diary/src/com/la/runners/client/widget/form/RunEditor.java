@@ -125,7 +125,7 @@ public class RunEditor extends BaseForm implements LoadRunHandler {
         run.setMonth(run.getMonth() - 1);
         run.setDay(Integer.parseInt(DAY_FORMATTER.format(date)));
         run.setDate(date);
-        run.setDistance(Integer.valueOf(distanceInput.getText()));
+        run.setDistance(Long.valueOf(distanceInput.getText()));
         run.setNote(noteInput.getText());
         run.setTime(Long.valueOf(timeInput.getText()));
         run.setDayTime(Long.valueOf(dayTimeInput.getText()));

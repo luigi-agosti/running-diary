@@ -48,6 +48,9 @@ public class Location implements Serializable {
     
     @Persistent
     private Long totalDistance;
+    
+    @Persistent
+    private Long runId;
 
     public void setDistance(Long distance) {
         this.distance = distance;
@@ -136,6 +139,13 @@ public class Location implements Serializable {
     public Date getTimestamp() {
         return timestamp;
     }
-    
+
+    public void setRunId(Long runId) {
+        this.runId = runId;
+    }
+
+    public Long getRunId() {
+        return runId;
+    }
     
 }

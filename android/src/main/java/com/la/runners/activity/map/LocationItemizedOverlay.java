@@ -10,6 +10,8 @@ import com.google.android.maps.OverlayItem;
 
 public class LocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 
+    private static final String EMPTY_STRING = "";
+    
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
     
     public LocationItemizedOverlay(Drawable defaultMarker) {
@@ -26,14 +28,19 @@ public class LocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
         return mOverlays.size();
     }
 
-    public void add(long latitude, long longitude) {
+    public GeoPoint add(long latitude, long longitude) {
         GeoPoint point = new GeoPoint((int)latitude,(int)longitude);
-        OverlayItem overlayitem = new OverlayItem(point, "", "");
+        OverlayItem overlayitem = new OverlayItem(point, EMPTY_STRING, EMPTY_STRING);
         mOverlays.add(overlayitem);
+        return point;
     }
     
     public void populateItem() {
         populate();
+    }
+    
+    public void clear() {
+        mOverlays.clear();
     }
     
 }

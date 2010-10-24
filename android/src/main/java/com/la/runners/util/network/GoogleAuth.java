@@ -70,11 +70,11 @@ public class GoogleAuth {
      * @param context
      * @return
      */
-    public Boolean isLoggedIn(Context context) {
+    public Boolean isLoggedIn(final Context context) {
         return isLoggedIn(context, true);
     }
     
-    private Boolean isLoggedIn(Context context, boolean withRetry) {
+    private Boolean isLoggedIn(final Context context, boolean withRetry) {
         try {
             AuthCheckParser result = NetworkService.getAuthCheckParser(context);
             if(result != null && result.isLoggerIn()) {
@@ -101,7 +101,7 @@ public class GoogleAuth {
         login(context, selectedAccount, intent, true);
     }
 
-    private void login(Context context, String selectedAccount, final Intent intent, boolean invalidate) {
+    private void login(final Context context, String selectedAccount, final Intent intent, boolean invalidate) {
         Account[] accounts = getAccounts(context);
         if (accounts != null && accounts.length > 0) {
             for (Account account : accounts) {
@@ -119,7 +119,7 @@ public class GoogleAuth {
      * @param context
      * @return
      */
-    public Account[] getAccounts(Context context) {
+    public Account[] getAccounts(final Context context) {
         AccountManager accountManager = AccountManager.get(context);
         return accountManager.getAccountsByType(GOOGLE_ACCOUNT_TYPES);
     }
@@ -134,7 +134,7 @@ public class GoogleAuth {
         
         private boolean invalidate;
 
-        public GetAuthTokenCallback(Context context, final Intent intent, Account account, boolean invalidate) {
+        public GetAuthTokenCallback(final Context context, final Intent intent, Account account, boolean invalidate) {
             this.intent = intent;
             this.context = context;
             this.account = account;
@@ -156,7 +156,7 @@ public class GoogleAuth {
                         accountManager.invalidateAuthToken(account.type, token);
                         login(context, account.name, intent, false);
                     } else {
-                        onGetAuthToken(token);
+                        onGetAuthToken(context, token);
                     }
                 }
             } catch (Throwable e) {
@@ -166,7 +166,7 @@ public class GoogleAuth {
             }
         }
 
-        protected void onGetAuthToken(String token) throws ClientProtocolException, IOException {
+        protected void onGetAuthToken(Context context, String token) throws ClientProtocolException, IOException {
             DefaultHttpClient defaultHttpClient = httpManager.getDefaultHttpClient();
             try {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
@@ -189,7 +189,11 @@ public class GoogleAuth {
                     Preferences.setGoogleAuthToken(context, token);
                     Preferences.setGoogleAcsidCookie(context, acsidCookie);
                 }
-                context.startService(intent);
+                if(context != null) {
+                    context.startService(intent);
+                } else {
+                    AppLogger.error("Problem in the get auth token context is null!");
+                }
             } catch (Throwable t) {
             	AppLogger.error(t);
             } finally {

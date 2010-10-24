@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -115,7 +116,7 @@ public class HttpManager {
             return out;
         } catch (Exception e) {
             closeSilently(out);
-            throw new ConnectionException(R.string.error_7, url, e.getMessage());
+            throw new ConnectionException(R.string.error_7, url);
         } finally {
             closeSilently(is);
         }
@@ -148,6 +149,29 @@ public class HttpManager {
             StringEntity tmp = new StringEntity(data,ENCODING);
             httpPost.setEntity(tmp);
             response = client.execute(httpPost);
+            if (response != null && response.getStatusLine().getStatusCode() == 200) {
+                return;
+            }
+            throw new ConnectionException();
+        } catch (Exception e) {
+            closeSilently(is);
+            throw new ConnectionException(R.string.error_5, url, e.getMessage());
+        }
+    }
+
+    public void delete(Context context, String url) {
+        if (!Network.isNetworkAvailable(context)) {
+            throw new ConnectionException(R.string.error_4, url);
+        }
+        HttpDelete delete = new HttpDelete(url);
+        HttpResponse response;
+        InputStream is = null;
+        try {
+            String acsidCookie = Preferences.getGoogleAcsidCookie(context);
+            if (acsidCookie != null) {
+                delete.addHeader(COOKIES, acsidCookie);
+            }
+            response = client.execute(delete);
             if (response != null && response.getStatusLine().getStatusCode() == 200) {
                 return;
             }

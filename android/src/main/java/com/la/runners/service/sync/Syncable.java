@@ -12,4 +12,8 @@ public interface Syncable {
 
     void syncUp(Context context, SyncNotifier syncEventListener);
 
+    void syncUpUpdates(Context context, SyncNotifier syncEventListener);
+
+    void syncUpDeletes(Context context, SyncNotifier syncEventListener);
+
 }
