@@ -64,7 +64,7 @@ public class SearchGrid extends BaseGrid implements SearchProfileHandler {
                 grid.setWidget(index,2, btnInvite);
                 index++;
             }
-            showMessage("Results : " + index);
+            showMessage("Results : " + --index);
         }
     }
 

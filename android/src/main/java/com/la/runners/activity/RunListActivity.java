@@ -54,7 +54,7 @@ public class RunListActivity extends BaseActivity {
             }
             case R.id.delete: {
                 AppLogger.debug("delete");
-                getApplicationContext().getContentResolver().delete(Model.Run.CONTENT_URI, Model.Run.ID, new String[]{"" + info.id});
+                getApplicationContext().getContentResolver().delete(Model.Run.CONTENT_URI, Model.Run.ID + Model.PARAMETER, new String[]{"" + info.id});
                 return true;
             }
             default:

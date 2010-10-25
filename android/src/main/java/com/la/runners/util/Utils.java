@@ -1,5 +1,8 @@
 package com.la.runners.util;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+
 import android.location.Location;
 
 public class Utils {
@@ -43,23 +46,41 @@ public class Utils {
     
     public static class Date {
         
+        private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
+        private static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
+        
+        private static final SimpleDateFormat HOUR_FORMATTER = new SimpleDateFormat("HH");
+        private static final SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("dd");
+        private static final SimpleDateFormat MONTH_FORMATTER = new SimpleDateFormat("MM");
+        private static final SimpleDateFormat YEAR_FORMATTER = new SimpleDateFormat("yyyy");
+        private static final SimpleDateFormat MINUTES_FORMATTER = new SimpleDateFormat("mm");
+        
         public static final int year(long millisec) {
-            
-            return 0;
+            return Integer.valueOf(YEAR_FORMATTER.format(new java.util.Date(millisec)));
         }
         
         public static final int month(long millisec) {
-            
-            return 0;
+            return Integer.valueOf(MONTH_FORMATTER.format(new java.util.Date(millisec)));
         }
         
         public static final int day(long millisec) {
-            
-            return 0;
+            return Integer.valueOf(DAY_FORMATTER.format(new java.util.Date(millisec)));
+        }
+
+        public static final int hour(long millisec) {
+            return Integer.valueOf(HOUR_FORMATTER.format(new java.util.Date(millisec)));
+        }
+        
+        public static final int minutes(long millisec) {
+            return Integer.valueOf(MINUTES_FORMATTER.format(new java.util.Date(millisec)));
+        }
+        
+        public static final String time(long millisec) {
+            return TIME_FORMATTER.format(new java.util.Date(millisec));
         }
 
         public static String dayTime(long time) {
-            // TODO Auto-generated method stub
+            
             return null;
         }
 
@@ -67,10 +88,21 @@ public class Utils {
     
     public static class Number {
         
+        private static final DecimalFormat SHORT_DECIMAL_FORMATTER = new DecimalFormat("#.##");
+        private static final DecimalFormat LONG_DECIMAL_FORMATTER = new DecimalFormat("##.######");
+        
         private static final double MULTIPLIER = 1000000D;
         
         public static final long e6(double number) {
             return (long)(number * MULTIPLIER);
+        }
+        
+        public static final String shorDecimal(double number) {
+            return SHORT_DECIMAL_FORMATTER.format(number);
+        }
+        
+        public static final String longDecimal(double number) {
+            return LONG_DECIMAL_FORMATTER.format(number); 
         }
     }
     

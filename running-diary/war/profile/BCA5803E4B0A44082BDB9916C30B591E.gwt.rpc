@@ -7,8 +7,8 @@ com.la.runners.shared.Location, true, true, false, false, com.la.runners.shared.
 [Lcom.la.runners.shared.Location;, true, true, false, false, [Lcom.la.runners.shared.Location;/2771581585, 2771581585
 com.la.runners.shared.Profile, true, true, true, true, com.la.runners.shared.Profile/2188669033, 2188669033
 [Lcom.la.runners.shared.Profile;, true, true, false, false, [Lcom.la.runners.shared.Profile;/788357152, 788357152
-com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/235559462, 235559462
-[Lcom.la.runners.shared.Run;, true, true, false, false, [Lcom.la.runners.shared.Run;/40389030, 40389030
+com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/3478548426, 3478548426
+[Lcom.la.runners.shared.Run;, true, true, false, false, [Lcom.la.runners.shared.Run;/2855918687, 2855918687
 com.la.runners.shared.ServerException, true, true, false, false, com.la.runners.shared.ServerException/12324792, 12324792
 java.lang.Boolean, true, true, true, true, java.lang.Boolean/476441737, 476441737
 java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873

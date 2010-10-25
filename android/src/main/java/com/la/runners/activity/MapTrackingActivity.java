@@ -55,13 +55,6 @@ public class MapTrackingActivity extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         mapController = mapView.getController();
         mapController.setZoom(17);
-        
-        //TODO I can add stuff to this view at the end
-//        Button  b = new Button(getApplicationContext());
-//        b.setText("refresh");
-//        b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//        mapView.addView(b);
-        
         mapOverlays = mapView.getOverlays(); 
         pathPoints = new LocationItemizedOverlay(getPathIcon());
         location = new LocationItemizedOverlay(getLocationIcon());
@@ -70,7 +63,6 @@ public class MapTrackingActivity extends MapActivity {
     
     @Override
     protected boolean isRouteDisplayed() {
-        // TODO Auto-generated method stub
         return false;
     }
     

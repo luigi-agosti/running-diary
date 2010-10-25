@@ -19,6 +19,8 @@ import android.widget.ImageButton;
 
 public class DashboardActivity extends BaseActivity {
     
+    private boolean isRunning = Boolean.FALSE;
+    
     @Override
     protected void onResume() {
         if(findViewById(R.id.tracking_trackingPanel).getVisibility() == View.VISIBLE) {
@@ -73,8 +75,11 @@ public class DashboardActivity extends BaseActivity {
         ((ImageButton)findViewById(R.id.dashboardGeoStartBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View paramView) {
-                startTracking();
-                startService(new Intent(DashboardActivity.this.getApplicationContext(), RunTrackingService.class));
+                Intent intent = RunTrackingService.getIntentAndCheckCondition(DashboardActivity.this.getApplicationContext());
+                if(intent != null) {
+                    startTracking();
+                    startService(intent);
+                }
             }
         });
         ((ImageButton)findViewById(R.id.dashboardDownloadBtn)).setOnClickListener(new View.OnClickListener() {
@@ -83,9 +88,32 @@ public class DashboardActivity extends BaseActivity {
                 SyncService.startDataSync(getApplicationContext());
             }
         });
+        if(isRunning) {
+            showTrakingView();
+        } else {
+            showNormalView();
+        }
     }
     
     private void startTracking() {
+        showTrakingView();
+        registerObserver();
+        isRunning = false;
+    }
+    
+    private void stopTracking() {
+        showNormalView();
+        unregisterObserver();
+        isRunning = false;
+    }
+    
+    private void showNormalView() {
+        findViewById(R.id.tracking_firstRow).setVisibility(View.VISIBLE);
+        findViewById(R.id.tracking_lastRow).setVisibility(View.VISIBLE);
+        findViewById(R.id.tracking_trackingPanel).setVisibility(View.GONE);
+    }
+    
+    private void showTrakingView() {
         findViewById(R.id.tracking_firstRow).setVisibility(View.GONE);
         findViewById(R.id.tracking_lastRow).setVisibility(View.GONE);
         
@@ -111,14 +139,6 @@ public class DashboardActivity extends BaseActivity {
                 startActivity(MapTrackingActivity.prepareIntent(getApplicationContext()));
             }
         });
-        registerObserver();
-    }
-    
-    private void stopTracking() {
-        findViewById(R.id.tracking_firstRow).setVisibility(View.VISIBLE);
-        findViewById(R.id.tracking_lastRow).setVisibility(View.VISIBLE);
-        findViewById(R.id.tracking_trackingPanel).setVisibility(View.GONE);
-        unregisterObserver();
     }
     
     private void updateRunInformation() {

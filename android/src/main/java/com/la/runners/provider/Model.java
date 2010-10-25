@@ -1,27 +1,19 @@
 package com.la.runners.provider;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONStringer;
-
-import com.la.runners.activity.Preferences;
-import com.la.runners.provider.SyncProvider.Syncable;
-import com.la.runners.util.AppLogger;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.la.runners.activity.Preferences;
+import com.la.runners.provider.SyncProvider.Syncable;
+import com.la.runners.util.AppLogger;
+import com.la.runners.util.Utils;
+
 public class Model {
-    
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
-    private static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
-    private static final DecimalFormat SHORT_DECIMAL_FORMATTER = new DecimalFormat("#.##");
-    private static final DecimalFormat LONG_DECIMAL_FORMATTER = new DecimalFormat("##.######");
     
     public static final String SEPARATOR = "/";
     
@@ -52,22 +44,24 @@ public class Model {
     	
     	public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
     	
-    	public static final String TIME = "time";
-    	
     	public static final String DISTANCE = "distance";
-    	
     	public static final String SPEED = "speed";
     	
-    	public static final String DATE = "date";
+    	public static final String TIME = "time";
+    	public static final String CREATED = "created";
+    	public static final String YEAR = "year";    	
+    	public static final String MONTH = "month";
+    	public static final String DAY = "day";
+    	public static final String HOUR = "hour";
+    	public static final String START_DATE = "startDate";
+    	public static final String END_DATE = "endDate";
+    	public static final String MODIFIED = "modified";
+    	
     	
     	public static final String NOTE = "note";
-    	
     	public static final String HEART_RATE ="heartRate";
-    	
     	public static final String WEIGHT = "weight";
-    	
     	public static final String SHOES = "shoes";
-    	
     	public static final String SHARE = "share";
 
 		public static final int INCOMING_COLLECTION = 10;
@@ -78,15 +72,8 @@ public class Model {
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.run";
 
-		public static final String YEAR = "year";
 		
-		public static final String MONTH = "month";
-		
-		public static final String DAY = "day";
 
-        public static final String MODIFIED = "modified";
-
-        public static final String DAY_TIME = "dayTime";
 
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
@@ -96,17 +83,12 @@ public class Model {
             return c.getLong(c.getColumnIndex(DISTANCE));
         }
 
-        public static final Long date(Cursor c) {
-            return c.getLong(c.getColumnIndex(DATE));
+        public static final Long created(Cursor c) {
+            return c.getLong(c.getColumnIndex(CREATED));
         }
 
         public static final Long speed(Cursor c) {
             return c.getLong(c.getColumnIndex(SPEED));
-        }
-
-        public static final String formattedModifiedDate(Cursor c) {
-        	Date date = new Date(c.getLong(c.getColumnIndex(DATE)));
-        	return DATE_FORMATTER.format(date);
         }
 
         public static final String note(Cursor c) {
@@ -128,9 +110,9 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    Long date = date(c);
-                    if(date != null) {
-                    	js.key(DATE).value(date);
+                    Long created = created(c);
+                    if(created != null) {
+                    	js.key(CREATED).value(created);
                     }
                     Integer year = year(c);
                     if(year != null) {
@@ -143,6 +125,10 @@ public class Model {
                     Integer day = day(c);
                     if(day != null) {
                     	js.key(DAY).value(day);
+                    }
+                    Integer hour = hour(c);
+                    if(hour != null) {
+                        js.key(HOUR).value(hour);
                     }
                     Long distance = distance(c);
                     if(distance != null) {
@@ -160,10 +146,6 @@ public class Model {
                     if(time != null) {
                     	js.key(TIME).value(time);
                     }
-                    Long dayTime = dayTime(c);
-                    if(dayTime != null) {
-                        js.key(DAY_TIME).value(dayTime);
-                    }
                     Integer heartRate = heartRate(c);
                     if(heartRate != null) {
                     	js.key(HEART_RATE).value(heartRate);
@@ -179,6 +161,14 @@ public class Model {
                     Long modified = modified(c);
                     if(modified != null) {
                     	js.key(MODIFIED).value(modified);
+                    }
+                    Long startDate = startDate(c);
+                    if(startDate != null) {
+                        js.key(START_DATE).value(startDate);
+                    }
+                    Long endDate = endDate(c);
+                    if(endDate != null) {
+                        js.key(END_DATE).value(endDate);
                     }
                     Boolean shared = share(c);
                     if(shared != null) {
@@ -205,9 +195,17 @@ public class Model {
 		private static Long modified(Cursor c) {
 			return c.getLong(c.getColumnIndex(MODIFIED));
 		}
+		
+		private static Long startDate(Cursor c) {
+		    return c.getLong(c.getColumnIndex(START_DATE));
+		}
+		
+		private static Long endDate(Cursor c) {
+		    return c.getLong(c.getColumnIndex(END_DATE));
+		}
 
-		private static Long dayTime(Cursor c) {
-            return c.getLong(c.getColumnIndex(DAY_TIME));
+		private static Integer hour(Cursor c) {
+            return c.getInt(c.getColumnIndex(HOUR));
         }
 
         private static Integer weight(Cursor c) {
@@ -357,7 +355,7 @@ public class Model {
         }
 
         public static final String formattedDistance(Cursor c) {
-            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(DISTANCE))/100D);
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(DISTANCE))/100D);
         }
 
         public static final Long totalDistance(Cursor c) {
@@ -365,7 +363,7 @@ public class Model {
         }
 
         public static final String formattedTotalDistance(Cursor c) {
-            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(TOTAL_DISTANCE))/100D);
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(TOTAL_DISTANCE))/100D);
         }
         
         public static final Long altitude(Cursor c) {
@@ -381,7 +379,7 @@ public class Model {
         }
         
         public static final String formattedSpeed(Cursor c) {
-            return SHORT_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(SPEED))/27777.778D);
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(SPEED))/27777.778D);
         }
         
         public static final Long longitude(Cursor c) {
@@ -389,7 +387,7 @@ public class Model {
         }
         
         public static final String formattedLongitude(Cursor c) {
-            return LONG_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(LONGITUDE))/1000000D);
+            return Utils.Number.longDecimal(c.getLong(c.getColumnIndex(LONGITUDE))/1000000D);
         }
 
         public static final Long latitude(Cursor c) {
@@ -397,7 +395,7 @@ public class Model {
         }
 
         public static final String formattedLatitude(Cursor c) {
-            return LONG_DECIMAL_FORMATTER.format(c.getLong(c.getColumnIndex(LATITUDE))/1000000D);
+            return Utils.Number.longDecimal(c.getLong(c.getColumnIndex(LATITUDE))/1000000D);
         }
         
         public static final Long timestamp(Cursor c) {
@@ -409,7 +407,7 @@ public class Model {
         }   
         
         public static final String fomatterTime(Cursor c) {
-            return TIME_FORMATTER.format(new Date(c.getLong(c.getColumnIndex(TIME))));
+            return Utils.Date.time(c.getLong(c.getColumnIndex(TIME)));
         }   
         
         public static final Cursor all(ContentResolver cr) {

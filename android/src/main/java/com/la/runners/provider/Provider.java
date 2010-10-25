@@ -48,6 +48,7 @@ public class Provider extends SyncProvider {
             case Model.Run.INCOMING_COLLECTION: {
                 deleteSyncable(Model.Run.NAME, selection, selectionArgs);
                 rows = getDataBase().delete(Model.Run.NAME, selection, selectionArgs);
+                getContext().getContentResolver().notifyChange(Model.Run.CONTENT_URI, null);
                 break;
             }
             case Model.Location.INCOMING_COLLECTION: {

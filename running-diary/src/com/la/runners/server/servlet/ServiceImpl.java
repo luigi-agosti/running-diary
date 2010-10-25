@@ -94,7 +94,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         	Run newRun  = new Run();
         	newRun.setId(run.getId());
         	newRun.setDistance(run.getDistance());
-        	newRun.setDate(run.getDate());
+        	newRun.setCreated(run.getCreated());
         	newRun.setYear(run.getYear());
         	newRun.setMonth(run.getMonth());
         	newRun.setDay(run.getDay());

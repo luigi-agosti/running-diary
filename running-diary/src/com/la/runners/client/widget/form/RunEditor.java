@@ -40,7 +40,7 @@ public class RunEditor extends BaseForm implements LoadRunHandler {
         eventBus().addHandler(LoadRunEvent.TYPE, this);
         
         dateInput = addDateWithLabel("Date");
-        dayTimeInput = addTextBoxWithLabel("Day Time");
+        dayTimeInput = addTextBoxWithLabel("Start");
         distanceInput = addTextBoxWithLabel("Distance (meters)");
         timeInput = addTextBoxWithLabel("Time (minutes)");
         addSubtitle("Optional");
@@ -74,8 +74,8 @@ public class RunEditor extends BaseForm implements LoadRunHandler {
     public void load(Run run) {
         this.run = run;
         idInput.setText("" + run.getId());
-        dateInput.setValue(run.getDate());
-        dayTimeInput.setText("" + run.getDayTime());
+        //dateInput.setValue(run.getDate());
+        //dayTimeInput.setText("" + run.getDayTime());
         distanceInput.setText("" + run.getDistance());
         noteInput.setText("" + run.getNote());
         timeInput.setText("" + run.getTime());
@@ -124,11 +124,13 @@ public class RunEditor extends BaseForm implements LoadRunHandler {
         run.setMonth(Integer.parseInt(MONTH_FORMATTER.format(date)));
         run.setMonth(run.getMonth() - 1);
         run.setDay(Integer.parseInt(DAY_FORMATTER.format(date)));
-        run.setDate(date);
+        run.setCreated(new Date());
         run.setDistance(Long.valueOf(distanceInput.getText()));
         run.setNote(noteInput.getText());
         run.setTime(Long.valueOf(timeInput.getText()));
-        run.setDayTime(Long.valueOf(dayTimeInput.getText()));
+        
+        run.setHour(Long.valueOf(dayTimeInput.getText()));
+        
         run.setModified(new Date());
         
         setHeartRateValue(run);

@@ -19,9 +19,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.la.runners.R;
 import com.la.runners.Runners;
 import com.la.runners.activity.Preferences;
+import com.la.runners.exception.ConnectionException;
 import com.la.runners.parser.AuthCheckParser;
+import com.la.runners.service.SyncService;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Constants;
 
@@ -108,7 +111,7 @@ public class GoogleAuth {
                 if (selectedAccount.equals(account.name)) {
                     AccountManager accountManager = AccountManager.get(context);
                     accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, false, 
-                    	new GetAuthTokenCallback(context, intent, account, invalidate), null);
+                    	new GetAuthTokenCallback(context, account, invalidate), null);
                 }
             }
         }
@@ -126,16 +129,13 @@ public class GoogleAuth {
 
     private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
 
-        private Intent intent;
-
         private Context context;
         
         private Account account;
         
         private boolean invalidate;
 
-        public GetAuthTokenCallback(final Context context, final Intent intent, Account account, boolean invalidate) {
-            this.intent = intent;
+        public GetAuthTokenCallback(final Context context, Account account, boolean invalidate) {
             this.context = context;
             this.account = account;
             this.invalidate = invalidate;
@@ -171,15 +171,14 @@ public class GoogleAuth {
             try {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
                 HttpGet httpGet = new HttpGet(LOGIN_URL + token);
-                HttpResponse response;
-                response = defaultHttpClient.execute(httpGet);
+                HttpResponse response = defaultHttpClient.execute(httpGet);
                 //if (response.getStatusLine().getStatusCode() != 302) {
                 //    throw new RuntimeException("302 ? there was a problem");
                 //}
                 Header[] headers = response.getHeaders(SET_COOKIES);
                 String acsidCookie = null;
                 for (Header header: headers) {
-                    if (header.getValue().indexOf(ACSID_COOKIE) >=0) {
+                    if (header.getValue().indexOf(ACSID_COOKIE) >= 0) {
                         String value = header.getValue();
                         String[] pairs = value.split(SEPARATOR);
                         acsidCookie = pairs[0];
@@ -188,11 +187,10 @@ public class GoogleAuth {
                 if(acsidCookie != null) {
                     Preferences.setGoogleAuthToken(context, token);
                     Preferences.setGoogleAcsidCookie(context, acsidCookie);
-                }
-                if(context != null) {
-                    context.startService(intent);
+                    SyncService.startSyncProfile(context);
+                    SyncService.startDataSync(context);
                 } else {
-                    AppLogger.error("Problem in the get auth token context is null!");
+                    throw new ConnectionException(R.string.error_13);
                 }
             } catch (Throwable t) {
             	AppLogger.error(t);

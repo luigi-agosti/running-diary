@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,13 +23,16 @@ import com.la.runners.service.track.AvarageTrackManager;
 import com.la.runners.service.track.StoreManager;
 import com.la.runners.service.track.TrackManager;
 import com.la.runners.util.AppLogger;
-import com.la.runners.util.DateUtils;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.Utils;
 
 public class RunTrackingService extends Service implements LocationListener, StoreManager {
 
     private static final int MIN_REQUIRED_ACCURACY = 200;
+    
+    private static final int ONE_MINUTE = 60*1000; 
+    
+    private static final int FIVE_MIN = ONE_MINUTE * 5;
     
     private TrackManager trackManager;
 
@@ -52,24 +56,22 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     };
 
     private final Timer timer = new Timer();
-
+    
+    public static final Intent getIntentAndCheckCondition(Context context) {
+        if(((LocationManager)context.getSystemService(LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Notifier.toastMessage(context, R.string.error_12);
+            return null;
+        }
+        return new Intent(context, RunTrackingService.class);
+    }
+    
     @Override
     public void onCreate() {
         super.onCreate();
         trackManager = new AvarageTrackManager(this, Preferences.getAvarageSize(getApplicationContext()));
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-
-        boolean isGgpsEnabled = false;
-        try {
-            isGgpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-        }
-        if (!isGgpsEnabled) {
-            Notifier.toastMessage(this, R.string.error_12);
-            return;
-        }
         registerLocationListener();
-        timer.schedule(checkLocationListener, 1000 * 60 * 5, 1000 * 60);
+        timer.schedule(checkLocationListener, FIVE_MIN, ONE_MINUTE);
         trackManager.start();
     }
 
@@ -171,12 +173,13 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     public void start() {
         ContentValues cv = new ContentValues();
         long time = System.currentTimeMillis();
-        cv.put(Model.Run.DATE, time);
-        cv.put(Model.Run.DAY, DateUtils.day(time));
-        cv.put(Model.Run.MONTH, DateUtils.month(time));
-        cv.put(Model.Run.YEAR, DateUtils.year(time));
+        cv.put(Model.Run.CREATED, time);
+        cv.put(Model.Run.START_DATE, time);
+        cv.put(Model.Run.DAY, Utils.Date.day(time));
+        cv.put(Model.Run.MONTH, Utils.Date.month(time));
+        cv.put(Model.Run.YEAR, Utils.Date.year(time));
         cv.put(Model.Run.MODIFIED, time);
-        cv.put(Model.Run.DAY_TIME, DateUtils.dayTime(time));
+        cv.put(Model.Run.HOUR, Utils.Date.hour(time));
         Uri uri = getContentResolver().insert(Model.Run.CONTENT_URI, cv);
         runId = uri.getLastPathSegment();
     }
@@ -190,6 +193,7 @@ public class RunTrackingService extends Service implements LocationListener, Sto
         cv.put(Model.Run.SPEED, Utils.Number.e6(speed));
         cv.put(Model.Run.DISTANCE, (long)totalDistance);
         cv.put(Model.Run.TIME, time - startingTime);
+        cv.put(Model.Run.END_DATE, time);
         getContentResolver().update(Model.Run.CONTENT_URI, cv, Model.Run.ID + Model.PARAMETER, new String[]{runId});
     }
 
