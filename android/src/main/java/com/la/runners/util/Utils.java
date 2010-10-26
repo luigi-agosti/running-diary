@@ -2,6 +2,8 @@ package com.la.runners.util;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import android.location.Location;
 
@@ -48,6 +50,9 @@ public class Utils {
         
         private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
         private static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
+        static {
+            TIME_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));  
+        }
         
         private static final SimpleDateFormat HOUR_FORMATTER = new SimpleDateFormat("HH");
         private static final SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("dd");

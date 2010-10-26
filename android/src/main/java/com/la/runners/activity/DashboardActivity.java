@@ -4,6 +4,7 @@ import com.la.runners.R;
 import com.la.runners.provider.Model;
 import com.la.runners.service.RunTrackingService;
 import com.la.runners.service.SyncService;
+import com.la.runners.util.Utils;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
