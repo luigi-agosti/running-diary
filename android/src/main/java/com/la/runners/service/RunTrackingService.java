@@ -59,10 +59,11 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     
     public static final Intent getIntentAndCheckCondition(Context context) {
         if(((LocationManager)context.getSystemService(LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Notifier.toastMessage(context, R.string.error_12);
-            return null;
+            return new Intent(context, RunTrackingService.class);
         }
-        return new Intent(context, RunTrackingService.class);
+        Notifier.toastMessage(context, R.string.error_12);
+        return null;
+        
     }
     
     @Override
