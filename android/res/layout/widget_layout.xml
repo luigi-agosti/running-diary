@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:dm="http://schemas.android.com/apk/res/uk.co.and.dailymail.android"
+	android:id="@+id/article"
+	android:background="@drawable/widget_background"
+	android:layout_margin="4dip"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<ImageView
+		android:id="@+id/widget_start"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:paddingRight="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="18dip"
+		android:layout_alignParentLeft="true"
+		android:src="@drawable/widget_start" />
+		
+	<ImageView
+		android:id="@+id/widget_stop"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:paddingRight="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="18dip"
+		android:layout_toRightOf="@id/widget_start"
+		android:src="@drawable/widget_stop" />
+
+	<ImageView
+		android:id="@+id/widget_edit"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:paddingRight="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="18dip"
+		android:layout_toRightOf="@id/widget_stop"
+		android:src="@drawable/widget_edit" />
+		
+	<ImageView
+		android:id="@+id/widget_map"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:paddingRight="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="18dip"
+		android:layout_toRightOf="@id/widget_edit"
+		android:src="@drawable/widget_map"/>
+		
+</RelativeLayout>

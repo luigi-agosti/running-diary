@@ -16,7 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.la.runners.client.Context;
-import com.la.runners.client.Styles;
+import com.la.runners.client.res.Styles;
 import com.la.runners.shared.Location;
 
 public class TrackingMap extends Composite {

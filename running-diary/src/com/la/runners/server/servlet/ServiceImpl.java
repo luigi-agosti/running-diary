@@ -85,6 +85,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
     @Override
     public List<Run> search(Integer year, Integer month) {
+        logger.info("Search with month : " + month + " year : " + year);
     	List<Run> result = runDao.search(year, month, getUserId());
     	if(result == null) {
     		return null;

@@ -33,6 +33,9 @@
 			    	<a href="profile.jsp">Profile</a>
 				</div>
 				<div id="menu-btn">
+					 <a href="download.jsp">Download</a>
+				</div>
+				<div id="menu-btn">
 			    	<%if (user != null) {%>
 						 <a href="<%= userService.createLogoutURL("/") %>">Sign out <%=user.getNickname()%></a>
 					<%}%>

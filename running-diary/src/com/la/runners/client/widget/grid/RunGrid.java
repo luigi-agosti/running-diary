@@ -7,12 +7,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.la.runners.client.Styles;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
 import com.la.runners.client.event.ShowMapEvent;
+import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
@@ -25,12 +25,12 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     public RunGrid(Context context) {
         super(context);
         eventBus().addHandler(RunListUpdateEvent.TYPE, this);
-        eventBus().fireEvent(new RunListUpdateEvent());
     }
     
-    private void load(Integer year, Integer month) {
+    private void load() {
         showMessage("Loading...");
-    	service().search(year, month, new AsyncCallback<List<Run>>() {
+    	service().search(Integer.valueOf(((RunGridBar)topBar).getYear()), 
+    	        Integer.valueOf(((RunGridBar)topBar).getMonth()), new AsyncCallback<List<Run>>() {
 			@Override
 			public void onSuccess(List<Run> result) {
 				drawGrid(result);
@@ -91,11 +91,11 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     
     @Override
     public void updateRunList(RunListUpdateEvent event) {
-        load(event.getYear(), event.getMonth());
         ((RunGridBar)topBar).setYear(event.getYear());
         ((RunGridBar)topBar).setMonth(event.getMonth());
         ((RunGridBar)bottomBar).setYear(event.getYear());
         ((RunGridBar)bottomBar).setMonth(event.getMonth());
+        load();
     }
     
     @Override

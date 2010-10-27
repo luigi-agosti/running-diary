@@ -2,7 +2,6 @@ package com.la.runners.util;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import android.location.Location;

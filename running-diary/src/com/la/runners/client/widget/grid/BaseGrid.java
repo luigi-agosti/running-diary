@@ -5,10 +5,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.Styles;
 import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
 import com.la.runners.client.res.Strings;
+import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 
 public abstract class BaseGrid extends Composite {

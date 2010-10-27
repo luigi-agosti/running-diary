@@ -193,7 +193,7 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
         return new Intent(context, RunEditorActivity.class);
     }
     
-    public static Intent getLoadRunEditor(Context context, long id) {
+    public static final Intent getLoadRunEditor(Context context, long id) {
         Intent intent = new Intent(context, RunEditorActivity.class);
         intent.putExtra(Model.Run.ID, id);
         return intent;

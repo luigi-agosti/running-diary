@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
-import com.la.runners.client.Styles;
 import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
 import com.la.runners.client.res.Strings;
+import com.la.runners.client.res.Styles;
 
 public class BaseForm extends Composite {
     

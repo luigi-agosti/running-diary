@@ -9,17 +9,19 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.event.ShowMapHandler;
+import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.TrackingMap;
-import com.la.runners.client.widget.form.RunEditor;
+import com.la.runners.client.widget.form.RunForm;
 import com.la.runners.client.widget.grid.RunGrid;
 
 public class HomeEntryPoint implements EntryPoint, ShowMapHandler {
 
     private Context context;
 
-    private boolean firstLoad = true;
+    private boolean firstLoad = Boolean.TRUE;
 
     private DialogBox dialogBox;
     
@@ -29,7 +31,7 @@ public class HomeEntryPoint implements EntryPoint, ShowMapHandler {
     public void onModuleLoad() {
         context = new Context();
         context.getEventBus().addHandler(ShowMapEvent.TYPE, this);
-        RunEditor runEditor = new RunEditor(context);
+        RunForm runEditor = new RunForm(context);
         RunGrid runGrid = new RunGrid(context);
         FlowPanel panel = new FlowPanel();
         panel.add(runGrid);
@@ -47,6 +49,7 @@ public class HomeEntryPoint implements EntryPoint, ShowMapHandler {
 
         panel.setStyleName(Styles.Form.entryPoint);
         RootPanel.get(context.strings.gwtHook()).add(panel);
+        context.getEventBus().fireEvent(new RunListUpdateEvent());
     }
 
     @Override
@@ -67,7 +70,6 @@ public class HomeEntryPoint implements EntryPoint, ShowMapHandler {
         dialogBox.center();
         dialogBox.show();
         mapContainer.add(new TrackingMap(context));
-        
     }
 
 }
