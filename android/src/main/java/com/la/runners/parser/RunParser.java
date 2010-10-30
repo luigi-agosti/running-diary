@@ -21,13 +21,21 @@ public class RunParser extends AbstractJsonParserIterator {
 		if(node!=null) {
 			cv.put(Model.Run.REMOTE_ID, node.get(Model.Run.REMOTE_ID).getValueAsText());
 			cv.put(Model.Run.TIME, node.get(Model.Run.TIME).getLongValue());
-			cv.put(Model.Run.DAY_TIME, node.get(Model.Run.DAY_TIME).getLongValue());
-			cv.put(Model.Run.DATE, node.get(Model.Run.DATE).getLongValue());
+			cv.put(Model.Run.CREATED, node.get(Model.Run.CREATED).getLongValue());
+			cv.put(Model.Run.MODIFIED, node.get(Model.Run.MODIFIED).getLongValue());
+			cv.put(Model.Run.START_DATE, node.get(Model.Run.START_DATE).getLongValue());
+			cv.put(Model.Run.END_DATE, node.get(Model.Run.END_DATE).getLongValue());
 			cv.put(Model.Run.YEAR, node.get(Model.Run.YEAR).getIntValue());
 			cv.put(Model.Run.MONTH, node.get(Model.Run.MONTH).getIntValue());
 			cv.put(Model.Run.DAY, node.get(Model.Run.DAY).getLongValue());
+			cv.put(Model.Run.HOUR, node.get(Model.Run.HOUR).getLongValue());
 			cv.put(Model.Run.DISTANCE, node.get(Model.Run.DISTANCE).getValueAsText());
-			cv.put(Model.Run.NOTE, node.get(Model.Run.NOTE).getValueAsText());
+			
+			//second group that can be optional
+			String note = node.get(Model.Run.NOTE).getTextValue();
+			if(note != null) {
+			    cv.put(Model.Run.NOTE, note);
+			}
 			Boolean share = node.get(Model.Run.SHARE).getBooleanValue();
 			if(share != null && share) { 
 			    cv.put(Model.Run.SHARE, 1);

@@ -19,7 +19,7 @@ public class JdoRunDao extends BaseDaoImpl<Run> implements BaseDao<Run> {
     
     private static final String FILTER_PARAMS_DECLARATION = "String userIdParam, Integer monthParam, Integer yearParam";
     
-    private static final String ORDER = "date desc";
+    private static final String ORDER = "startDate desc";
     
     public JdoRunDao() {
         super(Run.class);

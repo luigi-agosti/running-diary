@@ -6,10 +6,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.la.runners.client.Styles;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.SearchProfileEvent;
 import com.la.runners.client.event.SearchProfileHandler;
+import com.la.runners.client.res.Styles;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.ServerException;
 
@@ -64,7 +64,7 @@ public class SearchGrid extends BaseGrid implements SearchProfileHandler {
                 grid.setWidget(index,2, btnInvite);
                 index++;
             }
-            showMessage("Results : " + index);
+            showMessage("Results : " + --index);
         }
     }
 

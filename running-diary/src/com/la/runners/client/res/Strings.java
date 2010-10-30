@@ -7,7 +7,8 @@ public interface Strings extends Constants {
     /*
      * Other constants 
      */
-    String gwtHook();
+    String googleMapsKey();
+    String googleMapsVersion();
     
     /*
      * Search Form
@@ -18,6 +19,7 @@ public interface Strings extends Constants {
     String searchFormSendInviteSubtitle();
     String searchFormEmailLabel();
     String searchFormSendInviteButton();
+    String searchFormPersonalMessage();
     String searchFormInviteSuccess();
     String searchFormInviteFailure();
     
@@ -39,7 +41,48 @@ public interface Strings extends Constants {
     String profileFormInputLabelWeather();
     String profileFormInputLabelShoes();
     
-
+    /*
+     * Dialog
+     */
+    String dialogCloseButton();
     
+    /*
+     * Validation messages
+     */
+    String validationMandatoryField();
+   
+    /*
+     * Run form
+     */
+    String runFormTitle();
+    String runFormDate();
+    String runFormStart();
+    String runFormDistance();
+    String runFormTime();
+    String runFormOptional();
+    String runFormHeartRate();
+    String runFormWeight();
+    String runFormShoes();
+    String runFormNote();
+    String runFormShare();
+    String runFormSave();
+    String runFormSuccess();
+    String runFormFailure();
     
+    /*
+     * Run Grid
+     */    
+    String runGridLoading();
+    String runGridDone();
+    String runGridProblem();
+    String runGridNoResult();
+    String runGridDate();
+    String runGridDistance();
+    String runGridTime();
+    String runGridHeartRate();
+    String runGridWeight();
+    String runGridShoes();
+    String runGridNote();
+    String runGridMap();
+    String runGridEdit();
 }

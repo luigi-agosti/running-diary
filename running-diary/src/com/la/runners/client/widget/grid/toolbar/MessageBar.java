@@ -3,7 +3,7 @@ package com.la.runners.client.widget.grid.toolbar;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.Styles;
+import com.la.runners.client.res.Styles;
 
 public class MessageBar extends Composite {
 

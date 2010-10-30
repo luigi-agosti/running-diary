@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DashboardLabel">
-    	<item name="android:layout_width">fill_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:textColor">#4876FF</item>
-    	<item name="android:textStyle">bold</item>
-    	<item name="android:layout_gravity">center</item>
-    	<item name="android:gravity">center</item>
-    </style>
-    <style name="DashboardImage">
-    	<item name="android:layout_width">fill_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:background">#fff</item>
-    	<item name="android:layout_gravity">center</item>
-    	<item name="android:padding">10dip</item>
-    </style>
-    <style name="DashboardRow">
-    	<item name="android:layout_weight">1</item>
-    	<item name="android:layout_width">fill_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:orientation">horizontal</item>
-    </style>
-    <style name="DashboardCell">
-    	<item name="android:layout_width">fill_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:layout_weight">1</item>
-    	<item name="android:orientation">vertical</item>
-    	<item name="android:gravity">center|fill_horizontal|fill_vertical</item>
-    	<item name="android:padding">15dip</item>
-    </style>
+	<style name="DashboardLabel">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">#4876FF</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:gravity">center</item>
+	</style>
+	<style name="DashboardImage">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:background">#fff</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:padding">10dip</item>
+	</style>
+	<style name="DashboardRow">
+		<item name="android:layout_weight">1</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:orientation">horizontal</item>
+	</style>
+	<style name="DashboardCell">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center|fill_horizontal|fill_vertical</item>
+		<item name="android:padding">15dip</item>
+	</style>
+	<style name="TrackingInformation">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">#4876FF</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:layout_marginLeft">3dip</item>		
+		<item name="android:layout_marginTop">3dip</item>		
+		<item name="android:padding">3dip</item>
+	</style>
 </resources>

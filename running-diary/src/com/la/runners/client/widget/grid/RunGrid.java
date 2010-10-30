@@ -7,11 +7,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.la.runners.client.Styles;
+import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
+import com.la.runners.client.event.ShowMapEvent;
+import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
@@ -24,20 +26,20 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     public RunGrid(Context context) {
         super(context);
         eventBus().addHandler(RunListUpdateEvent.TYPE, this);
-        eventBus().fireEvent(new RunListUpdateEvent());
     }
     
-    private void load(Integer year, Integer month) {
-        showMessage("Loading...");
-    	service().search(year, month, new AsyncCallback<List<Run>>() {
+    private void load() {
+        showMessage(strings().runGridLoading());
+    	service().search(Integer.valueOf(((RunGridBar)topBar).getYear()), 
+    	        Integer.valueOf(((RunGridBar)topBar).getMonth()), new AsyncCallback<List<Run>>() {
 			@Override
 			public void onSuccess(List<Run> result) {
 				drawGrid(result);
-				showMessage(" ");
+				showMessage(strings().runGridDone());
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-			    showMessage("There was an error while requesting data to the server");
+			    showMessage(strings().runGridProblem());
 			}
 		});
     }
@@ -45,47 +47,93 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     private void drawGrid(List<Run> result) {
     	grid.clear();
     	if(result.isEmpty()) {
-    	    showMessage("No result found");
+    	    showMessage(strings().runGridNoResult());
     	} else {
-    	    grid.setWidget(0,0, createLabel("Date", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,1, createLabel("Distance", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,2, createLabel("Time", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,3, createLabel("Heart Rate", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,4, createLabel("Weight", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,5, createLabel("Shoes", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,6, createLabel("Note", Styles.Grid.gridHeaderCell));
-    	    grid.setWidget(0,7, createLabel("Edit", Styles.Grid.gridHeaderCell));
+    	    newRow();
+    	    addHeaderCellToRow(strings().runGridDate());
+    	    addHeaderCellToRow(strings().runGridDistance());
+    	    addHeaderCellToRow(strings().runGridTime());
+    	    if(profile().getHeartRate()) {
+    	        addHeaderCellToRow(strings().runGridHeartRate());
+    	    }
+    	    if(profile().getWeight()) {
+    	        addHeaderCellToRow(strings().runGridWeight());
+    	    }
+    	    if(profile().getShoes()) {
+    	        addHeaderCellToRow(strings().runGridShoes());
+    	    }
+    	    addHeaderCellToRow(strings().runGridNote());
+    	    addHeaderCellToRow(strings().runGridEdit());
+    	    addHeaderCellToRow(strings().runGridMap());
     	    int index = 1;
 	    	for(Run run : result) {
-	    	    grid.setWidget(index,0, createLabel(YEAR_FORMATTER.format(
-	    	         FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())), Styles.Grid.gridCell));
-	            grid.setWidget(index,1, createLabel("" + run.getDistance(), Styles.Grid.gridCell));
-	            grid.setWidget(index,2, createLabel("" + run.getTime(), Styles.Grid.gridCell));
-	            grid.setWidget(index,3, createLabel("" + run.getHeartRate(), Styles.Grid.gridCell));
-	            grid.setWidget(index,4, createLabel("" + run.getWeight(), Styles.Grid.gridCell));
-	            grid.setWidget(index,5, createLabel("" + run.getShoes(), Styles.Grid.gridCell));
-	            grid.setWidget(index,6, createLabel("" + run.getNote(), Styles.Grid.gridCell));
+	    	    newRow();
+	    	    addLabelCellToRow(index, YEAR_FORMATTER.format(
+	                     FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())));
+	    	    addLabelCellToRow(index, run.getDistance());
+	    	    addLabelCellToRow(index, run.getTime());
+	            if(profile().getHeartRate()) {
+	                addLabelCellToRow(index, run.getHeartRate());
+	            }
+	            if(profile().getWeight()) {
+	                addLabelCellToRow(index, run.getWeight());
+	            }
+	            if(profile().getShoes()) {
+	                addLabelCellToRow(index, run.getShoes());
+	            }
+	            addLabelCellToRow(index, run.getNote());
+	            
 	            final Long id = run.getId();
-	            Button btn = new Button("Edit");
+	            Button btn = new Button(strings().runGridEdit());
 	            btn.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         eventBus().fireEvent(new LoadRunEvent(id));
                     }
 	            });
-	            grid.setWidget(index,7, btn);
+	            addCellToRow(index, btn);
+	            
+	            Button btnMap = new Button(strings().runGridMap());
+	            btnMap.addClickHandler(new ClickHandler() {
+	                @Override
+	                public void onClick(ClickEvent event) {
+	                    eventBus().fireEvent(new ShowMapEvent(id));
+	                }
+	            });
+	            addCellToRow(index, btnMap);
 	            index++;
 	    	}
     	}
     }
     
+    private int cell = 0;
+    
+    private void addHeaderCellToRow(String label) {
+        grid.setWidget(0, cell, createLabel(label, Styles.Grid.gridHeaderCell));
+        cell++;
+    }
+    
+    private void addLabelCellToRow(int row, Object obj) {
+        addCellToRow(row, createLabel(obj, Styles.Grid.gridCell));
+    }
+    
+    private void addCellToRow(int row, Widget widget) {
+        grid.setWidget(row, cell, widget);
+        cell++;
+    }
+    
+    private void newRow() {
+        cell = 0;
+    }
+    
+    
     @Override
     public void updateRunList(RunListUpdateEvent event) {
-        load(event.getYear(), event.getMonth());
         ((RunGridBar)topBar).setYear(event.getYear());
         ((RunGridBar)topBar).setMonth(event.getMonth());
         ((RunGridBar)bottomBar).setYear(event.getYear());
         ((RunGridBar)bottomBar).setMonth(event.getMonth());
+        load();
     }
     
     @Override

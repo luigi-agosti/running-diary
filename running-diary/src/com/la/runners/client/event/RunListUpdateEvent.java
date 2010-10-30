@@ -7,14 +7,13 @@ public class RunListUpdateEvent extends GwtEvent<RunListUpdateHandler> {
 
     public static final GwtEvent.Type<RunListUpdateHandler> TYPE = new GwtEvent.Type<RunListUpdateHandler>();
 
-    private Integer month;
+    private int month;
 
-    private Integer year;
+    private int year;
+    
+    public RunListUpdateEvent() { }
 
-    public RunListUpdateEvent() {
-    }
-
-    public RunListUpdateEvent(Integer month, Integer year) {
+    public RunListUpdateEvent(int month, int year) {
         this.year = year;
         this.month = month;
     }
@@ -29,11 +28,11 @@ public class RunListUpdateEvent extends GwtEvent<RunListUpdateHandler> {
         return TYPE;
     }
 
-    public Integer getMonth() {
+    public int getMonth() {
         return month;
     }
 
-    public Integer getYear() {
+    public int getYear() {
         return year;
     }
 }

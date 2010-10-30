@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.la.runners.client.res.Strings;
+import com.la.runners.shared.Profile;
 
 public class Context implements Serializable {
 
@@ -15,6 +16,8 @@ public class Context implements Serializable {
     private ServiceAsync service;
     
     private HandlerManager eventBus;
+    
+    private Profile profile;
     
     public Context() {
         strings = GWT.create(Strings.class);
@@ -28,6 +31,14 @@ public class Context implements Serializable {
 
     public HandlerManager getEventBus() {
         return eventBus;
+    }
+    
+    public Profile getProfile() {
+        return profile;
+    }
+    
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

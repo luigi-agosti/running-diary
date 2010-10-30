@@ -4,7 +4,7 @@
 	android:orientation="vertical">
 	<TextView
 	style="@style/TitleHeader"
-	android:text="Run List"
+	android:text="@string/run_list_title"
 	/>
 	<ListView 
 		android:id="@+id/runList" 

@@ -20,6 +20,7 @@ import com.la.runners.R;
 import com.la.runners.provider.Model;
 import com.la.runners.service.SyncService;
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Notifier;
 import com.la.runners.util.network.GoogleAuth;
 
 /**
@@ -40,6 +41,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     private static final String SYNC_PROFILE = "syncProfile";
     
     private static final String SAVE_PROFILE = "saveProfile";
+    
+    private static final String TRACKING_FREQUENCY = "avarageSize";
+
+    private static final String DEFAULT_TRACKING_FREQUENCY = "10";
 
     public static final Intent getPreferenceIntent(Context context) {
         return new Intent(context, Preferences.class);
@@ -75,11 +80,15 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             SyncService.startDataSync(getApplicationContext());
             SyncService.startSyncProfile(getApplicationContext());
             setFirstRun(getApplicationContext(), false);
+            finish();
         }
     }
     
     private void setAccounts() {
         Account[] accounts = GoogleAuth.getInstance().getAccounts(getApplicationContext());
+        if(accounts == null || accounts.length <= 0) {
+            Notifier.toastMessage(this, R.string.error_10);
+        }
         if(accounts != null && accounts.length > 0) {
             ListPreference lp = (ListPreference)findPreference(ACCOUNT_KEY);
             String[] entries = new String[accounts.length];
@@ -131,6 +140,12 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     
     public static final Boolean getFirstRun(Context c) {
         return PreferenceManager.getDefaultSharedPreferences(c).getBoolean(FIRST_RUN, true);
+    }
+
+    public static final int getAvarageSize(Context c) {
+        //List preference doesn't support integer-array
+        //http://code.google.com/p/android/issues/detail?id=2096
+        return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(c).getString(TRACKING_FREQUENCY, DEFAULT_TRACKING_FREQUENCY));
     }
     
     public static final String getNickname(Context c) {

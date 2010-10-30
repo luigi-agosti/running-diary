@@ -9,6 +9,6 @@ public interface TrackManager {
 	
 	void updateLocation(Location location);
 	
-	Run stop();
+	void stop();
 	
 }

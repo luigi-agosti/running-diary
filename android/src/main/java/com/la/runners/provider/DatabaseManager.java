@@ -7,7 +7,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.la.runners.R;
 import com.la.runners.parser.SchemaParser;
+import com.la.runners.provider.SyncProvider.Sync;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.network.NetworkService;
@@ -36,37 +38,33 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (AppLogger.isInfoEnabled()) {
-            AppLogger.info("Upgrade of the database");
-        }
+        AppLogger.info("Upgrade of the database");
         drop(db);
         onCreate(db);
     }
 
     private void create(SQLiteDatabase db) {
-        if (AppLogger.isInfoEnabled()) {
-            AppLogger.info("Creating the database");
-        }
+        AppLogger.info("Creating the database");
+        List<String> stms = getSchema().getCreateStms();
+        stms.add(Sync.CREATE_STM);
         exec(db, getSchema().getCreateStms());
     }
 
     private void drop(SQLiteDatabase db) {
-        if (AppLogger.isInfoEnabled()) {
-            AppLogger.info("Dropping the database");
-        }
-        exec(db, getSchema().getDropStms());
+        AppLogger.info("Dropping the database");
+        List<String> stms = getSchema().getDropStms();
+        stms.add(Sync.DROP_STM);
+        exec(db, stms);
     }
 
     private final void exec(SQLiteDatabase db, List<String> staments) {
         for (String stm : staments) {
-            if (AppLogger.isDebugEnabled()) {
-                AppLogger.debug(stm);
-            }
+            AppLogger.debug(stm);
             try {
                 db.execSQL(stm);
             } catch (RuntimeException re) {
                 AppLogger.error(re);
-                Notifier.toastMessage(context, "Problem in the preparation of the database");
+                Notifier.toastMessage(context, R.string.error_11);
             }
         }
     }

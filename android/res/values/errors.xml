@@ -11,8 +11,12 @@
 	<string name="error_4">Network is down can not procede with loading resource at url : %1$s</string>
 	<string name="error_5">Problem loading resource at url %1$s with cause : %2$s</string>
 	<string name="error_6">Network is down can not procede with loading resource at url : %1$s</string>
-	<string name="error_7">Problem during the download for : %1$s with cause : %2$s</string>
+	<string name="error_7">Problem during the download for : %1$s</string>
 	<string name="error_8">Unknown problem : %1$s</string>
 	<string name="error_9">You have to choose a google account first</string>
+	<string name="error_10">This application require a google account</string>
+	<string name="error_11">Problem in the preparation of the database</string>
+	<string name="error_12">Gps is not enabled! you have to enable it</string>
+	<string name="error_13">Cannot get a valid token from google to authenticate on appengine</string>
 	 
 </resources>

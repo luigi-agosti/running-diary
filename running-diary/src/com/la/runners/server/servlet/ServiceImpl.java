@@ -28,6 +28,7 @@ import com.la.runners.server.dao.jdo.JdoInviteDao;
 import com.la.runners.server.dao.jdo.JdoProfileDao;
 import com.la.runners.server.dao.jdo.JdoRunDao;
 import com.la.runners.shared.Invite;
+import com.la.runners.shared.Location;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
 import com.la.runners.shared.ServerException;
@@ -84,6 +85,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
     @Override
     public List<Run> search(Integer year, Integer month) {
+        logger.info("Search with month : " + month + " year : " + year);
     	List<Run> result = runDao.search(year, month, getUserId());
     	if(result == null) {
     		return null;
@@ -93,7 +95,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         	Run newRun  = new Run();
         	newRun.setId(run.getId());
         	newRun.setDistance(run.getDistance());
-        	newRun.setDate(run.getDate());
+        	newRun.setCreated(run.getCreated());
         	newRun.setYear(run.getYear());
         	newRun.setMonth(run.getMonth());
         	newRun.setDay(run.getDay());
@@ -301,6 +303,28 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         Invite invite = inviteDao.get(token);
         invite.setUsedDate(new Date(0));
         inviteDao.save(invite);
+    }
+
+    @Override
+    public List<Location> getLocations(String token) {
+        List<Location> locations = new ArrayList<Location>();
+        Location location = new Location();
+        location.setLatitude(Long.valueOf(51533205));
+        location.setLongitude(Long.valueOf(-122501));
+        locations.add(location);
+        location = new Location();
+        location.setLatitude(Long.valueOf(51531514));
+        location.setLongitude(Long.valueOf(-122552));
+        locations.add(location);
+        location = new Location();
+        location.setLatitude(Long.valueOf(51531317));
+        location.setLongitude(Long.valueOf(-122519));
+        locations.add(location);
+        location = new Location();
+        location.setLatitude(Long.valueOf(51531269));
+        location.setLongitude(Long.valueOf(-122392));
+        locations.add(location);
+        return locations;
     }
     
 }

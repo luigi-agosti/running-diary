@@ -16,7 +16,11 @@ public class Notifier {
     
     private static final int NOTIFICATION_ID = 1;
     
-    public static final void notify(Context context, String message) {
+    public static final void notify(Context context, int resourceId, Object...objects) {
+        notify(context, context.getString(resourceId, objects));
+    }
+    
+    private static final void notify(Context context, String message) {
         NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         int icon = R.drawable.notification2;
         long when = System.currentTimeMillis();
@@ -28,12 +32,8 @@ public class Notifier {
         nm.notify(NOTIFICATION_ID, notification);
     }
    
-    public static final void toastMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
-    
-    public static final void fastToastMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    public static final void toastMessage(Context context, int resourceId, Object...objects) {
+        Toast.makeText(context, context.getString(resourceId, objects), Toast.LENGTH_LONG).show();
     }
 
 }

@@ -1,7 +1,6 @@
 
 package com.la.runners.activity;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.app.AlertDialog;
@@ -15,9 +14,9 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.la.runners.R;
 import com.la.runners.provider.Model;
@@ -29,12 +28,13 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
     public static final int MILLISECONDS_IN_A_MINUTE = 60000;
 
-    public static int interval = 100;
+    public static int INTERVAL = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.run_editor);
+                
         initDistanceSeekBar();
         initTimePicker();
         if (Preferences.getHeartRate(this)) {
@@ -46,6 +46,19 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
         if (Preferences.getWeight(this)) {
             enablePreferencesFields(R.id.weight, R.id.weight_text);
         }
+        if(getIntent().hasExtra(Model.Run.ID)) {
+            //TODO think a good way to managed fields
+//            Cursor c = managedQuery(Model.Run.get(getApplicationContext(), getIntent().getLongExtra(Model.Run.ID, Long.MAX_VALUE)));
+//            DatePicker date = (DatePicker)findViewById(R.id.date);
+//            TimePicker dayTime = (TimePicker)findViewById(R.id.dayTime);
+//            SeekBar distance = (SeekBar)findViewById(R.id.distance);
+//            TimePicker time = (TimePicker)findViewById(R.id.time);
+            
+            //TODO set the all data from the cursor
+//            if(c.moveToFirst()) {
+//                distance.setProgress((int)Math.abs(Model.Run.distance(c)/100));
+//            }
+        }
     }
 
     public void submitFormMethod(View submitButton) {
@@ -54,10 +67,10 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
         submitButton.setEnabled(false);
         try {
-
-            int year = ((DatePicker)findViewById(R.id.date)).getYear();
-            int month = ((DatePicker)findViewById(R.id.date)).getMonth();
-            int day = ((DatePicker)findViewById(R.id.date)).getDayOfMonth();
+            DatePicker dp = (DatePicker)findViewById(R.id.date);
+            int year = dp.getYear();
+            int month = dp.getMonth();
+            int day = dp.getDayOfMonth();
             GregorianCalendar calendar = new GregorianCalendar(year, month, day);
 
             long dateInMillisecons = calendar.getTimeInMillis();
@@ -76,8 +89,8 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
             if (time <= 0 && errorMessage != null) {
                 errorMessage = "Time has to be greater than 0";
             }
-            long dayTime = getTimeFromResourceId(R.id.dayTime);
-            if (dayTime <= 0 && errorMessage != null) {
+            long hour = getTimeFromResourceId(R.id.dayTime);
+            if (hour <= 0 && errorMessage != null) {
                 errorMessage = "Day Time has to be greater than 0";
             }
             Float heartRate = null;
@@ -92,14 +105,17 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
             }
             
             ContentValues cv = new ContentValues();
-            cv.put(Model.Run.DATE, dateInMillisecons);
+            cv.put(Model.Run.CREATED, System.currentTimeMillis());
+            cv.put(Model.Run.START_DATE, dateInMillisecons);
             cv.put(Model.Run.YEAR, year);
             cv.put(Model.Run.MONTH, month);
             cv.put(Model.Run.DAY, day);
-            cv.put(Model.Run.DISTANCE, ((TextView)findViewById(R.id.distance_edit_view)).getText().toString());
+            cv.put(Model.Run.HOUR, hour);
             cv.put(Model.Run.NOTE, ((TextView)findViewById(R.id.note)).getText().toString());
-            cv.put(Model.Run.DAY_TIME, dayTime);
             cv.put(Model.Run.TIME, time);
+            cv.put(Model.Run.END_DATE, dateInMillisecons + time);
+            cv.put(Model.Run.DISTANCE, ((TextView)findViewById(R.id.distance_edit_view)).getText().toString());
+            
             cv.put(Model.Run.HEART_RATE, heartRate);
             cv.put(Model.Run.WEIGHT, weight);
             cv.put(Model.Run.SHOES, ((TextView)findViewById(R.id.shoes)).getText().toString());
@@ -107,7 +123,7 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
 
             if (errorMessage == null) {
                 errorMessageTextView.setVisibility(View.GONE);
-                cv.put(Model.Run.MODIFIED, new Date().getTime());
+                cv.put(Model.Run.MODIFIED, System.currentTimeMillis());
                 getContentResolver().insert(Model.Run.CONTENT_URI, cv);
                 new AlertDialog.Builder(this).setTitle("Done")
                         .setMessage("New run succesfully saved")
@@ -176,12 +192,17 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
     public static final Intent prepareIntent(Context context) {
         return new Intent(context, RunEditorActivity.class);
     }
+    
+    public static final Intent getLoadRunEditor(Context context, long id) {
+        Intent intent = new Intent(context, RunEditorActivity.class);
+        intent.putExtra(Model.Run.ID, id);
+        return intent;
+    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        progress = Math.round(((float)progress) / interval) * interval;
+        progress = Math.round(((float)progress) / INTERVAL) * INTERVAL;
         ((EditText)findViewById(R.id.distance_edit_view)).setText(Integer.toString(progress));
-
     }
 
     @Override

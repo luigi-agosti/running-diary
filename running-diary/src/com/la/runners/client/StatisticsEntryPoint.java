@@ -7,10 +7,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class StatisticsEntryPoint implements EntryPoint {
 
+    private static final String GWT_HOOK = "gwtHook";
+    
     @Override
     public void onModuleLoad() {
-        Context context = new Context();
-        RootPanel.get(context.strings.gwtHook()).add(new Label("Statistics"));
+        RootPanel.get(GWT_HOOK).add(new Label("Statistics"));
     }
 
 }

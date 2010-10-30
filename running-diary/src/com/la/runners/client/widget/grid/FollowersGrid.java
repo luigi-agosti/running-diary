@@ -6,10 +6,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.la.runners.client.Styles;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.ProfileUpdateEvent;
 import com.la.runners.client.event.ProfileUpdateHandler;
+import com.la.runners.client.res.Styles;
 import com.la.runners.shared.Profile;
 
 public class FollowersGrid extends BaseGrid implements ProfileUpdateHandler {

@@ -1,21 +1,19 @@
 package com.la.runners.provider;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONStringer;
 
-import com.la.runners.activity.Preferences;
-import com.la.runners.util.AppLogger;
-
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.la.runners.activity.Preferences;
+import com.la.runners.provider.SyncProvider.Syncable;
+import com.la.runners.util.AppLogger;
+import com.la.runners.util.Utils;
+
 public class Model {
-    
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
     
     public static final String SEPARATOR = "/";
     
@@ -23,7 +21,14 @@ public class Model {
 
     public static final String AUTHORITY = "com.la.runners";
 
-    private static final String CONTENT_PREFIX = "content://";
+    public static final String CONTENT_PREFIX = "content://";
+    
+    public static final String PARAMETER = "= ?";
+    
+    private static final String DESCENDANT = " desc";
+
+    private static final String IS_NULL = " is null";
+
     
     public interface Database {
     	
@@ -33,30 +38,30 @@ public class Model {
     	
     }
 
-    public static class Run {
+    public static class Run extends Syncable {
     	
     	public static final String NAME = Run.class.getSimpleName(); 
     	
     	public static final Uri CONTENT_URI = Uri.parse(CONTENT_PREFIX + AUTHORITY + "/" + NAME);
     	
-    	public static final String ID = "_id";
-    	
-    	public static final String REMOTE_ID = "id";
+    	public static final String DISTANCE = "distance";
+    	public static final String SPEED = "speed";
     	
     	public static final String TIME = "time";
+    	public static final String CREATED = "created";
+    	public static final String YEAR = "year";    	
+    	public static final String MONTH = "month";
+    	public static final String DAY = "day";
+    	public static final String HOUR = "hour";
+    	public static final String START_DATE = "startDate";
+    	public static final String END_DATE = "endDate";
+    	public static final String MODIFIED = "modified";
     	
-    	public static final String DISTANCE = "distance";
-    	
-    	public static final String DATE = "date";
     	
     	public static final String NOTE = "note";
-    	
     	public static final String HEART_RATE ="heartRate";
-    	
     	public static final String WEIGHT = "weight";
-    	
     	public static final String SHOES = "shoes";
-    	
     	public static final String SHARE = "share";
 
 		public static final int INCOMING_COLLECTION = 10;
@@ -67,35 +72,23 @@ public class Model {
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.run";
 
-		public static final String YEAR = "year";
 		
-		public static final String MONTH = "month";
-		
-		public static final String DAY = "day";
 
-        public static final String MODIFIED = "modified";
-
-        public static final String DAY_TIME = "dayTime";
-    	
-        public static final String id(Cursor c) {
-            return c.getString(c.getColumnIndex(ID));
-        }
 
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
         }
 
-        public static final Float distance(Cursor c) {
-            return c.getFloat(c.getColumnIndex(DISTANCE));
+        public static final Long distance(Cursor c) {
+            return c.getLong(c.getColumnIndex(DISTANCE));
         }
 
-        public static final Long date(Cursor c) {
-            return c.getLong(c.getColumnIndex(DATE));
+        public static final Long created(Cursor c) {
+            return c.getLong(c.getColumnIndex(CREATED));
         }
 
-        public static final String formattedModifiedDate(Cursor c) {
-        	Date date = new Date(c.getLong(c.getColumnIndex(DATE)));
-        	return DATE_FORMATTER.format(date);
+        public static final Long speed(Cursor c) {
+            return c.getLong(c.getColumnIndex(SPEED));
         }
 
         public static final String note(Cursor c) {
@@ -117,9 +110,9 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    Long date = date(c);
-                    if(date != null) {
-                    	js.key(DATE).value(date);
+                    Long created = created(c);
+                    if(created != null) {
+                    	js.key(CREATED).value(created);
                     }
                     Integer year = year(c);
                     if(year != null) {
@@ -133,9 +126,17 @@ public class Model {
                     if(day != null) {
                     	js.key(DAY).value(day);
                     }
-                    Float distance = distance(c);
+                    Integer hour = hour(c);
+                    if(hour != null) {
+                        js.key(HOUR).value(hour);
+                    }
+                    Long distance = distance(c);
                     if(distance != null) {
                     	js.key(DISTANCE).value(distance);
+                    }
+                    Long speed = speed(c);
+                    if(speed != null) {
+                        js.key(SPEED).value(speed);
                     }
                     String shoes = shoes(c);
                     if(shoes != null) {
@@ -144,10 +145,6 @@ public class Model {
                     Long time = time(c);
                     if(time != null) {
                     	js.key(TIME).value(time);
-                    }
-                    Long dayTime = dayTime(c);
-                    if(dayTime != null) {
-                        js.key(DAY_TIME).value(dayTime);
                     }
                     Integer heartRate = heartRate(c);
                     if(heartRate != null) {
@@ -164,6 +161,14 @@ public class Model {
                     Long modified = modified(c);
                     if(modified != null) {
                     	js.key(MODIFIED).value(modified);
+                    }
+                    Long startDate = startDate(c);
+                    if(startDate != null) {
+                        js.key(START_DATE).value(startDate);
+                    }
+                    Long endDate = endDate(c);
+                    if(endDate != null) {
+                        js.key(END_DATE).value(endDate);
                     }
                     Boolean shared = share(c);
                     if(shared != null) {
@@ -190,9 +195,17 @@ public class Model {
 		private static Long modified(Cursor c) {
 			return c.getLong(c.getColumnIndex(MODIFIED));
 		}
+		
+		private static Long startDate(Cursor c) {
+		    return c.getLong(c.getColumnIndex(START_DATE));
+		}
+		
+		private static Long endDate(Cursor c) {
+		    return c.getLong(c.getColumnIndex(END_DATE));
+		}
 
-		private static Long dayTime(Cursor c) {
-            return c.getLong(c.getColumnIndex(DAY_TIME));
+		private static Integer hour(Cursor c) {
+            return c.getInt(c.getColumnIndex(HOUR));
         }
 
         private static Integer weight(Cursor c) {
@@ -218,10 +231,27 @@ public class Model {
 		private static Integer year(Cursor c) {
 			return c.getInt(c.getColumnIndex(YEAR));
 		}
+		
+		public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
+        }
+        
+        public static final Cursor get(Context c, long id) {
+            return c.getContentResolver().query(CONTENT_URI, null, ID + PARAMETER, new String [] {""+id} , null);
+        }
+
+        private static final String[] OP1 = new String[] {ID};
+        public static final Cursor currentId(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, OP1, null, null , MODIFIED + DESCENDANT + " LIMIT 1");
+        }
         
     }
     
-    public static class Location {
+    public static class Location extends Syncable {
         
         public static final String NAME = Location.class.getSimpleName(); 
         
@@ -235,13 +265,13 @@ public class Model {
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.location";
         
-        public static final String ID = "_id";
-        
-        public static final String REMOTE_ID = "id";
+        public static final String RUN_ID = "runId";
         
         public static final String DISTANCE = "distance";
         
         public static final String TIME = "time";
+        
+        public static final String TIMESTAMP = "timestamp";
 
         public static final String SPEED = "speed";
         
@@ -252,6 +282,8 @@ public class Model {
         public static final String LATITUDE = "latitude";
         
         public static final String ACCURACY = "accuracy";
+
+        public static final String TOTAL_DISTANCE = "totalDistance";
 
         public static final String convertAll(Cursor c) {
             JSONStringer stringer = new JSONStringer();
@@ -268,7 +300,11 @@ public class Model {
                 js.array();
                 while(c.moveToNext()) {
                     js.object();
-                    Float speed = speed(c);
+                    Long runId = runId(c);
+                    if(runId != null) {
+                        js.key(RUN_ID).value(runId);
+                    }
+                    Long speed = speed(c);
                     if(speed != null) {
                         js.key(SPEED).value(speed);
                     }
@@ -276,11 +312,19 @@ public class Model {
                     if(time != null) {
                         js.key(TIME).value(time);
                     }
-                    Float distance = distance(c);
+                    Long timestamp = timestamp(c);
+                    if(timestamp != null) {
+                        js.key(TIMESTAMP).value(timestamp);
+                    }
+                    Long distance = distance(c);
                     if(distance != null) {
                         js.key(DISTANCE).value(distance);
                     }
-                    Float altitude = altitude(c);
+                    Long totalDistance = totalDistance(c);
+                    if(totalDistance != null) {
+                        js.key(TOTAL_DISTANCE).value(totalDistance);
+                    }
+                    Long altitude = altitude(c);
                     if(altitude != null) {
                         js.key(ALTITUDE).value(altitude);
                     }
@@ -292,10 +336,6 @@ public class Model {
                     if(latitude != null) {
                         js.key(LATITUDE).value(latitude);
                     }
-                    Float accuracy = accuracy(c);
-                    if(accuracy != null) {
-                        js.key(ACCURACY).value(accuracy);
-                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -306,37 +346,88 @@ public class Model {
             }
         }
         
-        public static final Float distance(Cursor c) {
-            return c.getFloat(c.getColumnIndex(DISTANCE));
+        public static final Long runId(Cursor c) {
+            return c.getLong(c.getColumnIndex(RUN_ID));
         }
         
-        public static final Float altitude(Cursor c) {
-            return c.getFloat(c.getColumnIndex(ALTITUDE));
+        public static final Long distance(Cursor c) {
+            return c.getLong(c.getColumnIndex(DISTANCE));
+        }
+
+        public static final String formattedDistance(Cursor c) {
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(DISTANCE))/100D);
+        }
+
+        public static final Long totalDistance(Cursor c) {
+            return c.getLong(c.getColumnIndex(TOTAL_DISTANCE));
+        }
+
+        public static final String formattedTotalDistance(Cursor c) {
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(TOTAL_DISTANCE))/100D);
         }
         
-        public static final Float accuracy(Cursor c) {
-            return c.getFloat(c.getColumnIndex(ACCURACY));
+        public static final Long altitude(Cursor c) {
+            return c.getLong(c.getColumnIndex(ALTITUDE));
         }
         
-        public static final Float speed(Cursor c) {
-            return c.getFloat(c.getColumnIndex(SPEED));
+        public static final Long accuracy(Cursor c) {
+            return c.getLong(c.getColumnIndex(ACCURACY));
+        }
+        
+        public static final Long speed(Cursor c) {
+            return c.getLong(c.getColumnIndex(SPEED));
+        }
+        
+        public static final String formattedSpeed(Cursor c) {
+            return Utils.Number.shorDecimal(c.getLong(c.getColumnIndex(SPEED))/27777.778D);
         }
         
         public static final Long longitude(Cursor c) {
             return c.getLong(c.getColumnIndex(LONGITUDE));
         }
+        
+        public static final String formattedLongitude(Cursor c) {
+            return Utils.Number.longDecimal(c.getLong(c.getColumnIndex(LONGITUDE))/1000000D);
+        }
 
         public static final Long latitude(Cursor c) {
             return c.getLong(c.getColumnIndex(LATITUDE));
         }
+
+        public static final String formattedLatitude(Cursor c) {
+            return Utils.Number.longDecimal(c.getLong(c.getColumnIndex(LATITUDE))/1000000D);
+        }
         
+        public static final Long timestamp(Cursor c) {
+            return c.getLong(c.getColumnIndex(TIMESTAMP));
+        }   
+
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
-        }        
+        }   
         
+        public static final String fomatterTime(Cursor c) {
+            return Utils.Date.time(c.getLong(c.getColumnIndex(TIME)));
+        }   
+        
+        public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+        
+        public static final Cursor getLast(Context c) {
+            //Limit is a trick I should have it in the content provider 
+            return c.getContentResolver().query(CONTENT_URI, null, null, null, TIMESTAMP + DESCENDANT + " LIMIT 1");
+        }
+        
+        private static final String[] OP1 = new String[]{LATITUDE, LONGITUDE};
+        public static final Cursor get(Context c, String runId) {
+            //Limit is a trick I should have it in the content provider 
+            return c.getContentResolver().query(CONTENT_URI, OP1, RUN_ID + PARAMETER, new String[]{runId}, TIMESTAMP + DESCENDANT);
+        }
+
     }
     
-    public static class Profile {
+    public static class Profile extends Syncable {
         
         public static final String NAME = Profile.class.getSimpleName(); 
         
@@ -349,10 +440,6 @@ public class Model {
         public static final String ITEM_TYPE = "vnd.android.cursor.item/vnd.runners.profile";
 
         public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.profile";
-        
-        public static final String ID = "_id";
-        
-        public static final String REMOTE_ID = "id";
         
         public static final String SHOES = "shoes";
         
@@ -442,12 +529,16 @@ public class Model {
             return Boolean.FALSE;
         }
         
-        public static final String id(Cursor c) {
-            return c.getString(c.getColumnIndex(ID));
-        }
-        
         public static final String nickname(Cursor c) {
             return c.getString(c.getColumnIndex(NICKNAME));
+        }
+        
+        public static final Cursor all(ContentResolver cr) {
+            return cr.query(CONTENT_URI, null, null, null, null);
+        }
+
+        public static final Cursor notSync(Context c) {
+            return c.getContentResolver().query(CONTENT_URI, null, REMOTE_ID + IS_NULL, null, null);
         }
     }
 

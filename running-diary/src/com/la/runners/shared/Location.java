@@ -32,58 +32,56 @@ public class Location implements Serializable {
     private Long longitude;
     
     @Persistent
-    private Float accuracy;
+    private Long altitude;
     
     @Persistent
-    private Float altitude;
+    private Long time;
     
     @Persistent
-    private Date time;
+    private Date timestamp;
     
     @Persistent
-    private Float speed;
+    private Long speed;
     
     @Persistent
-    private Float distance;
+    private Long distance;
+    
+    @Persistent
+    private Long totalDistance;
+    
+    @Persistent
+    private Long runId;
 
-    public void setDistance(Float distance) {
+    public void setDistance(Long distance) {
         this.distance = distance;
     }
 
-    public Float getDistance() {
+    public Long getDistance() {
         return distance;
     }
 
-    public void setSpeed(Float speed) {
+    public void setSpeed(Long speed) {
         this.speed = speed;
     }
 
-    public Float getSpeed() {
+    public Long getSpeed() {
         return speed;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
-    public Date getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setAltitude(Float altitude) {
+    public void setAltitude(Long altitude) {
         this.altitude = altitude;
     }
 
-    public Float getAltitude() {
+    public Long getAltitude() {
         return altitude;
-    }
-
-    public void setAccuracy(Float accuracy) {
-        this.accuracy = accuracy;
-    }
-
-    public Float getAccuracy() {
-        return accuracy;
     }
 
     public void setId(Long id) {
@@ -105,6 +103,14 @@ public class Location implements Serializable {
     public void setLatitude(Long latitude) {
         this.latitude = latitude;
     }
+    
+    public double getLatitudeAsDouble() {
+        return latitude/1E6;
+    }
+
+    public double getLongitudeAsDouble() {
+        return longitude/1E6;
+    }
 
     public Long getLatitude() {
         return latitude;
@@ -117,6 +123,29 @@ public class Location implements Serializable {
     public Long getLongitude() {
         return longitude;
     }
-    
+
+    public void setTotalDistance(Long totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Long getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setRunId(Long runId) {
+        this.runId = runId;
+    }
+
+    public Long getRunId() {
+        return runId;
+    }
     
 }

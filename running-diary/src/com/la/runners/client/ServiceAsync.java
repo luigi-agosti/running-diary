@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.la.runners.shared.Invite;
+import com.la.runners.shared.Location;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.Run;
 import com.la.runners.shared.ServerException;
@@ -39,5 +40,7 @@ public interface ServiceAsync {
     void acceptInvite(String token, AsyncCallback<Void> callback);
 
     void rejectInvite(String token, AsyncCallback<Void> asyncCallback);
+
+    void getLocations(String token, AsyncCallback<List<Location>> asyncCallback);
 
 }

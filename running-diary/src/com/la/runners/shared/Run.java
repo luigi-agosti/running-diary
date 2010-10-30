@@ -21,27 +21,57 @@ public class Run implements Serializable {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
     
+    /**
+     * Time of the creation of the record
+     */
     @Persistent
-    private Date date;
+    private Date created;
+    
+    /**
+     * Date of the start of the run
+     */
+    @Persistent
+    private Date startDate;
+    
+    /**
+     * Date of the end of the run
+     */
+    @Persistent
+    private Date endDate;
 
+    /**
+     * year of the day of the startDate
+     */
     @Persistent
     private Integer year;
     
+    /**
+     * day of the day of the startDate
+     */
     @Persistent
     private Integer day;
     
+    /**
+     * month of the day of the startDate
+     */
     @Persistent
     private Integer month;
+
+    /**
+     * hour of the day of the startDate
+     */
+    @Persistent
+    private Long hour;
 
     @Persistent
     private Date modified;
     
     @Persistent
-    private Integer distance;
-    
-    @Persistent
-    private Long dayTime;
+    private Long distance;
 
+    /**
+     * Time required for the run
+     */
     @Persistent
     private Long time;
     
@@ -60,6 +90,9 @@ public class Run implements Serializable {
     @Persistent
     private Boolean share;
     
+    @Persistent
+    private Long speed;
+    
     @Clag(userId=true,hidden=true)
     @Persistent
     private String userId;
@@ -74,11 +107,11 @@ public class Run implements Serializable {
         return id;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Long distance) {
         this.distance = distance;
     }
 
-    public Integer getDistance() {
+    public Long getDistance() {
         return distance;
     }
 
@@ -89,15 +122,7 @@ public class Run implements Serializable {
     public Long getTime() {
         return time;
     }
-
-    public void setDayTime(Long dayTime) {
-        this.dayTime = dayTime;
-    }
     
-    public Long getDayTime() {
-        return dayTime;
-    }
-
     public void setNote(String note) {
         this.note = note;
     }
@@ -178,12 +203,44 @@ public class Run implements Serializable {
         return month;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setSpeed(Long speed) {
+        this.speed = speed;
     }
 
-    public Date getDate() {
-        return date;
+    public Long getSpeed() {
+        return speed;
+    }
+
+    public void setHour(Long hour) {
+        this.hour = hour;
+    }
+
+    public Long getHour() {
+        return hour;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
     }
     
 }

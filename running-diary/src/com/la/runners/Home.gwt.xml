@@ -3,7 +3,10 @@
 <module rename-to='home'>
   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.maps.GoogleMaps' />
+  <inherits name='com.google.gwt.gen2.picker.Picker' />
   <entry-point class='com.la.runners.client.HomeEntryPoint'/>
   <source path='client'/>
   <source path='shared'/>
+  <set-property name='user.agent' value='safari' />
 </module>

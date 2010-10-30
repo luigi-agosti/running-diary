@@ -1,8 +1,12 @@
 package com.la.runners.service.track;
 
 public interface StoreManager {
+    
+    void start();
 
-	void store(double latitude, double longitude, double altitude,
-			float accuracy, long time, double speed, double distance);
+	void trackPoint(double latitude, double longitude, double altitude,
+			long time, long timestamp, double speed, double distance, double totalDistance);
 
+	void stop(long startingTime, double speed, double totalDistance);
+	
 }
