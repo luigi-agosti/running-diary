@@ -4,161 +4,136 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.LoadRunHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
+import com.la.runners.client.widget.form.field.CheckBoxField;
+import com.la.runners.client.widget.form.field.DatePickerField;
+import com.la.runners.client.widget.form.field.TextAreaField;
+import com.la.runners.client.widget.form.field.TextBoxField;
+import com.la.runners.client.widget.form.field.TimePickerField;
 import com.la.runners.shared.Run;
 
-public class RunForm extends BaseForm implements LoadRunHandler {
+public class RunForm extends CustomForm implements LoadRunHandler {
 
-    private static final DateTimeFormat YEAR_FORMATTER = DateTimeFormat.getFormat("yyyy");
-    private static final DateTimeFormat MONTH_FORMATTER = DateTimeFormat.getFormat("MM");
-    private static final DateTimeFormat DAY_FORMATTER = DateTimeFormat.getFormat("dd");
-    
     private Run run;
 
-    private DatePicker dateInput;
-    private TextBox distanceInput;
-    private TextBox dayTimeInput;
-    private TextArea noteInput;
-    private TextBox timeInput;
-    private TextBox shoesInput;
-    private TextBox heartRateInput;
-    private TextBox weightInput;
-    private CheckBox shareInput;
+    private DatePickerField dateInput;
+    private TextBoxField distanceInput;
+    private TimePickerField dayTimeInput;
+    private TextAreaField noteInput;
+    private TimePickerField timeInput;
+    private TextBoxField shoesInput;
+    private TextBoxField heartRateInput;
+    private TextBoxField weightInput;
+    private CheckBoxField shareInput;
     
     public RunForm(Context context) {
-        super(context, "Run Editor");
+        super(context, context.strings.runFormTitle());
         eventBus().addHandler(LoadRunEvent.TYPE, this);
-        dateInput = addDateWithLabel("Date");
-        dayTimeInput = addTextBoxWithLabel("Start");
-        distanceInput = addTextBoxWithLabel("Distance (meters)");
-        timeInput = addTextBoxWithLabel("Time (minutes)");
-        addSubtitle("Optional");
-        heartRateInput = addTextBoxWithLabel("Heart rate");
-        weightInput = addTextBoxWithLabel("Weight");
-        shoesInput = addTextBoxWithLabel("Shoes");
-        noteInput = addTextAreaWithLabel("Note");
-        shareInput = addCheckBoxWithLabel("Share");
+        dateInput = addDatePickerField(strings().runFormDate());
+        dayTimeInput = addTimePickerField(strings().runFormStart(), new Date(0));
+        distanceInput = addTextBoxField(strings().runFormDistance());
+        timeInput = addTimePickerField(strings().runFormTime(), new Date(0));
+        addSubtitle(strings().runFormOptional());
+        if(profile().getHeartRate()) {
+            heartRateInput = addTextBoxField(strings().runFormHeartRate());
+        }
+        if(profile().getWeight()) {
+            weightInput = addTextBoxField(strings().runFormWeight());
+        }
+        if(profile().getShoes()) {
+            shoesInput = addTextBoxField(strings().runFormShoes());
+        }
+        noteInput = addTextAreaField(strings().runFormNote());
+        shareInput = addCheckBoxField(strings().runFormShare());
         
-        addButton("Save", new ClickHandler() {
+        addButton(strings().runFormSave(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 service().save(get(), new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
-                        showMessage("Successful saved!");
+                        showMessage(strings().runFormSuccess());
                         eventBus().fireEvent(new RunListUpdateEvent());
                         reset();
                     }
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        showMessage("Umm, something is wrong!");
+                        showMessage(strings().runFormFailure());
                     }
                 });
             }
         });
-        showMessage("");
+        addFooterForMessages();
     }
 
     public void load(Run run) {
         this.run = run;
-        //dateInput.setValue(run.getDate());
-        //dayTimeInput.setText("" + run.getDayTime());
-        distanceInput.setText("" + run.getDistance());
-        noteInput.setText("" + run.getNote());
-        timeInput.setText("" + run.getTime());
-        if(run.getHeartRate() == null) {
-            heartRateInput.setText("");
-        } else {
-            heartRateInput.setText("" + run.getHeartRate());
+        distanceInput.setValue(run.getDistance());
+        noteInput.setValue(run.getNote());
+        timeInput.setValue(run.getTime());
+        if(heartRateInput != null) {
+            heartRateInput.setValue(run.getHeartRate());
         }
-        if(run.getWeight() == null) {
-            weightInput.setText("");
-        } else {
-            weightInput.setText("" + run.getWeight());
+        if(weightInput != null) {
+            weightInput.setValue(run.getWeight());
         }
-        if(run.getShoes() == null) {
-            shoesInput.setText("");
-        } else {
-            shoesInput.setText("" + run.getShoes());
+        if(shoesInput != null) {
+            shoesInput.setValue(run.getShoes());
         }
-        if(run.getShare() == null) {
-            shareInput.setValue(Boolean.TRUE);
-        } else {
-            shareInput.setValue(run.getShare());
-        }
+        shareInput.setValue(run.getShare());
     }
 
     public void reset() {
         run = new Run();
         dateInput.setValue(new Date());
-        dayTimeInput.setText("");
-        distanceInput.setText("");
-        noteInput.setText("");
-        timeInput.setText("");
-        heartRateInput.setText("");
-        weightInput.setText("");
-        shoesInput.setText("");
-        shareInput.setValue(Boolean.TRUE);
+        dayTimeInput.reset();
+        distanceInput.reset();
+        noteInput.reset(); 
+        timeInput.reset();
+        if(heartRateInput != null) {
+            heartRateInput.reset();
+        }
+        if(weightInput != null) {
+            weightInput.reset();
+        }
+        if(shoesInput != null) {
+            shoesInput.reset();
+        }
+        shareInput.reset();
     }
     
     public Run get() {
         if (run == null) {
             run = new Run();
         }
-        Date date = dateInput.getValue();
-        if(date == null) {
-            date = new Date();
+        Date date = new Date();
+        run.setCreated(date);
+        run.setModified(date);
+        run.setYear(dateInput.getYear());
+        run.setMonth(dateInput.getMonth());
+        run.setDay(dateInput.getDay());
+        run.setHour(dayTimeInput.getHours());
+        run.setDistance(distanceInput.asLong());
+        run.setNote(noteInput.getValue());
+        run.setTime(timeInput.getLongValue());
+        run.setStartDate(new Date(dateInput.getLongValue() + dayTimeInput.getLongValue()));
+        run.setEndDate(new Date(run.getStartDate().getTime() + timeInput.getLongValue()));
+        if(heartRateInput != null) {
+            run.setHeartRate(heartRateInput.asInteger());
         }
-        run.setYear(Integer.parseInt(YEAR_FORMATTER.format(date)));
-        run.setMonth(Integer.parseInt(MONTH_FORMATTER.format(date)));
-        run.setMonth(run.getMonth());
-        run.setDay(Integer.parseInt(DAY_FORMATTER.format(date)));
-        run.setCreated(new Date());
-        run.setDistance(Long.valueOf(distanceInput.getText()));
-        run.setNote(noteInput.getText());
-        run.setTime(Long.valueOf(timeInput.getText()));
-        
-        run.setHour(Long.valueOf(dayTimeInput.getText()));
-        
-        run.setModified(new Date());
-        
-        setHeartRateValue(run);
-        setWeightValue(run);
-        setShoesValue(run);
-        
+        if(weightInput != null) {
+            run.setWeight(weightInput.asInteger());
+        }
+        if(shoesInput != null) {
+            run.setShoes(shoesInput.getValue());
+        }
         run.setShare(shareInput.getValue());
         return run;
-    }
-    
-    private void setHeartRateValue(Run run) {
-        String value = heartRateInput.getText(); 
-        if(value != null && !"".equals(value)) {
-            run.setHeartRate(Integer.parseInt(value));
-        }
-    }
-    
-    private void setWeightValue(Run run) {
-        String value = weightInput.getText(); 
-        if(value != null && !"".equals(value)) {
-            run.setWeight(Integer.parseInt(value));
-        }
-    }
-    
-    private void setShoesValue(Run run) {
-        String value = shoesInput.getText(); 
-        if(value != null && !"".equals(value)) {
-            run.setShoes(value);
-        }
     }
 
     @Override
@@ -166,7 +141,7 @@ public class RunForm extends BaseForm implements LoadRunHandler {
         service().getRun(event.getId(), new AsyncCallback<Run>() {
             @Override
             public void onFailure(Throwable caught) {
-                showMessage("Umm, something is wrong!");
+                showMessage(strings().runFormFailure());
             }
 
             @Override

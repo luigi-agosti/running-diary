@@ -95,6 +95,41 @@ Form
 	padding-bottom:2px;
 	color:#FFFFFF;
 }
+
+.EditorNotValidField {
+	background-color: #F6CECE;
+	border:1px solid #FA5858;	
+}
+
+.EditorCheckBoxContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.EditorCheckBoxContainer td {
+	width:50%;
+}
+
+.ProfileEditorCheckBox {
+	float: right;
+	margin-right:10%;
+}
+
+.EditorTimePickerContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.EditorTimePickerContainer td {
+	width:50%;
+}
+
 /* 
 =============================================   
 Grid

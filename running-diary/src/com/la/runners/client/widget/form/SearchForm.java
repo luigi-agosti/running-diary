@@ -3,44 +3,52 @@ package com.la.runners.client.widget.form;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.SearchProfileEvent;
+import com.la.runners.client.widget.form.field.MandatoryTextBoxField;
+import com.la.runners.client.widget.form.field.TextAreaField;
 import com.la.runners.shared.ServerException;
 
-public class SearchForm extends BaseForm {
+public class SearchForm extends CustomForm {
     
-    private TextBox nicknameInput;
-    private TextBox emailInput;
-    private TextArea messageInput;
+    private MandatoryTextBoxField nicknameInput;
+    private MandatoryTextBoxField emailInput;
+    private TextAreaField messageInput;
     
     public SearchForm(Context _context) {
         super(_context, _context.strings.searchFormTitle());
-        nicknameInput = addTextBoxWithLabel(context.strings.searchFormNickname());
-        addButton(context.strings.searchFormSearchButton(), new ClickHandler() {
+        nicknameInput = addMandatoryTextBoxField(strings().searchFormNickname());
+        addButton(strings().searchFormSearchButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                context.getEventBus().fireEvent(new SearchProfileEvent(nicknameInput.getText()));
+                if(nicknameInput.isValid()) {
+                    nicknameInput.resetValidation();
+                    eventBus().fireEvent(new SearchProfileEvent(nicknameInput.getValue()));
+                }
             }
         });
-        addSubtitle(context.strings.searchFormSendInviteSubtitle());
-        emailInput = addTextBoxWithLabel(context.strings.searchFormEmailLabel());
-        messageInput = addTextAreaWithLabel("Personal Message");
-        addButton(context.strings.searchFormSendInviteButton(), new ClickHandler() {
+        addSubtitle(strings().searchFormSendInviteSubtitle());
+        emailInput = addMandatoryTextBoxField(strings().searchFormNickname());
+        messageInput = addTextAreaField(strings().searchFormPersonalMessage());
+        addButton(strings().searchFormSendInviteButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 try {
-                    context.getService().sendInvite(emailInput.getText(), messageInput.getText(), new AsyncCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void result) {
-                            showMessage(context.strings.searchFormInviteSuccess());
-                        }
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            showMessage(context.strings.searchFormInviteFailure());
-                        }
-                    });
+                    if(emailInput.isValid()) {
+                        emailInput.resetValidation();
+                        String email = emailInput.getValue();
+                        String message = messageInput.getValue();
+                        service().sendInvite(email, message, new AsyncCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                showMessage(strings().searchFormInviteSuccess());
+                            }
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                showMessage(strings().searchFormInviteFailure());
+                            }
+                        });
+                    }
                 } catch (ServerException e) {
                     showMessage(e.getMessage());
                 }

@@ -3,30 +3,30 @@ package com.la.runners.client.widget.form;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.ProfileUpdateEvent;
 import com.la.runners.client.event.ProfileUpdateHandler;
+import com.la.runners.client.widget.form.field.CheckBoxField;
+import com.la.runners.client.widget.form.field.TextBoxField;
 import com.la.runners.shared.Profile;
 
-public class ProfileForm extends BaseForm implements ProfileUpdateHandler {
+public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
 
-    private CheckBox heartRateInput;
-    private CheckBox weightInput;
-    private CheckBox shoesInput;
-    private CheckBox weatherInput;
-    private TextBox nicknameInput;
+    private CheckBoxField heartRateInput;
+    private CheckBoxField weightInput;
+    private CheckBoxField shoesInput;
+    private CheckBoxField weatherInput;
+    private TextBoxField nicknameInput;
     
     private Profile profile;
     
     public ProfileForm(Context _context) {
         super(_context, _context.strings.profileFormTitle());
-        nicknameInput = addTextBoxWithLabel(strings().profileFormNickname());
+        nicknameInput = addTextBoxField(strings().profileFormNickname());
         addButton(strings().profileFormDeleteAccountButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                context.getService().deleteProfile(new AsyncCallback<Void>() {
+                service().deleteProfile(new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
                         showMessage(strings().profileFormDeleteProfileSuccess());
@@ -40,10 +40,10 @@ public class ProfileForm extends BaseForm implements ProfileUpdateHandler {
             }
         });
         addSubtitle(strings().profileFormSubtitle());
-        heartRateInput = addCheckBoxWithLabel(strings().profileFormInputLabelHeartRate());
-        weightInput = addCheckBoxWithLabel(strings().profileFormInputLabelWeight());
-        weatherInput  = addCheckBoxWithLabel(strings().profileFormInputLabelWeather());
-        shoesInput = addCheckBoxWithLabel(strings().profileFormInputLabelShoes());
+        heartRateInput = addCheckBoxField(strings().profileFormInputLabelHeartRate());
+        weightInput = addCheckBoxField(strings().profileFormInputLabelWeight());
+        weatherInput  = addCheckBoxField(strings().profileFormInputLabelWeather());
+        shoesInput = addCheckBoxField(strings().profileFormInputLabelShoes());
         addButton(strings().profileFormSaveButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -59,17 +59,7 @@ public class ProfileForm extends BaseForm implements ProfileUpdateHandler {
                 });
             }
         });
-        
-        service().getProfile(new AsyncCallback<Profile>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                showMessage(strings().profileFormLoadingProfileFailure());
-            }
-            @Override
-            public void onSuccess(Profile result) {
-                load(result);
-            }
-        });
+        load(profile());
         addFooterForMessages();
     }
     
@@ -78,18 +68,15 @@ public class ProfileForm extends BaseForm implements ProfileUpdateHandler {
             profile = new Profile();
         }
         this.profile = profile;
-        setValue(nicknameInput, profile.getNickname());
-        setValue(heartRateInput, profile.getHeartRate());
-        setValue(weightInput, profile.getWeight());
-        setValue(shoesInput, profile.getShoes());
-        setValue(weatherInput, profile.getWeather());
+        nicknameInput.setValue(profile.getNickname());
+        heartRateInput.setValue(profile.getHeartRate());
+        weightInput.setValue(profile.getWeight());
+        shoesInput.setValue(profile.getShoes());
+        weatherInput.setValue(profile.getWeather());
     }
     
     public Profile get() {
-        String nickname = nicknameInput.getText();
-        if(nickname != null) {
-            profile.setNickname(nickname);            
-        }
+        profile.setNickname(nicknameInput.getValue());
         profile.setHeartRate(heartRateInput.getValue());
         profile.setWeight(weightInput.getValue());
         profile.setShoes(shoesInput.getValue());

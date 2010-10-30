@@ -10,14 +10,16 @@ import com.la.runners.client.widget.grid.SearchGrid;
 
 public class SearchEntryPoint implements EntryPoint {
 
+    private static final String GWT_HOOK = "gwtHook";
+    
     @Override
     public void onModuleLoad() {
         FlowPanel panel = new FlowPanel();
+        panel.setStyleName(Styles.Form.entryPoint);
+        RootPanel.get(GWT_HOOK).add(panel);
         Context context = new Context();
         panel.add(new SearchGrid(context));
         panel.add(new SearchForm(context));
-        panel.setStyleName(Styles.Form.entryPoint);
-        RootPanel.get(context.strings.gwtHook()).add(panel);
     }
 
 }

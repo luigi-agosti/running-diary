@@ -12,12 +12,16 @@ public interface Styles {
         String editorSubTitle = "EditorSubTitle";
         String editorButton = "EditorButton";
         String editor = "Editor";
+        String editorCheckBoxContainer = "EditorCheckBoxContainer";
         String editorCheckBox = "ProfileEditorCheckBox";
         String editorTextBox = "EditorTextBox";
         String editorHeader = "EditorHeader";
         String editorFooter = "EditorFooter";
         String editorDateContainer = "EditorDateContainer"; 
         String editorTextArea = "EditorTextArea";
+        
+        String editorNotValidField = "EditorNotValidField";
+        String editorTimePickerContainer = "EditorTimePickerContainer";
     }
     
     public interface Grid {       

@@ -31,6 +31,7 @@ public class TrackingMap extends Composite {
         panel = new FlowPanel();
         panel.setStyleName(Styles.Map.mapContainer);
         initMap();
+        panel.clear();
         panel.add(map);
         initWidget(panel);
         context.getService().getLocations("", new AsyncCallback<List<Location>>() {

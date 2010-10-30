@@ -16,6 +16,7 @@ import com.la.runners.client.ServiceAsync;
 import com.la.runners.client.res.Strings;
 import com.la.runners.client.res.Styles;
 
+@Deprecated
 public class BaseForm extends Composite {
     
     private FlowPanel panel = new FlowPanel();

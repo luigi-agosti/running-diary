@@ -10,6 +10,7 @@ import com.la.runners.client.ServiceAsync;
 import com.la.runners.client.res.Strings;
 import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
+import com.la.runners.shared.Profile;
 
 public abstract class BaseGrid extends Composite {
 
@@ -51,14 +52,26 @@ public abstract class BaseGrid extends Composite {
     protected HandlerManager eventBus() {
         return context.getEventBus();
     }
+
+    protected Profile profile() {
+        return context.getProfile();
+    }
     
     protected void showMessage(String message) {
         topBar.showMessage(message);
         bottomBar.showMessage(message);
     }
     
-    protected Label createLabel(String content, String style) {
-        Label l = new Label(content);
+    protected Label createLabel(Object obj, String style) {
+        String c = ""; 
+        if(obj instanceof String) {
+            c = (String)obj;
+        } else if(obj instanceof Long) {
+            c = ((Long)obj).toString();
+        } else if(obj instanceof Integer) {
+            c = ((Integer)obj).toString();
+        }
+        Label l = new Label((String)c);
         l.setStyleName(style);
         return l;
     }
