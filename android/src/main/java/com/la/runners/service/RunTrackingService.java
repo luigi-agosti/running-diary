@@ -20,10 +20,13 @@ import com.la.runners.service.track.TrackManager;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 
-public class RunTrackingService extends Service implements LocationListener,
-		StoreManager {
+public class RunTrackingService extends Service implements LocationListener, StoreManager {
 
 	private static final int MIN_REQUIRED_ACCURACY = 200;
+	
+	private int distance = 0;
+	
+	private long time = 0l;
 
 	private TrackManager trackManager = new AvarageTrackManager(this);
 
@@ -181,9 +184,6 @@ public class RunTrackingService extends Service implements LocationListener,
 		AppLogger.debug("Location : " + location.toString());
 		trackManager.updateLocation(location);
 	}
-
-	private int distance = 0;
-	private long time = 0l;
 
 	private void storeLocation(Location location, boolean isStart) {
 		if (isValidLocation(location)) {
