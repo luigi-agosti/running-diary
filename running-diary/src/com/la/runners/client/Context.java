@@ -5,6 +5,8 @@ import java.io.Serializable;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.la.runners.client.res.Strings;
+import com.la.runners.client.widget.form.field.converter.ConverterFactory;
+import com.la.runners.client.widget.form.field.converter.UnitConverter;
 import com.la.runners.shared.Profile;
 
 public class Context implements Serializable {
@@ -39,6 +41,10 @@ public class Context implements Serializable {
     
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+    
+    public UnitConverter getUnitConverter() {
+        return ConverterFactory.getUnitConvert(getProfile());
     }
 
 }

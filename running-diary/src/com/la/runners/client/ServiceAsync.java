@@ -43,4 +43,6 @@ public interface ServiceAsync {
 
     void getLocations(String token, AsyncCallback<List<Location>> asyncCallback);
 
+    void deleteRuns(List<Long> ids, AsyncCallback<Void> asyncCallback);
+
 }

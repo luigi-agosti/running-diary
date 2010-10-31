@@ -1,6 +1,7 @@
 package com.la.runners.client.widget.form;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -15,10 +16,13 @@ import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.form.field.CheckBoxField;
 import com.la.runners.client.widget.form.field.DatePickerField;
 import com.la.runners.client.widget.form.field.FormField;
+import com.la.runners.client.widget.form.field.ListBoxField;
 import com.la.runners.client.widget.form.field.MandatoryTextBoxField;
+import com.la.runners.client.widget.form.field.NumericMandatoryBoxField;
 import com.la.runners.client.widget.form.field.TextAreaField;
 import com.la.runners.client.widget.form.field.TextBoxField;
 import com.la.runners.client.widget.form.field.TimePickerField;
+import com.la.runners.client.widget.form.field.converter.UnitConverter;
 import com.la.runners.shared.Profile;
 
 public class CustomForm extends Composite {
@@ -50,6 +54,10 @@ public class CustomForm extends Composite {
 
     protected Profile profile() {
         return context.getProfile();
+    }
+
+    protected UnitConverter unitConverter() {
+        return context.getUnitConverter();
     }
     
     private void addLabel(String text, String style) {
@@ -91,8 +99,16 @@ public class CustomForm extends Composite {
         return (TextBoxField)addField(new TextBoxField(name));
     }
 
+    protected NumericMandatoryBoxField addNumericMandatoryBoxField(String name) {
+        return (NumericMandatoryBoxField)addField(new NumericMandatoryBoxField(name, context));
+    }
+
     protected CheckBoxField addCheckBoxField(String name) {
         return (CheckBoxField)addField(new CheckBoxField(name));
+    }
+    
+    protected ListBoxField addListBoxField(String name, List<String> list) {
+        return (ListBoxField)addField(new ListBoxField(name, list));
     }
     
     protected MandatoryTextBoxField addMandatoryTextBoxField(String name) {
@@ -107,8 +123,8 @@ public class CustomForm extends Composite {
         return (TimePickerField)addField(new TimePickerField(name, defaultValue));
     }
 
-    protected DatePickerField addDatePickerField(String name) {
-        return (DatePickerField)addField(new DatePickerField(name));
+    protected DatePickerField addDatePickerField(String name, Date defaultValue) {
+        return (DatePickerField)addField(new DatePickerField(name, defaultValue));
     }
     
 }

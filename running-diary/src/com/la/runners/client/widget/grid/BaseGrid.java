@@ -9,6 +9,7 @@ import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
 import com.la.runners.client.res.Strings;
 import com.la.runners.client.res.Styles;
+import com.la.runners.client.widget.form.field.converter.UnitConverter;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.shared.Profile;
 
@@ -51,6 +52,10 @@ public abstract class BaseGrid extends Composite {
     
     protected HandlerManager eventBus() {
         return context.getEventBus();
+
+    }
+    protected UnitConverter unitConverter() {
+        return context.getUnitConverter();
     }
 
     protected Profile profile() {
