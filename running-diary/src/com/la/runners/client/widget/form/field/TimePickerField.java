@@ -11,12 +11,13 @@ import com.la.runners.client.res.Styles;
 public class TimePickerField extends FormField {
     
     private static final DateTimeFormat HOURS_FORMATTER = DateTimeFormat.getFormat("HH");
+    private static final DateTimeFormat MM_FORMATTER = DateTimeFormat.getFormat("mm");
     
     private TimePicker field;
     
     public TimePickerField(String name, Date defaultValue) {
         super(null);
-        field = new TimePicker(defaultValue, null, DateTimeFormat.getFormat("HH"), DateTimeFormat.getFormat("mm"), null);
+        field = new TimePicker(defaultValue, null, HOURS_FORMATTER, MM_FORMATTER, null);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));
         panel.setStyleName(Styles.Form.editorTimePickerContainer);
