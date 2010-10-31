@@ -26,6 +26,7 @@ import com.la.runners.util.AppLogger;
 import com.la.runners.util.Notifier;
 import com.la.runners.util.Utils;
 
+
 public class RunTrackingService extends Service implements LocationListener, StoreManager {
 
     private static final int MIN_REQUIRED_ACCURACY = 200;
