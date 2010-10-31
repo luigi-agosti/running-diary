@@ -2,7 +2,11 @@ package com.la.runners.client.widget.grid.toolbar;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Button;
+import com.la.runners.client.event.DeleteRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 
 public class RunGridBar extends MessageBar {
@@ -17,9 +21,17 @@ public class RunGridBar extends MessageBar {
         this(eventBus, false);
     }
     
-    public RunGridBar(HandlerManager eventBus, boolean isBottom) {
+    public RunGridBar(HandlerManager _eventBus, boolean isBottom) {
         super(isBottom);
-        this.eventBus = eventBus;
+        this.eventBus = _eventBus;
+        Button btn = new Button("Delete selection");
+        btn.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                eventBus.fireEvent(new DeleteRunEvent());                
+            }
+        });
+        panel.add(btn);
         yearListBox = new YearListBox();
         monthListBox = new MonthListBox();
         panel.add(yearListBox);

@@ -16,32 +16,26 @@ public class TextBoxField extends FormField {
 
     @Override
     public String getValue() {
-        if(isEmpty()) {
-            return null;
-        } else {
+        String text = field.getText();
+        if(text != null && text.length() > 0) {
             return field.getText();
+        } else {
+            return null;
         }
-    }
-    
-    protected boolean isNotEmpty() {
-        if(!isEmpty()) {
-            return Boolean.TRUE;
-        }
-        showValidationError();
-        return Boolean.FALSE;
     }
     
     @Override
     public void setValue(Object value) {
         if(value == null) {
             field.setText(EMPTY_LABEL);
+        } else {
+            field.setText(String.valueOf(value));
         }
-        field.setText((String)value);
     }
     
     public boolean isEmpty() {
         String value = getValue();
-        if(value != null && value.length() > 0) {
+        if(value != null) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
@@ -58,6 +52,10 @@ public class TextBoxField extends FormField {
 
     public Integer asInteger() {
         return Integer.valueOf(field.getText());
+    }
+    
+    protected boolean isNotEmpty() {
+        return !isEmpty();
     }
 
 }

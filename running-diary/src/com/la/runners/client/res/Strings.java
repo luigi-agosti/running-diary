@@ -30,6 +30,7 @@ public interface Strings extends Constants {
     String profileFormNickname();
     String profileFormDeleteAccountButton();
     String profileFormSubtitle();
+    String profileFormSubtitlePrivacy();
     String profileFormDeleteProfileSuccess();
     String profileFormDeleteProfileFailure();
     String profileFormLoadingProfileFailure();
@@ -41,15 +42,24 @@ public interface Strings extends Constants {
     String profileFormInputLabelWeather();
     String profileFormInputLabelShoes();
     
+    String profileFormUnitSystem();
+    String profileFormInternationalSystem();
+    String profileFormImperialSystem();
+    String profileFormUSSystem();
+    
     /*
      * Dialog
      */
     String dialogCloseButton();
+    String dialogCancelButton();
+    String dialogContinueButton();
+    String dialogDeleteProfileInfo();
     
     /*
      * Validation messages
      */
     String validationMandatoryField();
+    String validationNumericField();
    
     /*
      * Run form
@@ -66,6 +76,7 @@ public interface Strings extends Constants {
     String runFormNote();
     String runFormShare();
     String runFormSave();
+    String runFormCancel();
     String runFormSuccess();
     String runFormFailure();
     
@@ -77,12 +88,23 @@ public interface Strings extends Constants {
     String runGridProblem();
     String runGridNoResult();
     String runGridDate();
+    String runGridSelectionMissing();
+    String runGridSelect();
     String runGridDistance();
     String runGridTime();
+    String runGridSpeed();
     String runGridHeartRate();
     String runGridWeight();
     String runGridShoes();
     String runGridNote();
     String runGridMap();
     String runGridEdit();
+    
+    /*
+     * Units of measure
+     */
+    String speedInternational();
+    String distanceInternational();
+    String speedImperial();
+    String distanceImperial();
 }

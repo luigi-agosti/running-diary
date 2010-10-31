@@ -1,14 +1,19 @@
 package com.la.runners.client.widget.grid;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
+import com.la.runners.client.event.DeleteRunEvent;
+import com.la.runners.client.event.DeleteRunHandler;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
@@ -18,14 +23,19 @@ import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
 
-public class RunGrid extends BaseGrid implements RunListUpdateHandler {
+public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRunHandler {
     
     private static final DateTimeFormat YEAR_FORMATTER = DateTimeFormat.getFormat("dd - EEEE");
     private static final DateTimeFormat FULL_FORMATTER = DateTimeFormat.getFormat("yyyy/mm/dd"); 
+    private static final DateTimeFormat TIME_FORMATTER = DateTimeFormat.getFormat("HH:mm");
+    private static final TimeZone TIME_ZONE = TimeZone.createTimeZone(0);
+    
+    private List<ExtraCheckBox> selection = new ArrayList<ExtraCheckBox>();
     
     public RunGrid(Context context) {
         super(context);
         eventBus().addHandler(RunListUpdateEvent.TYPE, this);
+        eventBus().addHandler(DeleteRunEvent.TYPE, this);
     }
     
     private void load() {
@@ -46,13 +56,16 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     
     private void drawGrid(List<Run> result) {
     	grid.clear();
+    	selection.clear();
     	if(result.isEmpty()) {
     	    showMessage(strings().runGridNoResult());
     	} else {
     	    newRow();
+    	    addHeaderCellToRow(strings().runGridSelect());
     	    addHeaderCellToRow(strings().runGridDate());
-    	    addHeaderCellToRow(strings().runGridDistance());
+    	    addHeaderCellToRow(strings().runGridDistance()+ unitConverter().getDistanceUnit(strings()));
     	    addHeaderCellToRow(strings().runGridTime());
+    	    addHeaderCellToRow(strings().runGridSpeed() + unitConverter().getSpeedUnit(strings()));
     	    if(profile().getHeartRate()) {
     	        addHeaderCellToRow(strings().runGridHeartRate());
     	    }
@@ -68,10 +81,14 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     	    int index = 1;
 	    	for(Run run : result) {
 	    	    newRow();
+	    	    ExtraCheckBox checkBox = new ExtraCheckBox(run.getId());
+	    	    selection.add(checkBox);
+	    	    addCellToRow(index, checkBox);
 	    	    addLabelCellToRow(index, YEAR_FORMATTER.format(
 	                     FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())));
-	    	    addLabelCellToRow(index, run.getDistance());
-	    	    addLabelCellToRow(index, run.getTime());
+	    	    addLabelCellToRow(index, unitConverter().customUnitDistance(run.getDistance()));
+	    	    addLabelCellToRow(index, TIME_FORMATTER.format(new Date(run.getTime()), TIME_ZONE));
+	    	    addLabelCellToRow(index, unitConverter().customUnitSpeed(run.getSpeed()).toString());
 	            if(profile().getHeartRate()) {
 	                addLabelCellToRow(index, run.getHeartRate());
 	            }
@@ -144,6 +161,30 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler {
     @Override
     protected MessageBar getBottomBar() {
         return new RunGridBar(eventBus(), Boolean.TRUE);
+    }
+
+    @Override
+    public void deleteRuns(DeleteRunEvent event) {
+        List<Long> ids = new ArrayList<Long>();
+        for(ExtraCheckBox cb : selection) {
+            if(cb.getValue()) {
+                ids.add(cb.getId());
+            }
+        }
+        if(selection.isEmpty()) {
+            showMessage(strings().runGridSelectionMissing());
+            return;
+        }
+        service().deleteRuns(ids, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                showMessage(strings().runGridProblem());
+            }
+            @Override
+            public void onSuccess(Void result) {
+                eventBus().fireEvent(new RunListUpdateEvent());
+            }
+        });
     }
    
 }

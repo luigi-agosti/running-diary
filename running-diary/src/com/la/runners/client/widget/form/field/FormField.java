@@ -25,6 +25,7 @@ public abstract class FormField extends Composite {
     public FormField(String name) {
         this.name = name;
         panel = new FlowPanel();
+        panel.setStyleName(Styles.Form.editorField);
         if(name != null) {
             panel.add(new Label(name + LABEL_SEPARATOR));
         }
@@ -61,6 +62,7 @@ public abstract class FormField extends Composite {
     
     public void showValidationError() {
         errorMessage.setVisible(Boolean.TRUE);
+        addStyleName(Styles.Form.editorNotValidField);
         
     }
     

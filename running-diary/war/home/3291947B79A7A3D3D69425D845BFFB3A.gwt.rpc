@@ -5,8 +5,8 @@ com.la.runners.shared.Invite, true, true, false, false, com.la.runners.shared.In
 [Lcom.la.runners.shared.Invite;, true, true, false, false, [Lcom.la.runners.shared.Invite;/3006916838, 3006916838
 com.la.runners.shared.Location, true, true, false, false, com.la.runners.shared.Location/1547327949, 1547327949
 [Lcom.la.runners.shared.Location;, true, true, false, false, [Lcom.la.runners.shared.Location;/2771581585, 2771581585
-com.la.runners.shared.Profile, true, true, true, true, com.la.runners.shared.Profile/2188669033, 2188669033
-[Lcom.la.runners.shared.Profile;, true, true, false, false, [Lcom.la.runners.shared.Profile;/788357152, 788357152
+com.la.runners.shared.Profile, true, true, true, true, com.la.runners.shared.Profile/509657725, 509657725
+[Lcom.la.runners.shared.Profile;, true, true, false, false, [Lcom.la.runners.shared.Profile;/2521916448, 2521916448
 com.la.runners.shared.Run, true, true, true, true, com.la.runners.shared.Run/3478548426, 3478548426
 [Lcom.la.runners.shared.Run;, true, true, false, false, [Lcom.la.runners.shared.Run;/2855918687, 2855918687
 com.la.runners.shared.ServerException, true, true, false, false, com.la.runners.shared.ServerException/12324792, 12324792
@@ -14,6 +14,7 @@ java.lang.Boolean, true, true, true, true, java.lang.Boolean/476441737, 47644173
 java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
 java.lang.Integer, true, true, true, true, java.lang.Integer/3438268394, 3438268394
 java.lang.Long, true, true, true, true, java.lang.Long/4227064769, 4227064769
+[Ljava.lang.Long;, false, false, true, true, [Ljava.lang.Long;/97727328, 97727328
 java.lang.Number, true, false, true, false, java.lang.Number/300033342, 300033342
 java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
 java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611

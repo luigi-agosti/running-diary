@@ -13,12 +13,15 @@ public interface Styles {
         String editorButton = "EditorButton";
         String editor = "Editor";
         String editorCheckBoxContainer = "EditorCheckBoxContainer";
+        String editorListBoxContainer = "EditorListBoxContainer";
         String editorCheckBox = "ProfileEditorCheckBox";
         String editorTextBox = "EditorTextBox";
+        String editorListBox = "EditorListBox";
         String editorHeader = "EditorHeader";
         String editorFooter = "EditorFooter";
         String editorDateContainer = "EditorDateContainer"; 
         String editorTextArea = "EditorTextArea";
+        String editorField = "EditorField";
         
         String editorNotValidField = "EditorNotValidField";
         String editorTimePickerContainer = "EditorTimePickerContainer";

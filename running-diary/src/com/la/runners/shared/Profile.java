@@ -55,6 +55,9 @@ public class Profile implements Serializable {
     @Persistent
     private Boolean weather;
     
+    @Persistent
+    private Integer unitSystem;
+    
     @Clag(hidden=true)
     @Persistent
     private List<String> followers; 
@@ -138,5 +141,13 @@ public class Profile implements Serializable {
     public List<String> getFollowers() {
         return followers;
     }
+
+    public void setUnitSystem(Integer unitSystem) {
+        this.unitSystem = unitSystem;
+    }
+
+    public Integer getUnitSystem() {
+        return unitSystem;
+    } 
     
 }

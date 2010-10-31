@@ -96,6 +96,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         	newRun.setId(run.getId());
         	newRun.setDistance(run.getDistance());
         	newRun.setCreated(run.getCreated());
+        	newRun.setSpeed(run.getSpeed());
         	newRun.setYear(run.getYear());
         	newRun.setMonth(run.getMonth());
         	newRun.setDay(run.getDay());
@@ -325,6 +326,13 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
         location.setLongitude(Long.valueOf(-122392));
         locations.add(location);
         return locations;
+    }
+
+    @Override
+    public void deleteRuns(List<Long> ids) {
+        for(Long id : ids) {
+            runDao.delete(id);
+        }
     }
     
 }

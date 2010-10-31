@@ -5,7 +5,7 @@ import com.la.runners.client.Context;
 
 public class MandatoryTextBoxField extends TextBoxField {
     
-    private Context context;
+    protected Context context;
     
     public MandatoryTextBoxField(String name, Context context) {
         super(name);
@@ -14,10 +14,10 @@ public class MandatoryTextBoxField extends TextBoxField {
 
     @Override
     public boolean isValid() {
-        boolean valid = isNotEmpty();
-        if(!valid) {
+        if(isEmpty()) {
             showValidationError(context.strings.validationMandatoryField());
+            return Boolean.FALSE;
         }
-        return valid;
-    };
+        return Boolean.TRUE;
+    }
 }

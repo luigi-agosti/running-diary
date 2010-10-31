@@ -44,5 +44,7 @@ public interface Service extends RemoteService {
     void sendInvite(String recipientUserId) throws ServerException;
 
     List<Location> getLocations(String token);
+
+    void deleteRuns(List<Long> ids);
     
 }
