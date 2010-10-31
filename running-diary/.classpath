@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="lib/appengine-api-stubs.jar"/>
 	<classpathentry kind="lib" path="lib/appengine-testing.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-commons-2.jar"/>
-	<classpathentry kind="lib" path="lib/gwt-incubator.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-maps.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-incubator.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

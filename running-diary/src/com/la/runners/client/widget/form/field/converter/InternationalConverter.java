@@ -30,12 +30,12 @@ public class InternationalConverter extends BaseConverter implements UnitConvert
 
     @Override
     public String getDistanceUnit(Strings strings) {
-        return strings.speedInternational();
+        return strings.distanceInternational();
     }
 
     @Override
     public String getSpeedUnit(Strings strings) {
-        return strings.distanceInternational();
+        return strings.speedInternational();
     }
 
 }

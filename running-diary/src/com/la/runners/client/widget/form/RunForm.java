@@ -19,9 +19,9 @@ import com.la.runners.shared.Run;
 
 public class RunForm extends CustomForm implements LoadRunHandler {
 
-    private Run run;
+	private static final double E6_MULTI = 1000000D;
 
-    private static final double E6_MULTI = 1000000D;
+	private Run run;
     
     private DatePickerField startDateField;
     private NumericMandatoryBoxField distanceField;
