@@ -187,14 +187,14 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     }
 
     @Override
-    public void stop(long startingTime, double speed, double totalDistance) {
+    public void stop(long duration, double speed, double totalDistance) {
         AppLogger.logVisibly("stopping with speed and distance : " + speed + " " + totalDistance);
         ContentValues cv = new ContentValues();
         long time = System.currentTimeMillis();
         cv.put(Model.Run.MODIFIED, time);
         cv.put(Model.Run.SPEED, Utils.Number.e6(speed));
         cv.put(Model.Run.DISTANCE, (long)totalDistance);
-        cv.put(Model.Run.TIME, time - startingTime);
+        cv.put(Model.Run.TIME, duration);
         cv.put(Model.Run.END_DATE, time);
         getContentResolver().update(Model.Run.CONTENT_URI, cv, Model.Run.ID + Model.PARAMETER, new String[]{runId});
     }
