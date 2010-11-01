@@ -3,11 +3,15 @@ package com.la.runners.service.sync;
 
 import java.io.InputStream;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.la.runners.parser.IdsParser;
 import com.la.runners.parser.JsonParserIterator;
+import com.la.runners.provider.Model;
+import com.la.runners.provider.SyncProvider;
 import com.la.runners.provider.SyncProvider.Sync;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.NetworkService;
@@ -37,11 +41,11 @@ public abstract class BasicSync implements Syncable {
         syncUpUpdates(context, syncEventListener);
         AppLogger.debug("3. sync up deletes : " + uri);
         syncUpDeletes(context, syncEventListener);
-        AppLogger.debug("4. clean : " + uri);
-        clean(context, syncEventListener);
-        AppLogger.debug("5. sync down : " + uri);
+//        AppLogger.debug("4. clean : " + uri);
+//        clean(context, syncEventListener);
+        AppLogger.debug("4. sync down : " + uri);
         syncDown(context, syncEventListener);
-        AppLogger.debug("6. sync end : " + uri);
+        AppLogger.debug("5. sync end : " + uri);
     }
 
     @Override
@@ -58,7 +62,13 @@ public abstract class BasicSync implements Syncable {
             AppLogger.debug("Result : " + result);
             if(!"[]".equals(result)) {
                 AppLogger.debug("posting result");
-                NetworkService.getHttpManager(context).post(context, url, result);
+                IdsParser parser = new IdsParser(NetworkService.getHttpManager(context).post(context, url, result));
+                while(parser.hasNext()) {
+                    ContentValues cv = parser.next();
+                    String id = cv.getAsString(Sync.ID);
+                    cv.remove(Sync.ID);
+                    context.getContentResolver().update(uri, cv, Sync.ID + Model.PARAMETER, new String[]{id});
+                }
             }
         } finally {
             if (c != null) {
@@ -115,11 +125,19 @@ public abstract class BasicSync implements Syncable {
         JsonParserIterator parser = instanziateParser(NetworkService.getHttpManager(context)
                 .getUrlAsStream(url, context));
         while (parser.hasNext()) {
-            context.getContentResolver().insert(uri, parser.next());
+            ContentValues cv = parser.next();
+            Uri inserted = context.getContentResolver().insert(uri, cv);
+            AppLogger.debug("checking for ids");
+            if(cv.containsKey(SyncProvider.Syncable.REMOTE_ID)) {
+                AppLogger.debug("updating the ids");
+                handleRelations(context, inserted.getLastPathSegment(), cv.getAsLong(SyncProvider.Syncable.REMOTE_ID));
+            }
         }
     }
 
     protected abstract JsonParserIterator instanziateParser(InputStream urlAsStream);
+    
+    protected abstract void handleRelations(Context context, String id, Long rid);
 
     protected void setSyncUpReourceId(int syncUpReourceId) {
         this.syncUpReourceId = syncUpReourceId;

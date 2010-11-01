@@ -90,6 +90,7 @@ public class Provider extends SyncProvider {
                         AppLogger.debug("insert : " + values + " _id = " + id);
                         AppLogger.debug(values.toString());
                     }
+                    result = ContentUris.withAppendedId(Model.Location.CONTENT_URI, id);
                     getContext().getContentResolver().notifyChange(Model.Location.CONTENT_URI, null);
                 } catch (SQLException e) {
                     if (AppLogger.isErrorEnabled()) {
@@ -134,6 +135,15 @@ public class Provider extends SyncProvider {
             case Model.Run.INCOMING_COLLECTION: {
                 updateSyncable(Model.Run.NAME, values, selection, selectionArgs);
                 rows = getDataBase().update(Model.Run.NAME, values, selection,
+                        selectionArgs);
+                break;
+            }
+            case Model.Location.INCOMING_COLLECTION: {
+                AppLogger.debug("Updating locations with remote id");
+                AppLogger.debug("values : " + values);
+                AppLogger.debug("selection : " + selection);
+                AppLogger.debug("selectionArgs : " + selectionArgs[0]);                
+                rows = getDataBase().update(Model.Location.NAME, values, selection,
                         selectionArgs);
                 break;
             }

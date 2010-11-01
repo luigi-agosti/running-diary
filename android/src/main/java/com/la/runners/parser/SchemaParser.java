@@ -29,12 +29,6 @@ public class SchemaParser {
     private List<String> dropStms;
 
     private List<String> createStms;
-    
-    private static final String CREATE_RUN_TRIGGER = "create trigger update_locations " +
-    		"after update on Run when new.id not null begin " +
-    		"update Location set runId = new.id where runId = old._id; end;";
-
-    private static final String DROP_RUN_TRIGGER = "drop trigger if exists update_locations;";
 
     public SchemaParser(InputStream inputStream) throws ParserException {
         try {
@@ -43,9 +37,7 @@ public class SchemaParser {
             name = rootNode.get(NAME).getTextValue();
             version = rootNode.get(VERSION).getTextValue();
             dropStms = getListFromArray(rootNode, DROP_STATEMENT);
-            dropStms.add(DROP_RUN_TRIGGER);
             createStms = getListFromArray(rootNode, CREATE_STATEMENT);
-            createStms.add(CREATE_RUN_TRIGGER);
         } catch (Throwable e) {
             throw new ParserException(R.string.error_1, e.getMessage());
         }

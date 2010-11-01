@@ -134,7 +134,7 @@ public class HttpManager {
         }
     }
 
-    public void post(final Context context, String url, String data) {
+    public InputStream post(final Context context, String url, String data) {
         if (!Network.isNetworkAvailable(context)) {
             throw new ConnectionException(R.string.error_4, url);
         }
@@ -150,7 +150,9 @@ public class HttpManager {
             httpPost.setEntity(tmp);
             response = client.execute(httpPost);
             if (response != null && response.getStatusLine().getStatusCode() == 200) {
-                return;
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+                return is;
             }
             throw new ConnectionException();
         } catch (Exception e) {

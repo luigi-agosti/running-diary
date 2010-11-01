@@ -85,4 +85,9 @@ public class ProfileSync extends BasicSync {
         }
     }
 
+    @Override
+    protected void handleRelations(Context context, String id, Long rid) {
+        // Nothing to do
+    }
+
 }

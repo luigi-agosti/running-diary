@@ -132,28 +132,6 @@ public class RunTrackingService extends Service implements LocationListener, Sto
     public void onStatusChanged(String provider, int status, Bundle extras) {
         AppLogger.debug("Provider is enabled");
     }
-
-    private void registerLocationListener() {
-        if (locationManager == null) {
-            AppLogger.error("Do not have any location manager.");
-            return;
-        }
-        try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            AppLogger.debug("Location listener registered");
-        } catch (RuntimeException e) {
-            AppLogger.error("Could not register location listener", e);
-        }
-    }
-
-    private void unregisterLocationListener() {
-        if (locationManager == null) {
-            AppLogger.error("Do not have any location manager.");
-            return;
-        }
-        locationManager.removeUpdates(this);
-        AppLogger.debug("Location listener unregistered");
-    }
     
     @Override
     public void trackPoint(double latitude, double longitude, double altitude, long time, long timestamp, 
@@ -188,7 +166,6 @@ public class RunTrackingService extends Service implements LocationListener, Sto
 
     @Override
     public void stop(long duration, double speed, double totalDistance) {
-        AppLogger.logVisibly("stopping with speed and distance : " + speed + " " + totalDistance);
         ContentValues cv = new ContentValues();
         long time = System.currentTimeMillis();
         cv.put(Model.Run.MODIFIED, time);
@@ -197,6 +174,28 @@ public class RunTrackingService extends Service implements LocationListener, Sto
         cv.put(Model.Run.TIME, duration);
         cv.put(Model.Run.END_DATE, time);
         getContentResolver().update(Model.Run.CONTENT_URI, cv, Model.Run.ID + Model.PARAMETER, new String[]{runId});
+    }
+    
+    private void registerLocationListener() {
+        if (locationManager == null) {
+            AppLogger.error("Do not have any location manager.");
+            return;
+        }
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            AppLogger.debug("Location listener registered");
+        } catch (RuntimeException e) {
+            AppLogger.error("Could not register location listener", e);
+        }
+    }
+
+    private void unregisterLocationListener() {
+        if (locationManager == null) {
+            AppLogger.error("Do not have any location manager.");
+            return;
+        }
+        locationManager.removeUpdates(this);
+        AppLogger.debug("Location listener unregistered");
     }
 
 }

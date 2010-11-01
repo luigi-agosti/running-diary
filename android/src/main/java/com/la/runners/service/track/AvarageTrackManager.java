@@ -17,7 +17,9 @@ public class AvarageTrackManager implements TrackManager {
     private int index;
 
     private int dataSetSize;
-
+     
+    private boolean firstLocation = Boolean.TRUE;
+    
     private double distance;
     
     private double totalDistance;
@@ -43,14 +45,15 @@ public class AvarageTrackManager implements TrackManager {
     public void start() {
         index = 0;
         distance = 0;
-        locations = new Location[dataSetSize];
+        //first time I get only one location so is faster
+        locations = new Location[1];
         startTime = System.currentTimeMillis();
         storeManager.start();
     }
 
     @Override
     public void stop() {
-        storeManager.stop(System.currentTimeMillis() - startTime, speed, distance);
+        storeManager.stop(System.currentTimeMillis() - startTime, speed, totalDistance);
     }
 
     @Override
@@ -60,8 +63,9 @@ public class AvarageTrackManager implements TrackManager {
         }
         AppLogger.debug("updating location : " + location);
         locations[index] = location;
-        if (index == dataSetSize - 1) {
+        if (index == dataSetSize - 1 || firstLocation) {
             setPoint(locations);
+            firstLocation = Boolean.FALSE;
             locations = new Location[dataSetSize];
             index = 0;
         } else {
@@ -76,8 +80,9 @@ public class AvarageTrackManager implements TrackManager {
             longitude += l.getLongitude();
             altitude += l.getAltitude();
         }
-        double newLatitude = latitude / dataSetSize;
-        double newLongitude = longitude / dataSetSize;
+        int numberOfSample = locations.length;
+        double newLatitude = latitude / numberOfSample;
+        double newLongitude = longitude / numberOfSample;
         long time = System.currentTimeMillis() - startTime;
 
         if (lastLongitude == 0D && lastLatitude == 0D) {
@@ -91,7 +96,7 @@ public class AvarageTrackManager implements TrackManager {
         lastLatitude = newLatitude;
         lastLongitude = newLongitude;
 
-        storeManager.trackPoint(newLatitude, newLongitude, altitude / dataSetSize,
+        storeManager.trackPoint(newLatitude, newLongitude, altitude / numberOfSample,
                 time, System.currentTimeMillis(), speed, distance, totalDistance);
     }
 

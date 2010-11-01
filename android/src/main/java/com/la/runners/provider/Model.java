@@ -72,9 +72,6 @@ public class Model {
 
 		public static final String COLLECTION_TYPE = "vnd.android.cursor.dir/vnd.runners.run";
 
-		
-
-
         public static final Long time(Cursor c) {
             return c.getLong(c.getColumnIndex(TIME));
         }
@@ -174,6 +171,10 @@ public class Model {
                     if(shared != null) {
                     	js.key(SHARE).value(shared);
                     }
+                    Long id = Long.valueOf(id(c));
+                    if(id != null) {
+                        js.key(ID).value(id);
+                    }
                     js.endObject();
                 }
                 js.endArray();
@@ -196,7 +197,7 @@ public class Model {
 			return c.getLong(c.getColumnIndex(MODIFIED));
 		}
 		
-		private static Long startDate(Cursor c) {
+		public static Long startDate(Cursor c) {
 		    return c.getLong(c.getColumnIndex(START_DATE));
 		}
 		
@@ -335,6 +336,10 @@ public class Model {
                     Long latitude = latitude(c);
                     if(latitude != null) {
                         js.key(LATITUDE).value(latitude);
+                    }
+                    Long id = Long.valueOf(id(c));
+                    if(id != null) {
+                        js.key(ID).value(id);
                     }
                     js.endObject();
                 }

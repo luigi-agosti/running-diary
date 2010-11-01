@@ -42,7 +42,7 @@ public abstract class SyncProvider extends ContentProvider {
 
         public static final String CRUD = "crud";
 
-        public static final String TABLE_NAME = "tableName";
+        public static final String TABLE_NAME = "name";
         
         public static final String CREATE_STM = "create table if not exists Sync(_id integer, id integer, name text, crud integer);";
         
@@ -104,7 +104,7 @@ public abstract class SyncProvider extends ContentProvider {
 
     protected void updateSyncable(String name, ContentValues values, String selection,
             String[] selectionArgs) {
-        if (values.containsKey(Syncable.REMOTE_ID)) {
+        if (values.containsKey(Syncable.REMOTE_ID) && !selection.contains(Syncable.ID)) {
             AppLogger.debug("updateSyncable is coming from remote... skipping it");
             return;
         }
@@ -113,7 +113,7 @@ public abstract class SyncProvider extends ContentProvider {
     }
 
     protected void deleteSyncable(String name, String selection, String[] selectionArgs) {
-        if (selection.contains(Syncable.REMOTE_ID)) {
+        if (selection.contains(Syncable.REMOTE_ID) && !selection.contains(Syncable.ID)) {
             AppLogger.debug("deleteSyncable is coming from remote... skipping it");
             return;
         }

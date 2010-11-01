@@ -46,18 +46,25 @@ public class Utils {
     }
     
     public static class Date {
-        
         private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("hh:mm a dd MMM yyyy");
-        private static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
-        static {
-            TIME_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));  
-        }
-        
+        private static final SimpleDateFormat SHORT_DATE_FORMATTER = new SimpleDateFormat("dd MMM hh:mm");
+        private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
         private static final SimpleDateFormat HOUR_FORMATTER = new SimpleDateFormat("HH");
         private static final SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("dd");
         private static final SimpleDateFormat MONTH_FORMATTER = new SimpleDateFormat("MM");
         private static final SimpleDateFormat YEAR_FORMATTER = new SimpleDateFormat("yyyy");
         private static final SimpleDateFormat MINUTES_FORMATTER = new SimpleDateFormat("mm");
+        static {
+            TIME_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));  
+            DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            SHORT_DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            HOUR_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            DAY_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            MONTH_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            YEAR_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            MINUTES_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+        }
+        
         
         public static final int year(long millisec) {
             return Integer.valueOf(YEAR_FORMATTER.format(new java.util.Date(millisec)));
@@ -83,6 +90,10 @@ public class Utils {
             return TIME_FORMATTER.format(new java.util.Date(millisec));
         }
 
+        public static final String shortDate(long millisec) {
+            return SHORT_DATE_FORMATTER.format(new java.util.Date(millisec));
+        }
+
         public static String dayTime(long time) {
             
             return null;
@@ -94,6 +105,23 @@ public class Utils {
         
         private static final DecimalFormat SHORT_DECIMAL_FORMATTER = new DecimalFormat("#.##");
         private static final DecimalFormat LONG_DECIMAL_FORMATTER = new DecimalFormat("##.######");
+        
+        
+        private static final int CENTIMETERS_TO_METERS_FACTOR = 100;
+        
+        private static final double E6SPEED_CENTIMETER_TO_KM_HOUR = 36D/1000000D;
+        
+        public static final Long indipendentUnitDistance(Long value) {
+            return new Long(value)*CENTIMETERS_TO_METERS_FACTOR;
+        }
+        
+        public static final Long customUnitDistance(Long value) {
+            return Long.valueOf(value / CENTIMETERS_TO_METERS_FACTOR);
+        }
+
+        public static final Double customUnitSpeed(Long value) {
+            return Double.valueOf(value * E6SPEED_CENTIMETER_TO_KM_HOUR);
+        }
         
         private static final double MULTIPLIER = 1000000D;
         
@@ -108,6 +136,7 @@ public class Utils {
         public static final String longDecimal(double number) {
             return LONG_DECIMAL_FORMATTER.format(number); 
         }
+        
     }
     
 }

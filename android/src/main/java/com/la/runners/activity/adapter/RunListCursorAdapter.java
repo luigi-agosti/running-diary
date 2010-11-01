@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.la.runners.R;
 import com.la.runners.provider.Model;
+import com.la.runners.util.Utils;
 
 public class RunListCursorAdapter extends CursorAdapter {
 
@@ -19,13 +20,18 @@ public class RunListCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		Long distance = Model.Run.distance(cursor);
-		TextView distanceTextView = (TextView)view.findViewById(R.id.runListActivity_distance);
-		distanceTextView.setText("" + distance);
+	    Long date = Model.Run.startDate(cursor);
+	    TextView noteTextView = (TextView)view.findViewById(R.id.runListActivity_date);
+	    noteTextView.setText(Utils.Date.shortDate(date));
+
+	    TextView distanceTextView = (TextView)view.findViewById(R.id.runListActivity_distance);
+		distanceTextView.setText("" + Utils.Number.customUnitDistance(Model.Run.distance(cursor)));
 		
-		String note = Model.Run.note(cursor);
-		TextView noteTextView = (TextView)view.findViewById(R.id.runListActivity_note);
-		noteTextView.setText(note);
+		TextView timeTextView = (TextView)view.findViewById(R.id.runListActivity_time);
+		timeTextView.setText(Utils.Date.time(Model.Run.time(cursor)));
+		
+		TextView speedTextView = (TextView)view.findViewById(R.id.runListActivity_date);
+		speedTextView.setText("" + Utils.Number.customUnitSpeed(Model.Run.speed(cursor)));
 	}
 
 	@Override

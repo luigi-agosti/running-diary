@@ -22,5 +22,5 @@
 		<item name="android:background">#FF0000</item>
   		<item name="android:padding">6dp</item>
 	</style>
-	
+		
 </resources>
