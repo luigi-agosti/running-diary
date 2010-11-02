@@ -37,13 +37,6 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>test</artifactId>
-			<version>${android.version}</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
 	</dependencies>
 
 	<build>
