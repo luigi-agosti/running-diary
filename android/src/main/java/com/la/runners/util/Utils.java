@@ -119,8 +119,8 @@ public class Utils {
             return Long.valueOf(value / CENTIMETERS_TO_METERS_FACTOR);
         }
 
-        public static final Double customUnitSpeed(Long value) {
-            return Double.valueOf(value * E6SPEED_CENTIMETER_TO_KM_HOUR);
+        public static final String customUnitSpeed(Long value) {
+            return SHORT_DECIMAL_FORMATTER.format(Double.valueOf(value * E6SPEED_CENTIMETER_TO_KM_HOUR));
         }
         
         private static final double MULTIPLIER = 1000000D;

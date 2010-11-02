@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-core-lgpl/1.5.1/jackson-core-lgpl-1.5.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-mapper-lgpl/1.5.1/jackson-mapper-lgpl-1.5.1-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

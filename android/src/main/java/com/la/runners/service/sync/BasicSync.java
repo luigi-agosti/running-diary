@@ -106,7 +106,7 @@ public abstract class BasicSync implements Syncable {
         try {
             c = context.getContentResolver().query(Sync.CONTENT_URI, null, Sync.CRUD + PARAMETER, new String[]{"" + Sync.DELETE}, null);
             while(c.moveToNext()) {
-                NetworkService.getHttpManager(context).delete(context, url + "/" + Sync.remoteId(c));
+                NetworkService.getHttpManager(context).delete(context, url + "?remoteId=" + Sync.remoteId(c));
             }
         } finally {
             if (c != null) {
