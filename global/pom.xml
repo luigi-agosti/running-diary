@@ -11,7 +11,7 @@
 
 	<modules>
 		<module>../android</module>
-		<!-- <module>../android-test</module> -->
+		<!--<module>../android-test</module> -->
 	</modules>
 
 	<properties>
