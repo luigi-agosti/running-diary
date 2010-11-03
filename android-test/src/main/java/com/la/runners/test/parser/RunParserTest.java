@@ -19,7 +19,7 @@ public class RunParserTest extends BaseParserTestCase {
         assertNotNull(parser);
         if(parser.hasNext()) {
 	        ContentValues cv = parser.next();
-	        assertEquals("1", cv.get(Model.Run.ID));
+	        assertEquals("1", cv.get(Model.Run.REMOTE_ID));
 	        assertEquals(Long.valueOf(2), cv.get(Model.Run.TIME));
 	        assertEquals("10", cv.get(Model.Run.DISTANCE));
 	        assertEquals(Long.valueOf("1283633901348"), cv.get(Model.Run.CREATED));

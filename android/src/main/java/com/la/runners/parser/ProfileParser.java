@@ -18,14 +18,14 @@ public class ProfileParser extends AbstractJsonParserIterator {
     public ContentValues next() {
         ContentValues cv = new ContentValues();
         JsonNode node = nextNode();
-        if(node!=null) {
-            cv.put(Model.Profile.NICKNAME, node.get(Model.Profile.NICKNAME).getValueAsText());
-            cv.put(Model.Profile.CREATED, node.get(Model.Profile.CREATED).getLongValue());
-            cv.put(Model.Profile.MODIFIED, node.get(Model.Profile.MODIFIED).getLongValue());
-            cv.put(Model.Profile.WEATHER, node.get(Model.Profile.WEATHER).getBooleanValue());
-            cv.put(Model.Profile.WEIGHT, node.get(Model.Profile.WEIGHT).getBooleanValue());
-            cv.put(Model.Profile.HEART_RATE, node.get(Model.Profile.HEART_RATE).getBooleanValue());
-            cv.put(Model.Profile.SHOES, node.get(Model.Profile.SHOES).getValueAsText());
+        if(node != null) {
+            addValueAsText(Model.Profile.NICKNAME, cv, node);
+            addLongValue(Model.Profile.CREATED, cv, node);
+            addLongValue(Model.Profile.MODIFIED, cv, node);
+            addBooleanValue(Model.Profile.WEATHER, cv, node);
+            addBooleanValue(Model.Profile.WEIGHT, cv, node);
+            addBooleanValue(Model.Profile.HEART_RATE, cv, node);
+            addBooleanValue(Model.Profile.SHOES, cv, node);
         }
         return cv;
     }

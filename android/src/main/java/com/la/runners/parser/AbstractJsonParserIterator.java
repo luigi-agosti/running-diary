@@ -77,28 +77,44 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
         position++;
         return currentNode;
     }
-
-    public static final void setStringValueForColumns(String columns, String jsonAttribute,
-            JsonNode node, ContentValues cv) {
-        JsonNode property = node.get(jsonAttribute);
-        if (property != null) {
-            cv.put(columns, property.getTextValue());
+    
+    protected void addBooleanValueAsInt(String key, ContentValues cv, JsonNode node) {
+        JsonNode attribute = node.get(key);
+        if(attribute != null) {
+            Boolean value = node.get(key).getBooleanValue();
+            if(value != null && value) { 
+                cv.put(key, 1);
+            } else {
+                cv.put(key, 0);
+            }
         }
     }
-
-    public static final void setLongValueForColumns(String columns, String jsonAttribute,
-            JsonNode node, ContentValues cv) {
-        JsonNode property = node.get(jsonAttribute);
-        if (property != null) {
-            cv.put(columns, property.getLongValue());
+    
+    protected void addLongValue(String key, ContentValues cv, JsonNode node) {
+        JsonNode attribute = node.get(key);
+        if(attribute != null) {
+            cv.put(key, node.get(key).getLongValue());
         }
     }
-
-    public static final void setIntValueForColumns(String columns, String jsonAttribute,
-            JsonNode node, ContentValues cv) {
-        JsonNode property = node.get(jsonAttribute);
-        if (property != null) {
-            cv.put(columns, property.getIntValue());
+    
+    protected void addBooleanValue(String key, ContentValues cv, JsonNode node) {
+        JsonNode attribute = node.get(key);
+        if(attribute != null) {
+            cv.put(key, node.get(key).getBooleanValue());
+        }
+    }
+    
+    protected void addIntValue(String key, ContentValues cv, JsonNode node) {
+        JsonNode attribute = node.get(key);
+        if(attribute != null) {
+            cv.put(key, node.get(key).getIntValue());
+        }
+    }
+    
+    protected void addValueAsText(String key, ContentValues cv, JsonNode node) {
+        JsonNode attribute = node.get(key);
+        if(attribute != null) {
+            cv.put(key, node.get(key).getValueAsText());
         }
     }
     

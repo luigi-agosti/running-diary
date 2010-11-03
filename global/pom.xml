@@ -11,11 +11,11 @@
 
 	<modules>
 		<module>../android</module>
-		<!--<module>../android-test</module> -->
+		<module>../android-test</module>
 	</modules>
 
 	<properties>
-		<android.version>2.2</android.version>
+		<android.version>2.2.1</android.version>
 		<junit.version>4.4</junit.version>
 		<jackson.version>1.5.1</jackson.version>
 	</properties>

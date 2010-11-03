@@ -19,10 +19,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>android-test</artifactId>
-			<version>${android.version}</version>
-			<scope>provided</scope>
+		    <groupId>com.google.android</groupId>
+		    <artifactId>android-test</artifactId>
+		    <version>${android.version}</version>
+		    <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

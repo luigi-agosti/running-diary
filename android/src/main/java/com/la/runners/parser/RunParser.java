@@ -19,34 +19,27 @@ public class RunParser extends AbstractJsonParserIterator {
 		ContentValues cv = new ContentValues();
 		JsonNode node = nextNode();
 		if(node!=null) {
-			cv.put(Model.Run.REMOTE_ID, node.get(Model.Run.REMOTE_ID).getValueAsText());
-			cv.put(Model.Run.TIME, node.get(Model.Run.TIME).getLongValue());
-			cv.put(Model.Run.CREATED, node.get(Model.Run.CREATED).getLongValue());
-			cv.put(Model.Run.MODIFIED, node.get(Model.Run.MODIFIED).getLongValue());
-			cv.put(Model.Run.START_DATE, node.get(Model.Run.START_DATE).getLongValue());
-			cv.put(Model.Run.END_DATE, node.get(Model.Run.END_DATE).getLongValue());
-			cv.put(Model.Run.YEAR, node.get(Model.Run.YEAR).getIntValue());
-			cv.put(Model.Run.MONTH, node.get(Model.Run.MONTH).getIntValue());
-			cv.put(Model.Run.DAY, node.get(Model.Run.DAY).getLongValue());
-			cv.put(Model.Run.HOUR, node.get(Model.Run.HOUR).getLongValue());
-			cv.put(Model.Run.DISTANCE, node.get(Model.Run.DISTANCE).getValueAsText());
+		    addValueAsText(Model.Run.REMOTE_ID, cv, node);
+		    addLongValue(Model.Run.TIME, cv, node);
+		    addLongValue(Model.Run.CREATED, cv, node);
+		    addLongValue(Model.Run.MODIFIED, cv, node);
+		    addLongValue(Model.Run.START_DATE, cv, node);
+		    addLongValue(Model.Run.END_DATE, cv, node);
+		    
+		    addLongValue(Model.Run.TIME, cv, node);
+		    addIntValue(Model.Run.YEAR, cv, node);
+		    addIntValue(Model.Run.MONTH, cv, node);
+		    addLongValue(Model.Run.DAY, cv, node);
+		    addLongValue(Model.Run.HOUR, cv, node);
+		    addValueAsText(Model.Run.DISTANCE, cv, node);
+		    addValueAsText(Model.Run.NOTE, cv, node);
+		    addBooleanValueAsInt(Model.Run.SHARE, cv, node);
 			
-			//second group that can be optional
-			String note = node.get(Model.Run.NOTE).getTextValue();
-			if(note != null) {
-			    cv.put(Model.Run.NOTE, note);
-			}
-			Boolean share = node.get(Model.Run.SHARE).getBooleanValue();
-			if(share != null && share) { 
-			    cv.put(Model.Run.SHARE, 1);
-			} else {
-			    cv.put(Model.Run.SHARE, 0);
-			}
-			cv.put(Model.Run.SHOES, node.get(Model.Run.SHOES).getValueAsText());
-			cv.put(Model.Run.HEART_RATE, node.get(Model.Run.HEART_RATE).getLongValue());
-			cv.put(Model.Run.WEIGHT, node.get(Model.Run.WEIGHT).getLongValue());
+			addValueAsText(Model.Run.SHOES, cv, node);
+			addLongValue(Model.Run.HEART_RATE, cv, node);
+			addLongValue(Model.Run.WEIGHT, cv, node);
 		}
 		return cv;
 	}
-
+	
 }

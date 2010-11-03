@@ -19,8 +19,8 @@ public class IdsParser extends AbstractJsonParserIterator {
         ContentValues cv = new ContentValues();
         JsonNode node = nextNode();
         if(node!=null) {
-            cv.put(Sync.REMOTE_ID, node.get(Sync.REMOTE_ID).getLongValue());
-            cv.put(Sync.ID, node.get(Sync.ID).getLongValue());
+            addLongValue(Sync.REMOTE_ID, cv, node);
+            addLongValue(Sync.ID, cv, node);
         }
         return cv;
     }
