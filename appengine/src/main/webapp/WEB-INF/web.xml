@@ -1,0 +1,181 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+
+	<!-- ==================================== Security-constraint ==================================== -->
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/task/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/queue/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/home.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/stats.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/search.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/profile.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/invite</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/data/Run</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/download.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/apk/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<!-- <security-constraint>
+		<web-resource-collection>
+			<url-pattern>/auth/check</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+	</security-constraint>-->
+
+	<!-- ==================================== Servlet to keep the instance alive ==================================== -->
+	<servlet>
+		<servlet-name>keepAliveTask</servlet-name>
+		<servlet-class>org.appengine.commons.servlet.task.KeepAliveTask</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>keepAliveTask</servlet-name>
+		<url-pattern>/task/keepAliveTask</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>keepAliveQueue</servlet-name>
+		<servlet-class>org.appengine.commons.servlet.queue.KeepAliveQueue</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>keepAliveQueue</servlet-name>
+		<url-pattern>/queue/keepAliveQueue</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ==================================== Gwt Services ==================================== -->
+
+	<servlet>
+		<servlet-name>editorRpcService</servlet-name>
+		<servlet-class>com.la.runners.server.servlet.ServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/home/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/statistics/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/profile/service</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editorRpcService</servlet-name>
+		<url-pattern>/search/service</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ==================================== Invite registration ==================================== -->
+	<servlet>
+		<servlet-name>inviteRegistrationServlet</servlet-name>
+		<servlet-class>com.la.runners.server.servlet.InviteRegistrationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>inviteRegistrationServlet</servlet-name>
+		<url-pattern>/invite</url-pattern>
+	</servlet-mapping>
+
+	<!-- ==================================== Clag ==================================== -->
+
+	<servlet>
+		<servlet-name>clag</servlet-name>
+		<servlet-class>novoda.clag.servlet.ClagServlet</servlet-class>
+		<init-param>
+			<param-name>converter</param-name>
+			<param-value>novoda.clag.converter.json.SqliteJsonConverter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contentClasses</param-name>
+			<param-value>com.la.runners.shared.Run,com.la.runners.shared.Profile,com.la.runners.shared.Location</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>clag</servlet-name>
+		<url-pattern>/data/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ==================================== Auth check ==================================== -->
+	<servlet>
+		<servlet-name>authServlet</servlet-name>
+		<servlet-class>org.appengine.commons.servlet.AuthServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>authServlet</servlet-name>
+		<url-pattern>/auth/check</url-pattern>
+	</servlet-mapping>
+
+	<!-- ==================================== Welcome list ==================================== -->
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>

@@ -1,0 +1,286 @@
+<style type="text/css">
+
+.EditorEntryPoint {
+	width:100%;
+	position:relative;
+}
+
+/* 
+=============================================   
+Form
+=============================================
+*/
+.Editor {
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:24%;
+	text-align:center;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border: 1px solid #0099FF;
+}
+
+.EditorHeader {
+	width:100%;
+	background:#0099FF;
+	color:#FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top:5px;
+	padding-bottom:5px;
+	height:20px;
+	margin-bottom:10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.EditorFooter {
+	width:100%;
+	background:#0099FF;
+	color:#FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top:5px;
+	padding-bottom:5px;
+	height:20px;
+	margin-top:10px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+}
+
+.EditorLabel {
+	margin-top:5px;
+}
+
+.EditorButton {
+	margin-top:15px;
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.EditorTextBox {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.EditorTextArea {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.EditorDateContainer {
+	width:100%;
+}
+
+.EditorDateContainer .gwt-DatePicker {
+	font-size: 14px;
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.EditorSubTitle {
+	background:#0099FF;
+	font-weight:bold;
+	margin-top: 15px;
+	padding-top:2px;
+	padding-bottom:2px;
+	color:#FFFFFF;
+}
+
+.EditorNotValidField {
+	background-color: #F6CECE;
+	border:1px solid #FA5858;	
+}
+
+.EditorCheckBoxContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.EditorCheckBoxContainer td {
+	width:50%;
+}
+
+.EditorListBoxContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+
+.EditorListBoxContainer td {
+	width:50%;
+}
+
+.ProfileEditorCheckBox {
+	float: right;
+	margin-right:10%;
+}
+
+.EditorTimePickerContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.EditorTimePickerContainer td {
+	width:50%;
+}
+
+.EditorField {
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.EditorField .gwt-Label {
+ 	font-weight: bold;
+ 	color: #7EB6FF;
+}
+
+.textBox {
+	background:white;
+}
+
+/* 
+=============================================   
+Grid
+=============================================
+*/
+.Grid {
+	text-align:left;
+	margin-bottom:10px;
+	width:74%;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.Grid-green {
+	border:1px solid #66CC66;
+}
+
+.Grid-red {
+	border:1px solid #F5A9A9;
+}
+
+.GridTable {
+	padding:1%;
+	width:98%;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.GridHeaderCell {
+}
+
+.Grid-red .GridHeaderCell{
+	color:#F5A9A9;
+}
+
+.Grid-green .GridHeaderCell{
+	color:#66CC66;
+}
+
+.GridCell {
+}
+
+
+
+/*    
+Grid Bars
+*/
+
+.Grid-green .GridBar-top {
+	background:#66CC66;
+}
+
+.Grid-green .GridBar-bottom {
+	background:#66CC66;
+}
+
+.Grid-red .GridBar-top {
+	background:#F5A9A9;
+}
+
+.Grid-red .GridBar-bottom {
+	background:#F5A9A9;
+}
+
+.GridBar-top {
+	position:relative;
+	text-align:right;
+	width:100%;
+	height:24px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.GridBar-bottom {
+	position:relative;
+	text-align:right;
+	width:100%;
+	height:24px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+}
+
+.GridBar-bottom .gwt-Label {
+	color:#FFFFFF;
+	position:absolute;
+	left:15px;
+	padding-top:5px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.GridBar-top .gwt-Label {
+	color:#FFFFFF;
+	position:absolute;
+	left:15px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.GridBar-bottom .gwt-Button {
+	padding-left:5px;
+	margin-right:15px;
+}
+
+.GridBar-top .gwt-Button {
+	padding-left:5px;
+	margin-right:15px;
+}
+
+.GridBar-bottom .gwt-ListBox {
+	padding-left:5px;
+	margin-right:15px;
+}
+
+.GridBar-top .gwt-ListBox {
+	padding-left:5px;
+	margin-right:15px;
+}
+
+
+</style>
