@@ -18,8 +18,17 @@
 		<android.version>2.2.1</android.version>
 		<junit.version>4.4</junit.version>
 		<jackson.version>1.5.1</jackson.version>
+		
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>maven-gae-plugin-repo</id>
+			<name>Maven Google App Engine Repository</name>
+			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
+		</repository>
+	</repositories>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
