@@ -12,6 +12,7 @@
 	<modules>
 		<module>../android</module>
 		<module>../android-test</module>
+		<module>../appengine</module>
 	</modules>
 
 	<properties>
