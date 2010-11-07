@@ -10,6 +10,8 @@
 	<description>Running diary project.</description>
 
 	<modules>
+	<!--	
+	-->
 		<module>../android</module>
 		<module>../android-test</module>
 		<module>../appengine</module>
@@ -40,6 +42,17 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+            <id>DataNucleus_Repos</id>
+            <name>DataNucleus Repository</name>
+            <url>http://www.datanucleus.org/downloads/maven</url>
+            <layout>legacy</layout>
+        </repository>
+        <repository>
+            <id>DataNucleus_Repos2</id>
+            <name>DataNucleus Repository</name>
+            <url>http://www.datanucleus.org/downloads/maven2</url>
+        </repository>
 		<repository>
 		  	<id>maven2-repository.dev.java.net</id>
 		  	<name>Java.net Repository for Maven</name>

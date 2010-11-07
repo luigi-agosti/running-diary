@@ -88,6 +88,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         Account[] accounts = GoogleAuth.getInstance().getAccounts(getApplicationContext());
         if(accounts == null || accounts.length <= 0) {
             Notifier.toastMessage(this, R.string.error_10);
+            finish();
+            return;
         }
         if(accounts != null && accounts.length > 0) {
             ListPreference lp = (ListPreference)findPreference(ACCOUNT_KEY);

@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.la.runners.R;
 import com.la.runners.exception.ParserException;
+import com.la.runners.util.AppLogger;
 
 /**
  * Abstract class for all the json parsers that need to iterate through a list.
@@ -42,6 +43,7 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
             	nodes = rootNode.getElements();
             }
         } catch (Throwable e) {
+        	AppLogger.error(e);
             throw new ParserException(R.string.error_3, e.getMessage());
         }
     }
@@ -53,6 +55,7 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
             JsonNode array = rootNode.get(root);
             nodes = array.getElements();
         } catch (Throwable e) {
+        	AppLogger.error(e);
             throw new ParserException(R.string.error_3, e.getMessage());
         }
     }
