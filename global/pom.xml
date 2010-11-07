@@ -11,14 +11,14 @@
 
 	<modules>
 	<!--	
-	-->
 		<module>../android</module>
 		<module>../android-test</module>
 		<module>../appengine</module>
+	-->
 	</modules>
 
 	<properties>
-		<android.version>2.2.1</android.version>
+		<android.version>2.1_r1</android.version>
 		<junit.version>4.4</junit.version>
 		<jackson.version>1.6.0</jackson.version>
 	</properties>
