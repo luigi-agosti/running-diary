@@ -429,6 +429,9 @@ public class Model {
             //Limit is a trick I should have it in the content provider 
             return c.getContentResolver().query(CONTENT_URI, OP1, RUN_ID + PARAMETER, new String[]{runId}, TIMESTAMP + DESCENDANT);
         }
+        public static final Cursor get(Context c, long runId) { 
+        	return get(c, "" + runId);
+        }
 
     }
     

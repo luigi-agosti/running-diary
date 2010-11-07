@@ -52,6 +52,11 @@ public class RunListActivity extends BaseActivity {
                 startActivity(RunEditorActivity.getLoadRunEditor(getApplicationContext(), info.id));
                 return true;
             }
+            case R.id.map: {
+                AppLogger.debug("show map");
+                startActivity(MapTrackingActivity.loadMapIntent(getApplicationContext(), info.id));
+                return true;
+            }
             case R.id.delete: {
                 AppLogger.debug("delete");
                 getApplicationContext().getContentResolver().delete(Model.Run.CONTENT_URI, Model.Run.ID + Model.PARAMETER, new String[]{"" + info.id});

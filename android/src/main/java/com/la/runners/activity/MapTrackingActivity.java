@@ -20,11 +20,19 @@ import com.la.runners.provider.Model;
 
 public class MapTrackingActivity extends MapActivity {
 
+	private static final String EXTRA_ID = "id";
+	
     private static Drawable pathIcon;
     private static Drawable locationIcon;
     
     public static final Intent prepareIntent(Context context) {
         return new Intent(context, MapTrackingActivity.class);
+    }
+    
+    public static final Intent loadMapIntent(Context context, long id) {
+        Intent i = prepareIntent(context);
+        i.putExtra(EXTRA_ID, id);
+        return i;
     }
     
     private MapView mapView;
@@ -58,7 +66,8 @@ public class MapTrackingActivity extends MapActivity {
         mapOverlays = mapView.getOverlays(); 
         pathPoints = new LocationItemizedOverlay(getPathIcon());
         location = new LocationItemizedOverlay(getLocationIcon());
-        updateRunInformation();
+        String id = updateRunInformation();
+        updateMapWithRun(id);
     }
     
     @Override
@@ -66,23 +75,32 @@ public class MapTrackingActivity extends MapActivity {
         return false;
     }
     
-    private void updateRunInformation() {
+    private String updateRunInformation() {
         mapOverlays.clear();
         pathPoints.clear();
         location.clear();
         Cursor c = null;
+        Intent intent = getIntent();
         String id = null;
-        try {
-            c = Model.Run.currentId(this);
-            if (c.moveToFirst()) {
-                id = Model.Run.id(c);
-            }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
+        if(intent != null && intent.hasExtra(EXTRA_ID)) {
+        	id = "" + intent.getLongExtra(EXTRA_ID, 0l);
+        } else {
+	        try {
+	            c = Model.Run.currentId(this);
+	            if (c.moveToFirst()) {
+	                id = Model.Run.id(c);
+	            }
+	        } finally {
+	            if (c != null) {
+	                c.close();
+	            }
+	        }
         }
-        c = null;
+        return id;
+    }
+    
+    private void updateMapWithRun(String id) {
+    	Cursor c = null;
         try {
             c = Model.Location.get(this, id);
             if(c.moveToFirst()) {
