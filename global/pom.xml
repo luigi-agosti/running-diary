@@ -10,10 +10,10 @@
 	<description>Running diary project.</description>
 
 	<modules>
-	<!--	
 		<module>../android</module>
 		<module>../android-test</module>
 		<module>../appengine</module>
+	<!--	
 	-->
 	</modules>
 
