@@ -14,6 +14,8 @@ public class Runners extends Application {
     private HttpManager httpManager;
 
     private static Runners instance;
+    
+    private boolean isRunning = false;
 
     @Override
     public void onCreate() {
@@ -53,4 +55,11 @@ public class Runners extends Application {
         return instance;
     }
 
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
 }

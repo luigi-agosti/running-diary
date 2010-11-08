@@ -92,7 +92,10 @@
 			android:label="Tracking..."
 			android:name=".activity.MapTrackingActivity">
 		</activity>
-		
+		<activity
+			android:screenOrientation="portrait"
+			android:name=".activity.RunActivity">
+		</activity>
 		<!--
 			===================================================== 
 			Preferences

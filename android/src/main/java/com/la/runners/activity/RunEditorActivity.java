@@ -212,5 +212,4 @@ public class RunEditorActivity extends BaseActivity implements OnSeekBarChangeLi
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
-
 }

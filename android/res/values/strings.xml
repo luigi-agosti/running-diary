@@ -81,5 +81,12 @@
 	<string name="syncService_profile">Profile sync done!</string>
 	<string name="syncService_run">Runs sync done!</string>
 	<string name="syncService_location">Locations sync done!</string>
-
+	
+	<!-- 
+	=================================================================
+	Is Running Warning
+	=================================================================
+	 -->
+	 <string name="is_running_warning">You Are Running!!!</string>
+	 
 </resources>

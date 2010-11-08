@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   style="@style/runListActivity_itemContainter">
-    
-     <TextView
-     	android:id="@+id/runListActivity_date"
-     	style="@style/runListActivity_date"/>
-     	
-     <TextView
-     	android:id="@+id/runListActivity_distance"
-     	android:layout_toRightOf="@id/runListActivity_date"
-     	style="@style/runListActivity_distance"/>
-     	
-   	<TextView
-   		android:id="@+id/runListActivity_time"
-   		android:layout_toRightOf="@id/runListActivity_distance"
-   		style="@style/runListActivity_time"/>
-      
-   	<TextView  
-      	android:id="@+id/runListActivity_speed"
-      	android:layout_toRightOf="@id/runListActivity_speed"
-      	style="@style/runListActivity_speed"/>
-     
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/runListActivity_itemContainter">
+
+	<TextView android:id="@+id/runListActivity_date" style="@style/runListActivity_date" />
+
+	<include android:id="@+id/include_running_warning_message"
+		layout="@layout/is_running_warning" android:visibility="gone" />
+	<TextView android:id="@+id/runListActivity_distance"
+		android:layout_toRightOf="@id/runListActivity_date" style="@style/runListActivity_distance" />
+
+	<TextView android:id="@+id/runListActivity_time"
+		android:layout_toRightOf="@id/runListActivity_distance" style="@style/runListActivity_time" />
+
+	<TextView android:id="@+id/runListActivity_speed"
+		android:layout_toRightOf="@id/runListActivity_speed" style="@style/runListActivity_speed" />
+
 </RelativeLayout>
