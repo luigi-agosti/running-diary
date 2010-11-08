@@ -1,46 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<TabHost xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--	android:id="@+id/tabhost" android:layout_width="fill_parent"-->
-<!--	android:layout_height="fill_parent">-->
-<!--	<LinearLayout android:orientation="vertical"-->
-<!--		android:layout_width="fill_parent" android:layout_height="fill_parent">-->
-<!--		<TabWidget android:id="@android:id/tabs"-->
-<!--			android:layout_width="fill_parent" android:layout_height="wrap_content"></TabWidget>-->
-<!--		<FrameLayout android:id="@android:id/tabcontent"-->
-<!--			android:layout_width="fill_parent" android:layout_height="fill_parent">-->
-			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-			android:id="@+id/tracking_trackingPanel"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:background="#fff">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="#fff">
 
-				<Button android:id="@+id/tracking_stopButton"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:layout_alignParentRight="true" android:paddingTop="5dip"
-					android:paddingBottom="5dip" android:paddingLeft="15dip"
-					android:paddingRight="15dip" android:layout_marginRight="3dip"
-					android:layout_marginTop="6dip" android:text="@string/tracking_stopButton" />
+	<Button android:id="@+id/tracking_stopButton"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_alignParentRight="true" android:paddingTop="5dip"
+		android:paddingBottom="5dip" android:paddingLeft="15dip"
+		android:paddingRight="15dip" android:layout_marginRight="3dip"
+		android:layout_marginTop="6dip" android:text="@string/tracking_stopButton" />
 
-				<Button android:id="@+id/tracking_mapButton"
-					android:layout_below="@id/tracking_stopButton"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:layout_alignParentRight="true" android:paddingTop="5dip"
-					android:paddingBottom="5dip" android:paddingLeft="15dip"
-					android:paddingRight="15dip" android:layout_marginRight="3dip"
-					android:layout_marginTop="3dip" android:text="@string/tracking_mapButton" />
+	<Button android:id="@+id/tracking_mapButton"
+		android:layout_below="@id/tracking_stopButton" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_alignParentRight="true"
+		android:paddingTop="5dip" android:paddingBottom="5dip"
+		android:paddingLeft="15dip" android:paddingRight="15dip"
+		android:layout_marginRight="3dip" android:layout_marginTop="3dip"
+		android:text="@string/tracking_mapButton" />
 
-				<TextView android:id="@+id/tracking_distance" style="@style/TrackingInformation" />
-				<TextView android:id="@+id/tracking_speed"
-					android:layout_toLeftOf="@id/tracking_stopButton"
-					android:layout_below="@id/tracking_distance" style="@style/TrackingInformation" />
-				<TextView android:id="@+id/tracking_time"
-					android:layout_toLeftOf="@id/tracking_stopButton"
-					android:layout_below="@+id/tracking_speed" style="@style/TrackingInformation" />
-			</RelativeLayout>
+	<TextView android:id="@+id/tracking_distance" style="@style/TrackingInformation" />
+	<TextView android:id="@+id/tracking_speed"
+		android:layout_toLeftOf="@id/tracking_stopButton"
+		android:layout_below="@id/tracking_distance" style="@style/TrackingInformation" />
+	<TextView android:id="@+id/tracking_time"
+		android:layout_toLeftOf="@id/tracking_stopButton"
+		android:layout_below="@+id/tracking_speed" style="@style/TrackingInformation" />
+</RelativeLayout>
 
-<!--		</FrameLayout>-->
-<!--	</LinearLayout>-->
-<!--</TabHost>-->
-   		
    			
 
  

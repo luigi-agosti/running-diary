@@ -8,4 +8,6 @@
    		android:text="@string/statistics_title" 
    		style="@style/TitleHeader"/>
     	
+    	<include android:id="@+id/include_running_warning_message"
+			layout="@layout/is_running_warning" android:visibility="gone" />
 </LinearLayout>
