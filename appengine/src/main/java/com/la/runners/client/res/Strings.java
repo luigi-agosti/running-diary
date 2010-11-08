@@ -54,6 +54,7 @@ public interface Strings extends Constants {
     String dialogCancelButton();
     String dialogContinueButton();
     String dialogDeleteProfileInfo();
+    String dialogNewProfileInfo();
     
     /*
      * Validation messages

@@ -24,30 +24,6 @@
 		<gwt.style>DETAILED</gwt.style>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>maven-gae-plugin-repo</id>
-			<name>Maven Google App Engine Repository</name>
-			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
-		</repository>
-		<repository>
-			<id>google-maven-snapshot-repository</id>
-			<name>Google Maven Snapshot Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven-gae-plugin-repo</id>
-			<name>Maven Google App Engine Repository</name>
-			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.appengine.commons</groupId>
@@ -58,6 +34,21 @@
 			<groupId>novoda.clag</groupId>
 			<artifactId>clag</artifactId>
 			<version>0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-lgpl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.kindleit</groupId>
@@ -120,7 +111,6 @@
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-labs</artifactId>
 			<version>${gae.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
@@ -166,15 +156,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.appengine.orm</groupId>
 			<artifactId>datanucleus-appengine</artifactId>
 			<version>1.0.5.final</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<resources>
       		<resource>
@@ -314,16 +301,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-					<addGroupIdToProjectName>true</addGroupIdToProjectName>
-					<addVersionToProjectName>true</addVersionToProjectName>
-					<additionalConfig>
-						<file>
-							<name>.checkstyle</name>
-							<location>../global/android-formatting.xml</location>
-						</file>
-					</additionalConfig>
 					<additionalProjectnatures>
 						<projectnature>org.eclipse.jdt.core.javanature</projectnature>
 						<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>

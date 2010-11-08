@@ -28,11 +28,6 @@
 			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
 		</repository>
 		<repository>
-			<id>maven-gae-plugin-repo</id>
-			<name>Maven Google App Engine Repository</name>
-			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
-		</repository>
-		<repository>
 			<id>google-maven-snapshot-repository</id>
 			<name>Google Maven Snapshot Repository</name>
 			<url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
@@ -48,7 +43,16 @@
 		</repository>
 	</repositories>
 	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven-gae-plugin-repo</id>
+			<name>Maven Google App Engine Repository</name>
+			<url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -68,10 +72,6 @@
 					<extensions>true</extensions>
 				</plugin>
 				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3</version>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<configuration>
@@ -89,6 +89,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.8</version>
 					<configuration>
 						<downloadSources>true</downloadSources>
 						<downloadJavadocs>true</downloadJavadocs>
@@ -100,29 +101,23 @@
 								<location>../global/android-formatting.xml</location>
 							</file>
 						</additionalConfig>
-						<additionalProjectnatures>
-							<projectnature>com.android.ide.eclipse.adt.AndroidNature</projectnature>
-						</additionalProjectnatures>
-						<classpathContainers>
-							<classpathContainer>com.android.ide.eclipse.adt.ANDROID_FRAMEWORK</classpathContainer>
-						</classpathContainers>
-						<excludes>
-							<exclude>com.google.android:android</exclude>
-							<exclude>com.google.android:android-test</exclude>
-							<exclude>com.google.android:maps</exclude>
-							<exclude>commons-logging:commons-logging</exclude>
-							<exclude>commons-codec:commons-codec</exclude>
-							<exclude>org.apache.httpcomponents:httpclient</exclude>
-							<exclude>org.apache.httpcomponents:httpcore</exclude>
-							<exclude>org.khronos:opengl-api</exclude>
-							<exclude>xerces:xmlParserAPIs</exclude>
-							<exclude>xpp3:xpp3</exclude>
-							<exclude>junit:junit</exclude>
-						</excludes>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+						<addGroupIdToProjectName>true</addGroupIdToProjectName>
+						<addVersionToProjectName>true</addVersionToProjectName>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

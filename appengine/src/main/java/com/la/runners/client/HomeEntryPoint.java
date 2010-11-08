@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.dialog.MapProfileDialog;
+import com.la.runners.client.widget.dialog.NewProfileDialog;
 import com.la.runners.client.widget.form.RunForm;
 import com.la.runners.client.widget.grid.RunGrid;
 import com.la.runners.shared.Profile;
@@ -29,12 +30,22 @@ public class HomeEntryPoint implements EntryPoint {
         context.getService().getProfile(new AsyncCallback<Profile>() {
             @Override
             public void onFailure(Throwable caught) {
-                //TODO Ummm
+                
             }
             @Override
             public void onSuccess(Profile result) {
-                context.setProfile(result);
-                init();
+                if(result == null) {
+                    NewProfileDialog dialog = new NewProfileDialog(context) {
+                        @Override
+                        public void finish(Profile profile) {
+                            init();
+                        }
+                    };
+                    dialog.show();
+                } else {
+                    context.setProfile(result);
+                    init();
+                }
             }
         });
         new MapProfileDialog(context);
