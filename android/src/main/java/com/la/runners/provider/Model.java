@@ -246,8 +246,39 @@ public class Model {
         }
 
         private static final String[] OP1 = new String[] {ID};
-        public static final Cursor currentId(Context c) {
-            return c.getContentResolver().query(CONTENT_URI, OP1, null, null , MODIFIED + DESCENDANT + " LIMIT 1");
+        
+        private static final String[] OP2 = new String[]{REMOTE_ID};
+        
+        public static final String queryForCurrentRunId(Context c) {
+            Cursor cursor = null;
+            try {
+                cursor = c.getContentResolver().query(CONTENT_URI, OP1, null, null , MODIFIED + DESCENDANT + " LIMIT 1");
+                if (cursor.moveToFirst()) {
+                    return Model.Run.id(cursor);
+                } else {
+                    return null;
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
+        public static final String queryForRemoteId(Context c, String runId) {
+            Cursor cursor = null;
+            try {
+                cursor = c.getContentResolver().query(CONTENT_URI, OP2, ID + PARAMETER, new String[]{runId}, null);
+                if(cursor.moveToFirst()) {
+                    return remoteId(cursor);
+                } else {
+                    return null;
+                }
+            } finally {
+                if(cursor != null) {
+                    cursor.close();
+                }
+            }
         }
         
     }
@@ -418,21 +449,19 @@ public class Model {
         public static final Cursor all(ContentResolver cr) {
             return cr.query(CONTENT_URI, null, null, null, null);
         }
+
+        private static final String[] OP1 = new String[]{LATITUDE, LONGITUDE};
+        
+        public static final Cursor get(Context c, String runId) {
+            //Limit is a trick I should have it in the content provider 
+            return c.getContentResolver().query(CONTENT_URI, OP1, RUN_ID + PARAMETER, new String[]{runId}, TIMESTAMP + DESCENDANT);
+        }
         
         public static final Cursor getLast(Context c) {
             //Limit is a trick I should have it in the content provider 
             return c.getContentResolver().query(CONTENT_URI, null, null, null, TIMESTAMP + DESCENDANT + " LIMIT 1");
         }
         
-        private static final String[] OP1 = new String[]{LATITUDE, LONGITUDE};
-        public static final Cursor get(Context c, String runId) {
-            //Limit is a trick I should have it in the content provider 
-            return c.getContentResolver().query(CONTENT_URI, OP1, RUN_ID + PARAMETER, new String[]{runId}, TIMESTAMP + DESCENDANT);
-        }
-        public static final Cursor get(Context c, long runId) { 
-        	return get(c, "" + runId);
-        }
-
     }
     
     public static class Profile extends Syncable {
