@@ -2,6 +2,8 @@
 package com.la.runners.service.sync;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.net.Uri;
 import com.la.runners.parser.IdsParser;
 import com.la.runners.parser.JsonParserIterator;
 import com.la.runners.provider.Model;
-import com.la.runners.provider.SyncProvider;
 import com.la.runners.provider.SyncProvider.Sync;
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.NetworkService;
@@ -68,6 +69,7 @@ public abstract class BasicSync implements Syncable {
                     String id = cv.getAsString(Sync.ID);
                     cv.remove(Sync.ID);
                     context.getContentResolver().update(uri, cv, Sync.ID + Model.PARAMETER, new String[]{id});
+                    handleRelations(context, id, cv.getAsString(Sync.REMOTE_ID));
                 }
             }
         } finally {
@@ -124,20 +126,40 @@ public abstract class BasicSync implements Syncable {
     public void syncDown(Context context, SyncNotifier syncEventListener) {
         JsonParserIterator parser = instanziateParser(NetworkService.getHttpManager(context)
                 .getUrlAsStream(url, context));
+        List<Long> ids = new ArrayList<Long>();
+        Cursor c = null; 
+        try {
+            c = context.getContentResolver().query(uri, new String[]{Sync.REMOTE_ID}, null, null, null);
+            while(c.moveToNext()) {
+                ids.add(c.getLong(c.getColumnIndex(Sync.REMOTE_ID)));
+            }
+        } finally {
+            if(c!=null) {
+                c.close();
+            }
+        }
         while (parser.hasNext()) {
             ContentValues cv = parser.next();
-            Uri inserted = context.getContentResolver().insert(uri, cv);
-            AppLogger.debug("checking for ids");
-            if(cv.containsKey(SyncProvider.Syncable.REMOTE_ID)) {
-                AppLogger.debug("updating the ids");
-                handleRelations(context, inserted.getLastPathSegment(), cv.getAsLong(SyncProvider.Syncable.REMOTE_ID));
+            boolean hasRemoteId = cv.containsKey(Sync.REMOTE_ID);
+            if(hasRemoteId) {
+                Long remoteId = cv.getAsLong(Sync.REMOTE_ID);
+                if(ids.contains(remoteId)) {
+                    context.getContentResolver().update(uri, cv, Sync.REMOTE_ID + PARAMETER, 
+                            new String[]{"" + remoteId});
+                    AppLogger.debug("update");
+                } else {
+                    context.getContentResolver().insert(uri, cv);
+                    AppLogger.debug("insert");
+                }
+            } else {
+                AppLogger.warn("There is no remote id!");
             }
         }
     }
 
     protected abstract JsonParserIterator instanziateParser(InputStream urlAsStream);
     
-    protected abstract void handleRelations(Context context, String id, Long rid);
+    protected abstract void handleRelations(Context context, String id, String rid);
 
     protected void setSyncUpReourceId(int syncUpReourceId) {
         this.syncUpReourceId = syncUpReourceId;

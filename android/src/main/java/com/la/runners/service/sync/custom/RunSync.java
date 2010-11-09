@@ -33,10 +33,10 @@ public class RunSync extends BasicSync {
     }
 
     @Override
-    protected void handleRelations(Context context, String id, Long rid) {
+    protected void handleRelations(Context context, String id, String rid) {
         ContentValues cv = new ContentValues();
         cv.put(Model.Location.RUN_ID, rid);
-        AppLogger.debug("handleRelations id : " + id + " remote id : " + rid);
+        AppLogger.debug("handleRelations remote id : " + rid);
         int rows = context.getContentResolver().update(Model.Location.CONTENT_URI, cv, 
                 Model.Location.RUN_ID + Model.PARAMETER, new String[]{id});
         AppLogger.debug("Rows changed : " + rows);
