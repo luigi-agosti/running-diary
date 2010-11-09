@@ -26,15 +26,22 @@ public class TrackingMap extends Composite {
     private FlowPanel panel;
 
     private Icon icon;
+    
+    private boolean editMode;
 
-    public TrackingMap(Context context) {
+    public TrackingMap(Context context, Long id) {
+        this(context, id, false);
+    }
+    
+    public TrackingMap(Context context, Long id, boolean editMode) {
         panel = new FlowPanel();
+        this.editMode = editMode;
         panel.setStyleName(Styles.Map.mapContainer);
         initMap();
         panel.clear();
         panel.add(map);
         initWidget(panel);
-        context.getService().getLocations("", new AsyncCallback<List<Location>>() {
+        context.getService().getLocations(id, new AsyncCallback<List<Location>>() {
             @Override
             public void onSuccess(List<Location> result) {
                 load(result);
@@ -42,9 +49,9 @@ public class TrackingMap extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                // TODO show a message
+                //TODO some nice way to show message
             }
-        });
+        });        
     }
 
     private void initMap() {

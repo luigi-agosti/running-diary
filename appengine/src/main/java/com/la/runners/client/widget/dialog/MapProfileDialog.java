@@ -1,5 +1,6 @@
 package com.la.runners.client.widget.dialog;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.Maps;
@@ -12,6 +13,7 @@ import com.la.runners.client.widget.TrackingMap;
 
 public class MapProfileDialog extends CenteredDialog implements ShowMapHandler{
 
+    private static final String DOMAIN = "social-runners";
     private FlowPanel mapContainer;
     private Context context;
     
@@ -32,7 +34,12 @@ public class MapProfileDialog extends CenteredDialog implements ShowMapHandler{
     @Override
     public void showMap(final ShowMapEvent event) {
         if (firstLoad) {
-            Maps.loadMapsApi(context.strings.googleMapsKey(), context.strings.googleMapsVersion(),
+            String host = GWT.getHostPageBaseURL();
+            String mapKey = context.strings.googleMapsKeyOnAppSpot();
+            if(host.contains(DOMAIN)) {
+                mapKey = context.strings.googleMapsKeyOnSocialRunnersDomain();
+            }
+            Maps.loadMapsApi(mapKey, context.strings.googleMapsVersion(),
                     false, new Runnable() {
                         public void run() {
                             load(event);
@@ -46,7 +53,7 @@ public class MapProfileDialog extends CenteredDialog implements ShowMapHandler{
     private void load(ShowMapEvent event) {
         show();
         mapContainer.clear();
-        mapContainer.add(new TrackingMap(context));
+        mapContainer.add(new TrackingMap(context, event.getId()));
     }
 
     

@@ -7,7 +7,8 @@ public interface Strings extends Constants {
     /*
      * Other constants 
      */
-    String googleMapsKey();
+    String googleMapsKeyOnAppSpot();
+    String googleMapsKeyOnSocialRunnersDomain();
     String googleMapsVersion();
     
     /*
