@@ -43,7 +43,7 @@ public interface Service extends RemoteService {
 
     void sendInvite(String recipientUserId) throws ServerException;
 
-    List<Location> getLocations(String token);
+    List<Location> getLocations(Long id);
 
     void deleteRuns(List<Long> ids);
     

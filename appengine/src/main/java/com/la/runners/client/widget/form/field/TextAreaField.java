@@ -1,7 +1,7 @@
 package com.la.runners.client.widget.form.field;
 
 import com.google.gwt.user.client.ui.TextArea;
-import com.la.runners.client.res.Styles;
+import com.la.runners.client.res.ResourceBundle;
 
 public class TextAreaField extends FormField {
 
@@ -10,7 +10,7 @@ public class TextAreaField extends FormField {
     public TextAreaField(String name) {
         super(name);
         textArea = new TextArea();
-        textArea.setStyleName(Styles.Form.editorTextArea);
+        textArea.setStyleName(ResourceBundle.INSTANCE.form().editorTextArea());
         setField(textArea);
     }
 
@@ -31,5 +31,4 @@ public class TextAreaField extends FormField {
     public void reset() {
         setValue(null);
     }
-
 }

@@ -15,5 +15,7 @@ public interface UnitConverter {
     String getDistanceUnit(Strings strings);
 
     String getSpeedUnit(Strings strings);
+    
+    String metersToCustom(Double value);
 
 }

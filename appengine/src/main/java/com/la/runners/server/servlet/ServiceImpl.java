@@ -25,6 +25,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.la.runners.client.Service;
 import com.la.runners.server.dao.jdo.JdoInviteDao;
+import com.la.runners.server.dao.jdo.JdoLocationDao;
 import com.la.runners.server.dao.jdo.JdoProfileDao;
 import com.la.runners.server.dao.jdo.JdoRunDao;
 import com.la.runners.shared.Invite;
@@ -42,6 +43,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 	private JdoRunDao runDao = new JdoRunDao();
 	private JdoProfileDao profileDao = new JdoProfileDao();
 	private JdoInviteDao inviteDao = new JdoInviteDao();
+	private JdoLocationDao locationDao = new JdoLocationDao();
 	
 	@Override
 	public void save(Run run) {
@@ -307,31 +309,20 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
     }
 
     @Override
-    public List<Location> getLocations(String token) {
-        List<Location> locations = new ArrayList<Location>();
-        Location location = new Location();
-        location.setLatitude(Long.valueOf(51533205));
-        location.setLongitude(Long.valueOf(-122501));
-        locations.add(location);
-        location = new Location();
-        location.setLatitude(Long.valueOf(51531514));
-        location.setLongitude(Long.valueOf(-122552));
-        locations.add(location);
-        location = new Location();
-        location.setLatitude(Long.valueOf(51531317));
-        location.setLongitude(Long.valueOf(-122519));
-        locations.add(location);
-        location = new Location();
-        location.setLatitude(Long.valueOf(51531269));
-        location.setLongitude(Long.valueOf(-122392));
-        locations.add(location);
-        return locations;
+    public List<Location> getLocations(Long id) {
+        List<Location> locations = locationDao.search(id);
+        List<Location> detatchList = new ArrayList<Location>();
+        for(Location location : locations) {
+            detatchList.add(locationDao.detach(location));
+        }
+        return detatchList;
     }
 
     @Override
     public void deleteRuns(List<Long> ids) {
         for(Long id : ids) {
             runDao.delete(id);
+            locationDao.deleteByProperty("runId", "", id);
         }
     }
     

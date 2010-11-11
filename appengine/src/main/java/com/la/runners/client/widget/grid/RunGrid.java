@@ -18,7 +18,7 @@ import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
 import com.la.runners.client.event.ShowMapEvent;
-import com.la.runners.client.res.Styles;
+import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
 import com.la.runners.client.widget.grid.toolbar.RunGridBar;
 import com.la.runners.shared.Run;
@@ -126,12 +126,12 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
     private int cell = 0;
     
     private void addHeaderCellToRow(String label) {
-        grid.setWidget(0, cell, createLabel(label, Styles.Grid.gridHeaderCell));
+        grid.setWidget(0, cell, createLabel(label, ResourceBundle.INSTANCE.grid().headerCell()));
         cell++;
     }
     
     private void addLabelCellToRow(int row, Object obj) {
-        addCellToRow(row, createLabel(obj, Styles.Grid.gridCell));
+        addCellToRow(row, createLabel(obj, ResourceBundle.INSTANCE.grid().cell()));
     }
     
     private void addCellToRow(int row, Widget widget) {

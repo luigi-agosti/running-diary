@@ -1,0 +1,158 @@
+.entryPoint {
+	width:100%;
+	position:relative;
+}
+    
+.editor {
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:24%;
+	text-align:center;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border: 1px solid #0099FF;
+}
+
+.editorHeader {
+	width:100%;
+	background:#0099FF;
+	color:#FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top:5px;
+	padding-bottom:5px;
+	height:20px;
+	margin-bottom:10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.editorFooter {
+	width:100%;
+	background:#0099FF;
+	color:#FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top:5px;
+	padding-bottom:5px;
+	height:20px;
+	margin-top:10px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+}
+
+.editorLabel {
+	margin-top:5px;
+}
+
+.editorButton {
+	margin-top:15px;
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.editorTextBox {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.editorTextArea {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.editorDateContainer {
+	width:100%;
+}
+
+@external gwt-DatePicker; 
+.editorDateContainer .gwt-DatePicker {
+	font-size: 14px;
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+}
+
+.editorSubTitle {
+	background:#0099FF;
+	font-weight:bold;
+	margin-top: 15px;
+	padding-top:2px;
+	padding-bottom:2px;
+	color:#FFFFFF;
+}
+
+.editorNotValidField {
+	background-color: #F6CECE;
+	border:1px solid #FA5858;	
+}
+    
+.editorCheckBoxContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.editorCheckBoxContainer td {
+	width:50%;
+}
+
+.editorListBoxContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+
+.editorListBoxContainer td {
+	width:50%;
+}
+
+.editorCheckBox {
+	float: right;
+	margin-right:10%;
+}
+
+.editorTimePickerContainer {
+	width:85%;
+	margin-left:10%;
+	margin-right:5%;
+	padding-top:7px;
+	padding-bottom:3px;
+}
+
+.editorTimePickerContainer td {
+	width:50%;
+}
+
+.editorField {
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+@external gwt-Label;
+.editorField .gwt-Label {
+ 	font-weight: bold;
+ 	color: #7EB6FF;
+}
+
+.editorListBox {
+
+}
+
+@external textBox;
+.textBox {
+	background:white;
+}

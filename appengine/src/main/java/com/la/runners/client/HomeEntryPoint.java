@@ -6,8 +6,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.la.runners.client.event.RunListUpdateEvent;
-import com.la.runners.client.res.Styles;
-import com.la.runners.client.widget.dialog.MapProfileDialog;
+import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.widget.dialog.MapDialog;
 import com.la.runners.client.widget.dialog.NewProfileDialog;
 import com.la.runners.client.widget.form.RunForm;
 import com.la.runners.client.widget.grid.RunGrid;
@@ -23,14 +23,17 @@ public class HomeEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        ResourceBundle.INSTANCE.form().ensureInjected();
+        ResourceBundle.INSTANCE.map().ensureInjected();
+        ResourceBundle.INSTANCE.grid().ensureInjected();
         panel = new FlowPanel();
-        panel.setStyleName(Styles.Form.entryPoint);
+        panel.setStyleName(ResourceBundle.INSTANCE.form().entryPoint());
         RootPanel.get(GWT_HOOK).add(panel);
         context = new Context();
         context.getService().getProfile(new AsyncCallback<Profile>() {
             @Override
             public void onFailure(Throwable caught) {
-                
+                //TODO
             }
             @Override
             public void onSuccess(Profile result) {
@@ -48,7 +51,7 @@ public class HomeEntryPoint implements EntryPoint {
                 }
             }
         });
-        new MapProfileDialog(context);
+        new MapDialog(context);
     }
     
     private void init() {

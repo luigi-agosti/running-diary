@@ -34,7 +34,7 @@ public class JdoProfileDao extends BaseDaoImpl<Profile> implements BaseDao<Profi
             @Override
             public void get(Query q) {
                 super.get(q);
-                q.setFilter(getStringFilter(NICKNAME, nickname));
+                q.setFilter(getStringFilter(property, nickname));
             }
         });
     }

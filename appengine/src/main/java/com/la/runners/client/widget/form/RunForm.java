@@ -9,6 +9,7 @@ import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.LoadRunHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
+import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.widget.form.field.CheckBoxField;
 import com.la.runners.client.widget.form.field.DatePickerField;
 import com.la.runners.client.widget.form.field.NumericMandatoryBoxField;
@@ -33,13 +34,19 @@ public class RunForm extends CustomForm implements LoadRunHandler {
     private TextBoxField weightField;
     private CheckBoxField shareField;
     
-    public RunForm(Context context) {
+    public RunForm(final Context context) {
         super(context, context.strings.runFormTitle());
         eventBus().addHandler(LoadRunEvent.TYPE, this);
         startDateField = addDatePickerField(strings().runFormDate(), new Date());
         startTimeField = addTimePickerField(strings().runFormStart(), new Date());
         distanceField = addNumericMandatoryBoxField(strings().runFormDistance());
         timeField = addTimePickerField(strings().runFormTime(), new Date(0));
+        addButton(strings().runFormEditMap(), new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                eventBus().fireEvent(new ShowMapEvent(run.getId()));
+            }
+        });
         addSubtitle(strings().runFormOptional());
         if(profile().getHeartRate()) {
             heartRateField = addTextBoxField(strings().runFormHeartRate());
@@ -52,7 +59,6 @@ public class RunForm extends CustomForm implements LoadRunHandler {
         }
         noteField = addTextAreaField(strings().runFormNote());
         shareField = addCheckBoxField(strings().runFormShare());
-        
         addButton(strings().runFormSave(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -86,6 +92,7 @@ public class RunForm extends CustomForm implements LoadRunHandler {
             }
         });
         addFooterForMessages();
+        reset();
     }
 
     public void load(Run run) {

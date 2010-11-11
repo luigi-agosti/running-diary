@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.ProfileUpdateEvent;
 import com.la.runners.client.event.ProfileUpdateHandler;
-import com.la.runners.client.res.Styles;
+import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.shared.Invite;
 
 public class InviteGrid extends BaseGrid implements ProfileUpdateHandler {
@@ -17,7 +17,7 @@ public class InviteGrid extends BaseGrid implements ProfileUpdateHandler {
     public InviteGrid(Context context) {
         super(context);
         eventBus().addHandler(ProfileUpdateEvent.TYPE, this);
-        setMainColorStyle(Styles.Grid.gridRed);
+        setMainColorStyle(ResourceBundle.INSTANCE.grid().red());
         load();
     }
     
@@ -46,12 +46,12 @@ public class InviteGrid extends BaseGrid implements ProfileUpdateHandler {
             setVisible(false);
         } else {
             setVisible(true);
-            grid.setWidget(0,0, createLabel("Invite from nickname", Styles.Grid.gridHeaderCell));
-            grid.setWidget(0,1, createLabel("Accept", Styles.Grid.gridHeaderCell));
-            grid.setWidget(0,2, createLabel("Reject", Styles.Grid.gridHeaderCell));
+            grid.setWidget(0,0, createLabel("Invite from nickname", ResourceBundle.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,1, createLabel("Accept", ResourceBundle.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,2, createLabel("Reject", ResourceBundle.INSTANCE.grid().headerCell()));
             int index = 1;
             for(Invite invite : result) {
-                grid.setWidget(index,0, createLabel(invite.getSenderNickname(), Styles.Grid.gridCell));
+                grid.setWidget(index,0, createLabel(invite.getSenderNickname(), ResourceBundle.INSTANCE.grid().grid()));
                 final String token = invite.getToken();
                 final int rowIndex = index;
                 Button btnAccept = new Button("Accept");

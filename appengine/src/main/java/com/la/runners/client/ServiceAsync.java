@@ -41,7 +41,7 @@ public interface ServiceAsync {
 
     void rejectInvite(String token, AsyncCallback<Void> asyncCallback);
 
-    void getLocations(String token, AsyncCallback<List<Location>> asyncCallback);
+    void getLocations(Long id, AsyncCallback<List<Location>> asyncCallback);
 
     void deleteRuns(List<Long> ids, AsyncCallback<Void> asyncCallback);
 

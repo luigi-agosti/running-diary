@@ -7,7 +7,8 @@ public interface Strings extends Constants {
     /*
      * Other constants 
      */
-    String googleMapsKey();
+    String googleMapsKeyOnAppSpot();
+    String googleMapsKeyOnSocialRunnersDomain();
     String googleMapsVersion();
     
     /*
@@ -78,6 +79,7 @@ public interface Strings extends Constants {
     String runFormShare();
     String runFormSave();
     String runFormCancel();
+    String runFormEditMap();
     String runFormSuccess();
     String runFormFailure();
     

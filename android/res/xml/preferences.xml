@@ -61,7 +61,5 @@
 			android:key="version" 
 			android:title="Version" />
 	</PreferenceCategory>
-	
-	
 
 </PreferenceScreen>

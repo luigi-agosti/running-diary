@@ -66,8 +66,8 @@ public class MapTrackingActivity extends MapActivity {
         mapOverlays = mapView.getOverlays(); 
         pathPoints = new LocationItemizedOverlay(getPathIcon());
         location = new LocationItemizedOverlay(getLocationIcon());
-        String id = updateRunInformation();
-        updateMapWithRun(id);
+        String runId = getRunId();
+        updateMapWithRun(runId);
     }
     
     @Override
@@ -75,34 +75,29 @@ public class MapTrackingActivity extends MapActivity {
         return false;
     }
     
-    private String updateRunInformation() {
-        mapOverlays.clear();
-        pathPoints.clear();
-        location.clear();
-        Cursor c = null;
+    private String getRunId() {
         Intent intent = getIntent();
         String id = null;
         if(intent != null && intent.hasExtra(EXTRA_ID)) {
         	id = "" + intent.getLongExtra(EXTRA_ID, 0l);
+        	//If the run has a remote Id I need to use that for the relation
+        	String remoteId = Model.Run.queryForRemoteId(this, id);
+        	if(remoteId != null) {
+        	    id = remoteId;
+        	}
         } else {
-	        try {
-	            c = Model.Run.currentId(this);
-	            if (c.moveToFirst()) {
-	                id = Model.Run.id(c);
-	            }
-	        } finally {
-	            if (c != null) {
-	                c.close();
-	            }
-	        }
+            id = Model.Run.queryForCurrentRunId(this);
         }
         return id;
     }
     
-    private void updateMapWithRun(String id) {
+    private void updateMapWithRun(String runId) {
+        mapOverlays.clear();
+        pathPoints.clear();
+        location.clear();
     	Cursor c = null;
         try {
-            c = Model.Location.get(this, id);
+            c = Model.Location.get(this, runId);
             if(c.moveToFirst()) {
                 mapController.setCenter(location.add(Model.Location.latitude(c), Model.Location.longitude(c)));
             }
@@ -135,7 +130,7 @@ public class MapTrackingActivity extends MapActivity {
     private ContentObserver contentObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
-            updateRunInformation();
+            getRunId();
         }
     };
     

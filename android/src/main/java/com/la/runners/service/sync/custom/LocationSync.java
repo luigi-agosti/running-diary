@@ -47,7 +47,7 @@ public class LocationSync extends BasicSync {
     }
 
     @Override
-    protected void handleRelations(Context context, String id, Long rid) {
+    protected void handleRelations(Context context, String id, String rid) {
         // Nothing to do
     }
 
