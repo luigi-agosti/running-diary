@@ -11,8 +11,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
+import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.client.res.Strings;
-import com.la.runners.client.res.Styles;
 import com.la.runners.client.widget.form.field.CheckBoxField;
 import com.la.runners.client.widget.form.field.DatePickerField;
 import com.la.runners.client.widget.form.field.FormField;
@@ -35,9 +35,9 @@ public class CustomForm extends Composite {
     public CustomForm(Context context, String title) {
         this.context = context;
         panel = new FlowPanel();
-        addLabel(title, Styles.Form.editorHeader);
+        addLabel(title, ResourceBundle.INSTANCE.form().editorHeader());
         initWidget(panel);
-        setStyleName(Styles.Form.editor);
+        setStyleName(ResourceBundle.INSTANCE.form().editor());
     }
     
     protected Strings strings() {
@@ -73,19 +73,19 @@ public class CustomForm extends Composite {
     
     protected void addButton(String text, ClickHandler clickHandler) {
         Button b = new Button(text);
-        b.setStyleName(Styles.Form.editorButton);
+        b.setStyleName(ResourceBundle.INSTANCE.form().editorButton());
         b.addClickHandler(clickHandler);
         panel.add(b);
     }
     
     protected void addSubtitle(String text) {
-        addLabel(text, Styles.Form.editorSubTitle);
+        addLabel(text, ResourceBundle.INSTANCE.form().editorSubTitle());
     }
     
     protected void showMessage(String message) {
         if(footer == null) {
             footer = new Label();
-            footer.setStyleName(Styles.Form.editorFooter);
+            footer.setStyleName(ResourceBundle.INSTANCE.form().editorFooter());
             panel.add(footer);
         }
         footer.setText(message);

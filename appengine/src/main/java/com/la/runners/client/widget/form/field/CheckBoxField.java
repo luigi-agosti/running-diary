@@ -3,7 +3,7 @@ package com.la.runners.client.widget.form.field;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.res.Styles;
+import com.la.runners.client.res.ResourceBundle;
 
 public class CheckBoxField extends FormField {
 
@@ -13,9 +13,9 @@ public class CheckBoxField extends FormField {
         super(null);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));
-        panel.setStyleName(Styles.Form.editorCheckBoxContainer);
+        panel.setStyleName(ResourceBundle.INSTANCE.form().editorCheckBoxContainer());
         field = new CheckBox();
-        field.setStyleName(Styles.Form.editorCheckBox);
+        field.setStyleName(ResourceBundle.INSTANCE.form().editorCheckBox());
         panel.add(field);
         setField(panel);
     }

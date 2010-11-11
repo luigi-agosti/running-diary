@@ -16,12 +16,6 @@ public class CenteredDialog extends DialogBox {
     }
     
     @Override
-    public void show() {
-        super.show();
-        center();
-    }
-    
-    @Override
     public void add(Widget w) {
         panel.add(w);
     }

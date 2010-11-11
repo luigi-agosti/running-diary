@@ -316,32 +316,13 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
             detatchList.add(locationDao.detach(location));
         }
         return detatchList;
-        
-        
-//        List<Location> locations = new ArrayList<Location>();
-//        Location location = new Location();
-//        location.setLatitude(Long.valueOf(51533205));
-//        location.setLongitude(Long.valueOf(-122501));
-//        locations.add(location);
-//        location = new Location();
-//        location.setLatitude(Long.valueOf(51531514));
-//        location.setLongitude(Long.valueOf(-122552));
-//        locations.add(location);
-//        location = new Location();
-//        location.setLatitude(Long.valueOf(51531317));
-//        location.setLongitude(Long.valueOf(-122519));
-//        locations.add(location);
-//        location = new Location();
-//        location.setLatitude(Long.valueOf(51531269));
-//        location.setLongitude(Long.valueOf(-122392));
-//        locations.add(location);
-//        return locations;
     }
 
     @Override
     public void deleteRuns(List<Long> ids) {
         for(Long id : ids) {
             runDao.delete(id);
+            locationDao.deleteByProperty("runId", "", id);
         }
     }
     

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.ProfileUpdateEvent;
 import com.la.runners.client.event.ProfileUpdateHandler;
-import com.la.runners.client.res.Styles;
+import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.shared.Profile;
 
 public class FollowersGrid extends BaseGrid implements ProfileUpdateHandler {
@@ -44,12 +44,12 @@ public class FollowersGrid extends BaseGrid implements ProfileUpdateHandler {
         if(result == null || result.isEmpty()) {
             showMessage("No friends linked to you yet");
         } else {
-            grid.setWidget(0,0, createLabel("Nickname", Styles.Grid.gridHeaderCell));
-            grid.setWidget(0,1, createLabel("Remove", Styles.Grid.gridHeaderCell));
-            grid.setWidget(0,2, createLabel("Profile Page", Styles.Grid.gridHeaderCell));
+            grid.setWidget(0,0, createLabel("Nickname", ResourceBundle.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,1, createLabel("Remove", ResourceBundle.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,2, createLabel("Profile Page", ResourceBundle.INSTANCE.grid().headerCell()));
             int index = 1;
             for(Profile profile : result) {
-                grid.setWidget(index,0, createLabel(profile.getNickname(), Styles.Grid.gridCell));
+                grid.setWidget(index,0, createLabel(profile.getNickname(), ResourceBundle.INSTANCE.grid().cell()));
                 final String followerUserId = profile.getUserId();
                 Button btnProfile = new Button("Profile Page");
                 btnProfile.addClickHandler(new ClickHandler() {

@@ -9,25 +9,26 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.event.ShowMapHandler;
-import com.la.runners.client.widget.TrackingMap;
+import com.la.runners.client.map.TrackingMap;
 
-public class MapProfileDialog extends CenteredDialog implements ShowMapHandler{
+public class MapDialog extends CenteredDialog implements ShowMapHandler{
 
     private static final String DOMAIN = "social-runners";
     private FlowPanel mapContainer;
     private Context context;
+    private TrackingMap currentMap;
     
-    private boolean firstLoad = Boolean.TRUE;
+    private static boolean firstLoad = Boolean.TRUE;
     
-    public MapProfileDialog(final Context context) {
+    public MapDialog(final Context context) {
         this.context = context;
         mapContainer = new FlowPanel();
+        add(mapContainer);
         add(new Button(context.strings.dialogCloseButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 hide();
             }
         }));
-        add(mapContainer);
         context.getEventBus().addHandler(ShowMapEvent.TYPE, this);
     }
     
@@ -51,9 +52,10 @@ public class MapProfileDialog extends CenteredDialog implements ShowMapHandler{
     }
     
     private void load(ShowMapEvent event) {
-        show();
         mapContainer.clear();
-        mapContainer.add(new TrackingMap(context, event.getId()));
+        currentMap = new TrackingMap(context, event.getId());
+        mapContainer.add(currentMap);
+        center();
     }
 
     

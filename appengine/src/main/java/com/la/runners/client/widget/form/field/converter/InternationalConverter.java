@@ -38,4 +38,14 @@ public class InternationalConverter extends BaseConverter implements UnitConvert
         return strings.speedInternational();
     }
 
+    @Override
+    public String metersToCustom(Double value) {
+        if(value == null) {
+            value = 0D;
+        }
+        return value.toString();
+    }
+    
+    
+
 }

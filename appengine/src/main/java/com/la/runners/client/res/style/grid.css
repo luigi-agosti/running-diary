@@ -1,0 +1,121 @@
+.grid {
+	text-align:left;
+	margin-bottom:10px;
+	width:74%;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.green {
+	border:1px solid #66CC66;
+}
+
+.red {
+	border:1px solid #F5A9A9;
+}
+
+.table {
+	padding:1%;
+	width:98%;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.headerCell {
+}
+
+.red .headerCell{
+	color:#F5A9A9;
+}
+
+.green .headerCell{
+	color:#66CC66;
+}
+
+.cell {
+}
+
+/*    
+Grid Bars
+*/
+
+.green .barTop {
+	background:#66CC66;
+}
+
+.green .barBottom {
+	background:#66CC66;
+}
+
+.red .barTop {
+	background:#F5A9A9;
+}
+
+.red .barBottom {
+	background:#F5A9A9;
+}
+
+.barTop {
+	position:relative;
+	text-align:right;
+	width:100%;
+	height:24px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+}
+
+.barBottom {
+	position:relative;
+	text-align:right;
+	width:100%;
+	height:24px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+}
+
+@external gwt-Label;
+.barBottom .gwt-Label {
+	color:#FFFFFF;
+	position:absolute;
+	left:15px;
+	padding-top:5px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+@external gwt-Label;
+.barTop .gwt-Label {
+	color:#FFFFFF;
+	position:absolute;
+	left:15px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+@external gwt-Button;
+.barBottom .gwt-Button {
+	padding-left:5px;
+	margin-right:15px;
+}
+
+@external gwt-Button;
+.barTop .gwt-Button {
+	padding-left:5px;
+	margin-right:15px;
+}
+@external gwt-ListBox;
+.barBottom .gwt-ListBox {
+	padding-left:5px;
+	margin-right:15px;
+}
+@external gwt-ListBox;
+.barTop .gwt-ListBox {
+	padding-left:5px;
+	margin-right:15px;
+}

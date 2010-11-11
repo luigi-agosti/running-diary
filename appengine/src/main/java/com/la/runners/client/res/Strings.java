@@ -79,6 +79,7 @@ public interface Strings extends Constants {
     String runFormShare();
     String runFormSave();
     String runFormCancel();
+    String runFormEditMap();
     String runFormSuccess();
     String runFormFailure();
     

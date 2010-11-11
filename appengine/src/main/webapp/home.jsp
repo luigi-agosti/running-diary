@@ -8,7 +8,6 @@
 		<title>User Home</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<jsp:include page="/fragments/style.css"/>
-		<jsp:include page="/fragments/gwtStyle.css"/>
 		<script type="text/javascript" language="javascript" src="home/home.nocache.js"></script>
 	</head>
 	<body>

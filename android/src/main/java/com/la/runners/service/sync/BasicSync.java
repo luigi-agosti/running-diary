@@ -58,19 +58,23 @@ public abstract class BasicSync implements Syncable {
     private void syncUp(Context context, String selection) {
         Cursor c = null;
         try {
-            c = context.getContentResolver().query(uri, null, selection, null, null);
-            String result = convert(c);
-            AppLogger.debug("Result : " + result);
-            if(!"[]".equals(result)) {
-                AppLogger.debug("posting result");
-                IdsParser parser = new IdsParser(NetworkService.getHttpManager(context).post(context, url, result));
-                while(parser.hasNext()) {
-                    ContentValues cv = parser.next();
-                    String id = cv.getAsString(Sync.ID);
-                    cv.remove(Sync.ID);
-                    context.getContentResolver().update(uri, cv, Sync.ID + Model.PARAMETER, new String[]{id});
-                    handleRelations(context, id, cv.getAsString(Sync.REMOTE_ID));
+            c = context.getContentResolver().query(uri, null, selection, null, Sync.ID + " limit 10");
+            if(c.getCount() > 0) {
+                String result = convert(c);
+                AppLogger.debug("Result : " + result);
+                if(!"[]".equals(result)) {
+                    AppLogger.debug("posting result");
+                    IdsParser parser = new IdsParser(NetworkService.getHttpManager(context).post(context, url, result));
+                    while(parser.hasNext()) {
+                        ContentValues cv = parser.next();
+                        String id = cv.getAsString(Sync.ID);
+                        cv.remove(Sync.ID);
+                        context.getContentResolver().update(uri, cv, Sync.ID + Model.PARAMETER, new String[]{id});
+                        handleRelations(context, id, cv.getAsString(Sync.REMOTE_ID));
+                    }
                 }
+                c.close();
+                syncUp(context, selection);
             }
         } finally {
             if (c != null) {
