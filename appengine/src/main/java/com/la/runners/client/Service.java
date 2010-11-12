@@ -13,7 +13,7 @@ import com.la.runners.shared.ServerException;
 @RemoteServiceRelativePath("service")
 public interface Service extends RemoteService {
 
-	void save(Run run);
+	Long save(Run run);
 	
 	void save(Profile profile);
 
@@ -46,5 +46,7 @@ public interface Service extends RemoteService {
     List<Location> getLocations(Long id);
 
     void deleteRuns(List<Long> ids);
+
+	void updateLocations(List<Location> locations, Long runId);
     
 }

@@ -104,6 +104,10 @@ public class Location implements Serializable {
         this.latitude = latitude;
     }
     
+    public void setLatitudeAsDouble(double latitude) {
+        this.latitude = (long)(latitude*1E6);
+    }
+    
     public double getLatitudeAsDouble() {
         return latitude/1E6;
     }
@@ -118,6 +122,10 @@ public class Location implements Serializable {
 
     public void setLongitude(Long longitude) {
         this.longitude = longitude;
+    }
+    
+    public void setLongitudeAsDouble(double longitude) {
+        this.longitude = (long)(longitude*1E6);
     }
 
     public Long getLongitude() {
@@ -146,6 +154,11 @@ public class Location implements Serializable {
 
     public Long getRunId() {
         return runId;
+    }
+    
+    @Override
+    public String toString() {
+    	return "Location<lat,long,id> : " + getLatitude() + " " + getLongitude() + " " + getId();
     }
     
 }

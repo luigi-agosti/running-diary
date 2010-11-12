@@ -1,6 +1,7 @@
 package com.la.runners.client.widget.form;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -8,6 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.LoadRunEvent;
 import com.la.runners.client.event.LoadRunHandler;
+import com.la.runners.client.event.LocationsUpdateEvent;
+import com.la.runners.client.event.LocationsUpdateHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.widget.form.field.CheckBoxField;
@@ -16,9 +19,10 @@ import com.la.runners.client.widget.form.field.NumericMandatoryBoxField;
 import com.la.runners.client.widget.form.field.TextAreaField;
 import com.la.runners.client.widget.form.field.TextBoxField;
 import com.la.runners.client.widget.form.field.TimePickerField;
+import com.la.runners.shared.Location;
 import com.la.runners.shared.Run;
 
-public class RunForm extends CustomForm implements LoadRunHandler {
+public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpdateHandler {
 
 	private static final double E6_MULTI = 1000000D;
 
@@ -37,6 +41,7 @@ public class RunForm extends CustomForm implements LoadRunHandler {
     public RunForm(final Context context) {
         super(context, context.strings.runFormTitle());
         eventBus().addHandler(LoadRunEvent.TYPE, this);
+        eventBus().addHandler(LocationsUpdateEvent.TYPE, this);
         startDateField = addDatePickerField(strings().runFormDate(), new Date());
         startTimeField = addTimePickerField(strings().runFormStart(), new Date());
         distanceField = addNumericMandatoryBoxField(strings().runFormDistance());
@@ -44,7 +49,7 @@ public class RunForm extends CustomForm implements LoadRunHandler {
         addButton(strings().runFormEditMap(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                eventBus().fireEvent(new ShowMapEvent(run.getId()));
+                eventBus().fireEvent(new ShowMapEvent(run.getId(), Boolean.TRUE));
             }
         });
         addSubtitle(strings().runFormOptional());
@@ -70,12 +75,25 @@ public class RunForm extends CustomForm implements LoadRunHandler {
                     return;
                 }
                 timeField.resetValidation();
-                service().save(get(), new AsyncCallback<Void>() {
+                service().save(get(), new AsyncCallback<Long>() {
                     @Override
-                    public void onSuccess(Void result) {
+                    public void onSuccess(Long runId) {
                         showMessage(strings().runFormSuccess());
                         eventBus().fireEvent(new RunListUpdateEvent());
                         reset();
+                        if(locations != null) {                	
+                        	service().updateLocations(locations, runId, new AsyncCallback<Void>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									showMessage("locations failure");
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									showMessage("locations saved");	
+								}
+                        	});
+                        }
                     }
 
                     @Override
@@ -177,5 +195,13 @@ public class RunForm extends CustomForm implements LoadRunHandler {
             }
         });
     }
+
+    private List<Location> locations;
+    
+	@Override
+	public void update(LocationsUpdateEvent event) {
+		locations = event.getLocations(); 
+		distanceField.setValue(unitConverter().metersToCustom(event.getDistance()));
+	}
     
 }

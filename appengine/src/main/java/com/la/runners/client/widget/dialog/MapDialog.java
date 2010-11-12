@@ -17,6 +17,7 @@ public class MapDialog extends CenteredDialog implements ShowMapHandler{
     private FlowPanel mapContainer;
     private Context context;
     private TrackingMap currentMap;
+    private Button saveBtn;
     
     private static boolean firstLoad = Boolean.TRUE;
     
@@ -24,11 +25,20 @@ public class MapDialog extends CenteredDialog implements ShowMapHandler{
         this.context = context;
         mapContainer = new FlowPanel();
         add(mapContainer);
-        add(new Button(context.strings.dialogCloseButton(), new ClickHandler() {
+        addToolbarButton(new Button(context.strings.dialogCloseButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 hide();
             }
         }));
+        saveBtn = addToolbarButton(new Button(context.strings.dialogSaveButton(), new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                if(currentMap != null) {
+                	currentMap.save();
+                	hide();
+                }
+            }
+        }));
+        saveBtn.setVisible(Boolean.FALSE);
         context.getEventBus().addHandler(ShowMapEvent.TYPE, this);
     }
     
@@ -53,7 +63,12 @@ public class MapDialog extends CenteredDialog implements ShowMapHandler{
     
     private void load(ShowMapEvent event) {
         mapContainer.clear();
-        currentMap = new TrackingMap(context, event.getId());
+        currentMap = new TrackingMap(context, event.getId(), event.getEditMode());
+        if(currentMap.isEditMode()) {
+        	saveBtn.setVisible(Boolean.TRUE);
+        } else {
+        	saveBtn.setVisible(Boolean.FALSE);
+        }
         mapContainer.add(currentMap);
         center();
     }

@@ -44,7 +44,7 @@ public class HomeEntryPoint implements EntryPoint {
                             init();
                         }
                     };
-                    dialog.show();
+                    dialog.center();
                 } else {
                     context.setProfile(result);
                     init();

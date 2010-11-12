@@ -11,7 +11,7 @@ import com.la.runners.shared.ServerException;
 
 public interface ServiceAsync {
 
-	void save(Run run, AsyncCallback<Void> callback);
+	void save(Run run, AsyncCallback<Long> callback);
 	
 	void save(Profile profile, AsyncCallback<Void> callback);
 
@@ -44,5 +44,8 @@ public interface ServiceAsync {
     void getLocations(Long id, AsyncCallback<List<Location>> asyncCallback);
 
     void deleteRuns(List<Long> ids, AsyncCallback<Void> asyncCallback);
+
+	void updateLocations(List<Location> locations, Long runId,
+			AsyncCallback<Void> asyncCallback);
 
 }

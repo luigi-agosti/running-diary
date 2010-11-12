@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.google.gwt.maps.client.MapUIOptions;
 import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.control.ControlAnchor;
 import com.google.gwt.maps.client.control.ControlPosition;
+import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.event.MapClickHandler;
 import com.google.gwt.maps.client.event.MarkerDragEndHandler;
 import com.google.gwt.maps.client.geom.LatLng;
@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
+import com.la.runners.client.event.LocationsUpdateEvent;
 import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.shared.Location;
 
@@ -53,11 +54,7 @@ public class TrackingMap extends Composite {
     public TrackingMap(Context context, Long id, boolean editMode) {
         this.context = context;
         panel = new FlowPanel();
-        if (id == null) {
-            this.editMode = Boolean.TRUE;
-        } else {
-            this.editMode = editMode;
-        }
+        this.editMode = editMode;
         panel.setStyleName(ResourceBundle.INSTANCE.map().container());
         initMap();
         panel.clear();
@@ -75,10 +72,19 @@ public class TrackingMap extends Composite {
             }
         });
     }
+    
+    public boolean isEditMode() {
+    	return editMode;
+    }
 
     public List<Location> getLocations() {
-        // TODO
-        return new ArrayList<Location>();
+    	List<Location> locations = new ArrayList<Location>();
+    	LocationMarker previousMarker = null;
+    	for(LocationMarker marker : markers) {
+    		locations.add(marker.getLocation(previousMarker));
+    		
+    	}
+    	return locations;
     }
 
     private void initMap() {
@@ -95,14 +101,13 @@ public class TrackingMap extends Composite {
                     MapWidget sender = e.getSender();
                     Overlay overlay = e.getOverlay();
                     LatLng point = e.getLatLng();
-                    if (overlay != null && overlay instanceof Marker) {
+                    if (overlay != null && overlay instanceof LocationMarker) {
                         sender.removeOverlay(overlay);
-                        markers.remove((Marker)overlay);
+                        markers.remove((LocationMarker)overlay);
                         updatePoliLine();
                     } else {
-                        Marker marker = createMarker(point);
+                    	LocationMarker marker = createMarker(point);
                         sender.addOverlay(marker);
-                        markers.add(marker);
                         updatePoliLine();
                     }
                 }
@@ -128,7 +133,7 @@ public class TrackingMap extends Composite {
         map.setUI(opts);
     }
 
-    private List<Marker> markers = new ArrayList<Marker>();
+    private List<LocationMarker> markers = new ArrayList<LocationMarker>();
 
     private void load(List<Location> locations) {
         map.clearOverlays();
@@ -140,9 +145,10 @@ public class TrackingMap extends Composite {
         if (point != null) {
             map.setCenter(point, 13);
         }
+        updatePoliLine();
     }
     
-    private Marker createMarker(LatLng point) {
+    private LocationMarker createMarker(LatLng point) {
         LocationMarker lm = null;
         if(editMode) {
             lm = new LocationMarker(point, new MarkerDragEndHandler() {
@@ -153,6 +159,7 @@ public class TrackingMap extends Composite {
         } else {
             lm = new LocationMarker(point);
         }
+        markers.add(lm);
         return lm;
     }
 
@@ -170,5 +177,9 @@ public class TrackingMap extends Composite {
         String unit = context.getUnitConverter().getDistanceUnit(context.strings);
         distance.setText(poly.getLength() + unit);
     }
+
+	public void save() {
+		context.getEventBus().fireEvent(new LocationsUpdateEvent(getLocations(), poly.getLength()));
+	}
 
 }

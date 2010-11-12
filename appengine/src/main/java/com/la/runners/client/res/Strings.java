@@ -53,6 +53,7 @@ public interface Strings extends Constants {
      */
     String dialogCloseButton();
     String dialogCancelButton();
+    String dialogSaveButton();
     String dialogContinueButton();
     String dialogDeleteProfileInfo();
     String dialogNewProfileInfo();

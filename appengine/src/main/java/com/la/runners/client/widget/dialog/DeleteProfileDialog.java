@@ -11,12 +11,12 @@ public class DeleteProfileDialog extends CenteredDialog {
     
     public DeleteProfileDialog(final Context context) {
         add(new Label(context.strings.dialogDeleteProfileInfo()));
-        add(new Button(context.strings.dialogCancelButton(), new ClickHandler() {
+        addToolbarButton(new Button(context.strings.dialogCancelButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 hide();
             }
         }));
-        add(new Button(context.strings.dialogContinueButton(), new ClickHandler() {
+        addToolbarButton(new Button(context.strings.dialogContinueButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 context.getService().deleteProfile(new AsyncCallback<Void>() {
                     @Override

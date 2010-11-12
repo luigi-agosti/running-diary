@@ -8,8 +8,15 @@ public class ShowMapEvent extends GwtEvent<ShowMapHandler> {
 
     private Long id;
     
+    private Boolean editMode;
+    
     public ShowMapEvent(Long id) {
+        this(id, Boolean.FALSE);
+    }
+    
+    public ShowMapEvent(Long id, boolean editMode) {
         this.id = id;
+        this.setEditMode(editMode);
     }
 
     @Override
@@ -25,5 +32,13 @@ public class ShowMapEvent extends GwtEvent<ShowMapHandler> {
     public Long getId() {
         return id;
     }
+
+	public void setEditMode(Boolean editMode) {
+		this.editMode = editMode;
+	}
+
+	public Boolean getEditMode() {
+		return editMode;
+	}
     
 }

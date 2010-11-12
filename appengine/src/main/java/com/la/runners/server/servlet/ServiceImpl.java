@@ -46,9 +46,10 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 	private JdoLocationDao locationDao = new JdoLocationDao();
 	
 	@Override
-	public void save(Run run) {
+	public Long save(Run run) {
         run.setUserId(getUserId());
-        runDao.save(run);
+        Run result = runDao.saveAndReturn(run);
+        return result.getId();
 	}
 	
     @Override
@@ -309,11 +310,13 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
     }
 
     @Override
-    public List<Location> getLocations(Long id) {
-        List<Location> locations = locationDao.search(id);
+    public List<Location> getLocations(Long runId) {
+    	logger.info("get locations with runId : " + runId);
+        List<Location> locations = locationDao.search(runId);
         List<Location> detatchList = new ArrayList<Location>();
         for(Location location : locations) {
-            detatchList.add(locationDao.detach(location));
+        	logger.info(location.toString());
+        	detatchList.add(location);
         }
         return detatchList;
     }
@@ -322,8 +325,18 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
     public void deleteRuns(List<Long> ids) {
         for(Long id : ids) {
             runDao.delete(id);
-            locationDao.deleteByProperty("runId", "", id);
+            locationDao.deleteByProperty("runId", "Long", id);
         }
     }
+
+	@Override
+	public void updateLocations(List<Location> locations, Long runId) {
+		logger.info("updating locations with runId : " + runId);
+		for(Location location : locations) {
+			location.setRunId(runId);
+			logger.info(location.toString());
+		}
+		locationDao.save(locations);
+	}
     
 }
