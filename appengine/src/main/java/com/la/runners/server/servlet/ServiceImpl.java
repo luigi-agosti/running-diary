@@ -325,13 +325,14 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
     public void deleteRuns(List<Long> ids) {
         for(Long id : ids) {
             runDao.delete(id);
-            locationDao.deleteByProperty("runId", "Long", id);
+            locationDao.deleteByRunId(id);
         }
     }
 
 	@Override
 	public void updateLocations(List<Location> locations, Long runId) {
 		logger.info("updating locations with runId : " + runId);
+		locationDao.deleteByRunId(runId);
 		for(Location location : locations) {
 			location.setRunId(runId);
 			logger.info(location.toString());

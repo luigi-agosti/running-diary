@@ -21,7 +21,7 @@ public class LocationMarker extends Marker {
         icon.setIconAnchor(Point.newInstance(6, 20));
         icon.setInfoWindowAnchor(Point.newInstance(5, 1));
         options.setIcon(icon);
-        options.setDraggable(Boolean.TRUE);
+        options.setDraggable(Boolean.FALSE);
     }
     
     private Location location;
@@ -43,6 +43,7 @@ public class LocationMarker extends Marker {
         super(point, options);
         if(markerDragEndHandler != null) {
             addMarkerDragEndHandler(markerDragEndHandler);
+            options.setDraggable(Boolean.TRUE);
         }
     }
 

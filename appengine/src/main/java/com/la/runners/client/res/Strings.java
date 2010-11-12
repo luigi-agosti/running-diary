@@ -83,6 +83,8 @@ public interface Strings extends Constants {
     String runFormEditMap();
     String runFormSuccess();
     String runFormFailure();
+    String runFormLocationFailure();
+    String runFormLocationSuccess();
     
     /*
      * Run Grid
@@ -102,6 +104,7 @@ public interface Strings extends Constants {
     String runGridShoes();
     String runGridNote();
     String runGridMap();
+    String runGridClone();
     String runGridEdit();
     
     /*

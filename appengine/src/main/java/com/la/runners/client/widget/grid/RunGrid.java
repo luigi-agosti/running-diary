@@ -14,7 +14,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.DeleteRunEvent;
 import com.la.runners.client.event.DeleteRunHandler;
-import com.la.runners.client.event.LoadRunEvent;
+import com.la.runners.client.event.RunLoadEvent;
+import com.la.runners.client.event.RunCloneEvent;
+import com.la.runners.client.event.RunCloneHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
 import com.la.runners.client.event.ShowMapEvent;
@@ -78,6 +80,7 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
     	    addHeaderCellToRow(strings().runGridNote());
     	    addHeaderCellToRow(strings().runGridEdit());
     	    addHeaderCellToRow(strings().runGridMap());
+    	    addHeaderCellToRow(strings().runGridClone());
     	    int index = 1;
 	    	for(Run run : result) {
 	    	    newRow();
@@ -105,7 +108,7 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
 	            btn.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        eventBus().fireEvent(new LoadRunEvent(id));
+                        eventBus().fireEvent(new RunLoadEvent(id));
                     }
 	            });
 	            addCellToRow(index, btn);
@@ -118,6 +121,15 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
 	                }
 	            });
 	            addCellToRow(index, btnMap);
+	            
+	            Button btnClone = new Button(strings().runGridClone());
+	            btnClone.addClickHandler(new ClickHandler() {
+	                @Override
+	                public void onClick(ClickEvent event) {
+	                    eventBus().fireEvent(new RunCloneEvent(id));
+	                }
+	            });
+	            addCellToRow(index, btnClone);
 	            index++;
 	    	}
     	}

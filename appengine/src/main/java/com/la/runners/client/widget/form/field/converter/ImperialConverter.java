@@ -45,7 +45,7 @@ public class ImperialConverter extends BaseConverter implements UnitConverter {
         if(value == null) {
             value = 0D;
         }
-        return new Double(value * METERS_TO_YEARD_FACTOR).toString();
+        return "" + (new Double(value * METERS_TO_YEARD_FACTOR).longValue());
     }
 
 }

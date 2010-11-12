@@ -7,10 +7,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.la.runners.client.Context;
-import com.la.runners.client.event.LoadRunEvent;
-import com.la.runners.client.event.LoadRunHandler;
+import com.la.runners.client.event.RunLoadEvent;
+import com.la.runners.client.event.RunLoadHandler;
 import com.la.runners.client.event.LocationsUpdateEvent;
 import com.la.runners.client.event.LocationsUpdateHandler;
+import com.la.runners.client.event.RunCloneEvent;
+import com.la.runners.client.event.RunCloneHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.widget.form.field.CheckBoxField;
@@ -22,11 +24,14 @@ import com.la.runners.client.widget.form.field.TimePickerField;
 import com.la.runners.shared.Location;
 import com.la.runners.shared.Run;
 
-public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpdateHandler {
+public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpdateHandler, RunCloneHandler {
 
 	private static final double E6_MULTI = 1000000D;
 
+	private List<Location> locations;
+	
 	private Run run;
+	private Long cloneRunId;
     
     private DatePickerField startDateField;
     private NumericMandatoryBoxField distanceField;
@@ -40,8 +45,10 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
     
     public RunForm(final Context context) {
         super(context, context.strings.runFormTitle());
-        eventBus().addHandler(LoadRunEvent.TYPE, this);
+        eventBus().addHandler(RunLoadEvent.TYPE, this);
         eventBus().addHandler(LocationsUpdateEvent.TYPE, this);
+        eventBus().addHandler(RunCloneEvent.TYPE, this);
+        
         startDateField = addDatePickerField(strings().runFormDate(), new Date());
         startTimeField = addTimePickerField(strings().runFormStart(), new Date());
         distanceField = addNumericMandatoryBoxField(strings().runFormDistance());
@@ -49,7 +56,11 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
         addButton(strings().runFormEditMap(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                eventBus().fireEvent(new ShowMapEvent(run.getId(), Boolean.TRUE));
+            	Long runId = run.getId();
+            	if(cloneRunId != null) {
+            		runId = cloneRunId;
+            	}
+            	eventBus().fireEvent(new ShowMapEvent(runId, Boolean.TRUE));
             }
         });
         addSubtitle(strings().runFormOptional());
@@ -85,12 +96,12 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
                         	service().updateLocations(locations, runId, new AsyncCallback<Void>() {
 								@Override
 								public void onFailure(Throwable caught) {
-									showMessage("locations failure");
+									showMessage(strings().runFormLocationFailure());
 								}
 
 								@Override
 								public void onSuccess(Void result) {
-									showMessage("locations saved");	
+									showMessage(strings().runFormLocationSuccess());	
 								}
                         	});
                         }
@@ -134,6 +145,7 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
 
     public void reset() {
         run = new Run();
+        cloneRunId = null;
         startDateField.reset();
         startTimeField.reset(new Date());
         distanceField.reset();
@@ -182,8 +194,23 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
     }
 
     @Override
-    public void loadRun(LoadRunEvent event) {
-        service().getRun(event.getId(), new AsyncCallback<Run>() {
+    public void loadRun(RunLoadEvent event) {
+    	load(event.getId(), false);
+    }
+    
+	@Override
+	public void update(LocationsUpdateEvent event) {
+		locations = event.getLocations(); 
+		distanceField.setValue(unitConverter().metersToCustom(event.getDistance()));
+	}
+
+	@Override
+	public void clone(RunCloneEvent event) {
+		load(event.getId(), true);
+	}
+	
+	private void load(Long id, final boolean removeId) {
+		service().getRun(id, new AsyncCallback<Run>() {
             @Override
             public void onFailure(Throwable caught) {
                 showMessage(strings().runFormFailure());
@@ -191,17 +218,15 @@ public class RunForm extends CustomForm implements LoadRunHandler, LocationsUpda
 
             @Override
             public void onSuccess(Run result) {
+            	if(removeId) {
+            		cloneRunId = result.getId();
+            		result.setStartDate(new Date());
+            		result.setCreated(new Date());
+            		result.setId(null);
+            	}
                 load(result);
             }
         });
-    }
-
-    private List<Location> locations;
-    
-	@Override
-	public void update(LocationsUpdateEvent event) {
-		locations = event.getLocations(); 
-		distanceField.setValue(unitConverter().metersToCustom(event.getDistance()));
 	}
     
 }

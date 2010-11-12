@@ -43,7 +43,7 @@ public class InternationalConverter extends BaseConverter implements UnitConvert
         if(value == null) {
             value = 0D;
         }
-        return value.toString();
+        return "" + value.longValue();
     }
     
     

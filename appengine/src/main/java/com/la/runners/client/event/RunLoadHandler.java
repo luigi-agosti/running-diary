@@ -2,8 +2,8 @@ package com.la.runners.client.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
-public interface LoadRunHandler extends EventHandler {
+public interface RunLoadHandler extends EventHandler {
 	
-	void loadRun(LoadRunEvent event);
+	void loadRun(RunLoadEvent event);
 
 }

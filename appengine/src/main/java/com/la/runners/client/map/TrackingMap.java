@@ -11,6 +11,7 @@ import com.google.gwt.maps.client.control.ControlPosition;
 import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.event.MapClickHandler;
 import com.google.gwt.maps.client.event.MarkerDragEndHandler;
+import com.google.gwt.maps.client.event.PolylineLineUpdatedHandler;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.Overlay;
@@ -164,7 +165,14 @@ public class TrackingMap extends Composite {
     }
 
     private void updatePoliLine() {
-        map.removeOverlay(poly);
+    	try {
+    		if(poly != null) {
+    			poly.removePolylineLineUpdatedHandler(polyLineUpdateHandler);
+    		}
+    		map.removeOverlay(poly);
+    	} catch(Exception e) {
+    		//TODO
+    	}
         poly = new Polyline(new LatLng[markers.size()]);
         map.addOverlay(poly);
         poly.setStrokeStyle(style);
@@ -174,9 +182,16 @@ public class TrackingMap extends Composite {
             poly.insertVertex(index, marker.getLatLng());
             index++;
         }
-        String unit = context.getUnitConverter().getDistanceUnit(context.strings);
-        distance.setText(poly.getLength() + unit);
+        poly.addPolylineLineUpdatedHandler(polyLineUpdateHandler);
     }
+    
+    private PolylineLineUpdatedHandler polyLineUpdateHandler = new PolylineLineUpdatedHandler() {
+		@Override
+		public void onUpdate(PolylineLineUpdatedEvent event) {				
+			String unit = context.getUnitConverter().getDistanceUnit(context.strings);
+			distance.setText(poly.getLength() + unit);
+		}
+    };
 
 	public void save() {
 		context.getEventBus().fireEvent(new LocationsUpdateEvent(getLocations(), poly.getLength()));
