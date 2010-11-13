@@ -54,15 +54,6 @@ public class LocationMarker extends Marker {
 		LatLng latlng = getLatLng();
 		location.setLatitudeAsDouble(latlng.getLatitude());
 		location.setLongitudeAsDouble(latlng.getLongitude());
-		if(previousMarker != null) {
-			//location.setDistance(distance);
-			//location.setSpeed(speed);
-			location.setDistance(1L);
-			location.setSpeed(1L);
-		} else {
-			location.setDistance(0L);
-			location.setSpeed(0L);
-		}
 		return location;
 	}
 

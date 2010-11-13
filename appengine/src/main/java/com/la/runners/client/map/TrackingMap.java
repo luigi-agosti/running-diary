@@ -2,6 +2,7 @@
 package com.la.runners.client.map;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.maps.client.MapUIOptions;
@@ -81,9 +82,12 @@ public class TrackingMap extends Composite {
     public List<Location> getLocations() {
     	List<Location> locations = new ArrayList<Location>();
     	LocationMarker previousMarker = null;
+    	int index = 0;
     	for(LocationMarker marker : markers) {
-    		locations.add(marker.getLocation(previousMarker));
-    		
+    		Location l = marker.getLocation(previousMarker);
+    		l.setTimestamp(new Date(index));
+    		locations.add(l);
+    		index++;
     	}
     	return locations;
     }
