@@ -203,7 +203,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
                              new InternetAddress(recipientEmail));
             msg.setSubject(nickname + " send you an invite to join the site running-diary.appspot.com");
             msg.setText("Please if you recognize your friend and you want to try the web site follow this link : " +
-            		"<a href=\"http://running-diary.appspot.com/invite?token=" + invite.getToken() + "\">running-diary.appspot.com/invite</a>");
+            		"<a href=\"http://www.social-runners.com/invite?token=" + invite.getToken() + "\">www.social-runners.com/invite</a>");
             Transport.send(msg);
         } catch (AddressException e) {
             logger.log(Level.SEVERE, "AddressException", e);
@@ -333,8 +333,14 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 	public void updateLocations(List<Location> locations, Long runId) {
 		logger.info("updating locations with runId : " + runId);
 		locationDao.deleteByRunId(runId);
+		
+		UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        String userId = user.getUserId();
+		
 		for(Location location : locations) {
 			location.setRunId(runId);
+			location.setUserId(userId);
 			logger.info(location.toString());
 		}
 		locationDao.save(locations);

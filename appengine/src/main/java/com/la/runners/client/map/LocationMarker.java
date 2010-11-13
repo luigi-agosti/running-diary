@@ -54,7 +54,32 @@ public class LocationMarker extends Marker {
 		LatLng latlng = getLatLng();
 		location.setLatitudeAsDouble(latlng.getLatitude());
 		location.setLongitudeAsDouble(latlng.getLongitude());
+		location.setDistance(distance);
+		location.setAltitude(altitude);
+		location.setSpeed(speed);
+		location.setTime(time);
 		return location;
+	}
+
+	private Long altitude;
+	private Long distance;
+	private Long speed;
+	private Long time;
+	
+	public void setAltitude(Long altitude) {
+		this.altitude = altitude;
+	}
+
+	public void setDistance(Long distance) {
+		this.distance = distance;
+	}
+
+	public void setSpeed(Long speed) {
+		this.speed = speed;
+	}
+
+	public void setTime(Long time) {
+		this.time = time;
 	}
 
 }

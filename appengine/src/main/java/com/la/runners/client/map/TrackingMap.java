@@ -145,7 +145,7 @@ public class TrackingMap extends Composite {
         LatLng point = null;
         for (Location l : locations) {
             point = LatLng.newInstance(l.getLatitudeAsDouble(), l.getLongitudeAsDouble());
-            map.addOverlay(createMarker(point));
+            map.addOverlay(createMarker(point, l));
         }
         if (point != null) {
             map.setCenter(point, 13);
@@ -154,6 +154,10 @@ public class TrackingMap extends Composite {
     }
     
     private LocationMarker createMarker(LatLng point) {
+    	return createMarker(point, null);
+    }
+    
+    private LocationMarker createMarker(LatLng point, Location l) {
         LocationMarker lm = null;
         if(editMode) {
             lm = new LocationMarker(point, new MarkerDragEndHandler() {
@@ -161,6 +165,12 @@ public class TrackingMap extends Composite {
                     updatePoliLine();
                 }
             });
+            if(l != null) {
+            	lm.setAltitude(l.getAltitude());
+            	lm.setDistance(l.getDistance());
+            	lm.setSpeed(l.getSpeed());
+            	lm.setTime(l.getTime());
+            }
         } else {
             lm = new LocationMarker(point);
         }
