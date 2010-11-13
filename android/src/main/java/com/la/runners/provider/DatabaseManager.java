@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.la.runners.R;
+import com.la.runners.Runners;
 import com.la.runners.parser.SchemaParser;
 import com.la.runners.provider.SyncProvider.Sync;
 import com.la.runners.util.AppLogger;
+import com.la.runners.util.Constants;
 import com.la.runners.util.Notifier;
-import com.la.runners.util.network.NetworkService;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     
@@ -26,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     
     private SchemaParser getSchema() {
         if(schema == null) {
-            schema = NetworkService.getSchema(context);
+            schema = new SchemaParser(Runners.getHttpManager(context).getUrlAsStream(Constants.Server.SCHEMA_URL, context));
         }
         return schema;
     }

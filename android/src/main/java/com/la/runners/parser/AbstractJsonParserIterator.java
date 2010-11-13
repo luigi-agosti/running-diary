@@ -1,6 +1,7 @@
 
 package com.la.runners.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -33,17 +34,30 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
 
     public AbstractJsonParserIterator(InputStream stream, String root) {
         try {
+        	AppLogger.debug("mapper");
             ObjectMapper mapper = new ObjectMapper();
+            AppLogger.debug("reading values");
             rootNode = mapper.readValue(stream, JsonNode.class);
+            AppLogger.debug("root node readed");
             JsonNode array = null;
             if(rootNode == null) {
+            	AppLogger.debug("getting elements with get");
             	array = rootNode.get(root);
             	nodes = array.getElements();
             } else {
+            	AppLogger.debug("getting elements with getElements");
             	nodes = rootNode.getElements();
             }
         } catch (Throwable e) {
         	AppLogger.error(e);
+        	if(stream != null) {
+        		try {
+					stream.close();
+				} catch (IOException e1) {
+					AppLogger.error(e1);
+					throw new ParserException(R.string.error_3, e1.getMessage());
+				}
+        	}
             throw new ParserException(R.string.error_3, e.getMessage());
         }
     }
@@ -164,5 +178,7 @@ public abstract class AbstractJsonParserIterator implements JsonParserIterator {
             cv.put(column, size);
         }
     }
+    
+    
 
 }

@@ -10,12 +10,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.la.runners.Runners;
 import com.la.runners.parser.IdsParser;
 import com.la.runners.parser.JsonParserIterator;
 import com.la.runners.provider.Model;
 import com.la.runners.provider.SyncProvider.Sync;
 import com.la.runners.util.AppLogger;
-import com.la.runners.util.network.NetworkService;
 
 public abstract class BasicSync implements Syncable {
 
@@ -64,7 +64,7 @@ public abstract class BasicSync implements Syncable {
                 AppLogger.debug("Result : " + result);
                 if(!"[]".equals(result)) {
                     AppLogger.debug("posting result");
-                    IdsParser parser = new IdsParser(NetworkService.getHttpManager(context).post(context, url, result));
+                    IdsParser parser = new IdsParser(Runners.getHttpManager(context).post(context, url, result));
                     while(parser.hasNext()) {
                         ContentValues cv = parser.next();
                         String id = cv.getAsString(Sync.ID);
@@ -110,9 +110,19 @@ public abstract class BasicSync implements Syncable {
     public void syncUpDeletes(Context context, SyncNotifier syncEventListener) {
         Cursor c = null;
         try {
+        	AppLogger.debug("getting list of deletes to send");
             c = context.getContentResolver().query(Sync.CONTENT_URI, null, Sync.CRUD + PARAMETER, new String[]{"" + Sync.DELETE}, null);
+            AppLogger.debug("query done");
             while(c.moveToNext()) {
-                NetworkService.getHttpManager(context).delete(context, url + "?remoteId=" + Sync.remoteId(c));
+            	AppLogger.debug("deleting");
+            	try {
+            		String remoteId = Sync.remoteId(c);
+            		Runners.getHttpManager(context).delete(context, url + "?remoteId=" + remoteId);
+            		//context.getContentResolver().delete(Sync.CONTENT_URI, Sync.REMOTE_ID + PARAMETER + " and " + Sync.CRUD + PARAMETER, new String[]{remoteId, "" + Sync.DELETE});
+            		AppLogger.debug("delete of the Sync row");
+            	} catch (Throwable e) {
+            		AppLogger.error(e);
+            	}
             }
         } finally {
             if (c != null) {
@@ -128,8 +138,10 @@ public abstract class BasicSync implements Syncable {
 
     @Override
     public void syncDown(Context context, SyncNotifier syncEventListener) {
-        JsonParserIterator parser = instanziateParser(NetworkService.getHttpManager(context)
+    	AppLogger.debug("syncDown");
+        JsonParserIterator parser = instanziateParser(Runners.getHttpManager(context)
                 .getUrlAsStream(url, context));
+        AppLogger.debug("syncDown after parser");
         List<Long> ids = new ArrayList<Long>();
         Cursor c = null; 
         try {
@@ -142,18 +154,23 @@ public abstract class BasicSync implements Syncable {
                 c.close();
             }
         }
+        AppLogger.debug("while");
         while (parser.hasNext()) {
+        	AppLogger.debug("Next");
             ContentValues cv = parser.next();
+            AppLogger.debug("Next : " + cv);
             boolean hasRemoteId = cv.containsKey(Sync.REMOTE_ID);
             if(hasRemoteId) {
                 Long remoteId = cv.getAsLong(Sync.REMOTE_ID);
                 if(ids.contains(remoteId)) {
+                	AppLogger.debug("Update start");
                     context.getContentResolver().update(uri, cv, Sync.REMOTE_ID + PARAMETER, 
                             new String[]{"" + remoteId});
-                    AppLogger.debug("update");
+                    AppLogger.debug("Update end");
                 } else {
+                	AppLogger.debug("Insert start");
                     context.getContentResolver().insert(uri, cv);
-                    AppLogger.debug("insert");
+                    AppLogger.debug("Insert end");
                 }
             } else {
                 AppLogger.warn("There is no remote id!");

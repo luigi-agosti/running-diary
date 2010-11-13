@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.la.runners.R;
+import com.la.runners.Runners;
 import com.la.runners.activity.Preferences;
 import com.la.runners.parser.JsonParserIterator;
 import com.la.runners.parser.ProfileParser;
@@ -15,7 +16,6 @@ import com.la.runners.provider.Model;
 import com.la.runners.service.sync.BasicSync;
 import com.la.runners.service.sync.SyncNotifier;
 import com.la.runners.util.Constants;
-import com.la.runners.util.network.NetworkService;
 
 public class ProfileSync extends BasicSync {
 
@@ -25,8 +25,8 @@ public class ProfileSync extends BasicSync {
     }
 
     @Override
-    public void syncUp(Context context, SyncNotifier syncNotifier) {
-        NetworkService.postProfile(context, Model.Profile.convert(context));
+    public void syncUp(Context c, SyncNotifier syncNotifier) {
+        Runners.getHttpManager(c).post(c, Constants.Server.PROFILE_CONTENT_URL, Model.Profile.convert(c));
     }
 
     @Override
@@ -57,30 +57,30 @@ public class ProfileSync extends BasicSync {
     }
 
     @Override
-    public void syncDown(Context context, SyncNotifier syncNotifier) {
-        ProfileParser parser = NetworkService.getProfileParser(context);
+    public void syncDown(Context c, SyncNotifier syncNotifier) {
+        ProfileParser parser = new ProfileParser(Runners.getHttpManager(c).getUrlAsStream(Constants.Server.PROFILE_CONTENT_URL, c));
         while (parser.hasNext()) {
             ContentValues cv = parser.next();
             if (cv.containsKey(Model.Profile.SHOES)) {
-                Preferences.setShoes(context, cv.getAsBoolean(Model.Profile.SHOES));
+                Preferences.setShoes(c, cv.getAsBoolean(Model.Profile.SHOES));
             }
             if (cv.containsKey(Model.Profile.WEATHER)) {
-                Preferences.setWeather(context, cv.getAsBoolean(Model.Profile.WEATHER));
+                Preferences.setWeather(c, cv.getAsBoolean(Model.Profile.WEATHER));
             }
             if (cv.containsKey(Model.Profile.WEIGHT)) {
-                Preferences.setWeight(context, cv.getAsBoolean(Model.Profile.WEIGHT));
+                Preferences.setWeight(c, cv.getAsBoolean(Model.Profile.WEIGHT));
             }
             if (cv.containsKey(Model.Profile.HEART_RATE)) {
-                Preferences.setHeartRate(context, cv.getAsBoolean(Model.Profile.HEART_RATE));
+                Preferences.setHeartRate(c, cv.getAsBoolean(Model.Profile.HEART_RATE));
             }
             if (cv.containsKey(Model.Profile.NICKNAME)) {
-                Preferences.setNickname(context, cv.getAsString(Model.Profile.NICKNAME));
+                Preferences.setNickname(c, cv.getAsString(Model.Profile.NICKNAME));
             }
             if (cv.containsKey(Model.Profile.CREATED)) {
-                Preferences.setCreated(context, cv.getAsLong(Model.Profile.CREATED));
+                Preferences.setCreated(c, cv.getAsLong(Model.Profile.CREATED));
             }
             if (cv.containsKey(Model.Profile.MODIFIED)) {
-                Preferences.setModified(context, cv.getAsLong(Model.Profile.MODIFIED));
+                Preferences.setModified(c, cv.getAsLong(Model.Profile.MODIFIED));
             }
         }
     }

@@ -2,6 +2,7 @@
 package com.la.runners;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.la.runners.util.AppLogger;
 import com.la.runners.util.network.HttpManager;
@@ -11,7 +12,7 @@ import com.la.runners.util.network.HttpManager;
  */
 public class Runners extends Application {
 
-    private HttpManager httpManager;
+    private static HttpManager httpManager;
 
     private static Runners instance;
     
@@ -44,9 +45,11 @@ public class Runners extends Application {
         }
     }
 
-    public final HttpManager getHttpManager() {
+    public static final HttpManager getHttpManager(Context c) {
+    	AppLogger.debug("getHttpManager");
         if (httpManager == null) {
-            httpManager = new HttpManager(getApplicationContext());
+        	AppLogger.debug("New instance of HttpManager");
+            httpManager = new HttpManager(c);
         }
         return httpManager;
     }

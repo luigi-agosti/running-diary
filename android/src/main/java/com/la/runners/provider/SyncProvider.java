@@ -160,7 +160,9 @@ public abstract class SyncProvider extends ContentProvider {
         int rows = 0;
         switch (syncUrlMatcher.match(uri)) {
             case Sync.INCOMING_COLLECTION: {
+            	AppLogger.debug("deleting sync row : " + selection + " with " + selectionArgs);
                 rows = getDataBase().delete(Sync.NAME, selection, selectionArgs);
+                AppLogger.debug("deleted : " + rows);
                 break;
             }
             default: {

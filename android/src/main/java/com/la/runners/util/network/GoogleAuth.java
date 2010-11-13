@@ -42,14 +42,8 @@ public class GoogleAuth {
     private static final String SEPARATOR = ":";
     
     private static final String SET_COOKIES = "Set-Cookie";
-    
-    private static HttpManager httpManager = null;
 
     private static GoogleAuth instance;
-
-    private GoogleAuth() { 
-        httpManager = Runners.getInstance().getHttpManager();
-    }
 
     public Cookie getAuthCookie() {
         return authCookie;
@@ -77,9 +71,9 @@ public class GoogleAuth {
         return isLoggedIn(context, true);
     }
     
-    private Boolean isLoggedIn(final Context context, boolean withRetry) {
+    private Boolean isLoggedIn(final Context c, boolean withRetry) {
         try {
-            AuthCheckParser result = NetworkService.getAuthCheckParser(context);
+            AuthCheckParser result = new AuthCheckParser(Runners.getHttpManager(c).getUrlAsStream(Constants.Server.AUTH_CHECK, c));
             if(result != null && result.isLoggerIn()) {
                 AppLogger.debug("Logged in");
                 return true;
@@ -87,7 +81,7 @@ public class GoogleAuth {
         } catch (Throwable e) {
             AppLogger.error("Problem when trying to check the logged status", e);
             if(withRetry) {
-                return isLoggedIn(context, false);
+                return isLoggedIn(c, false);
             }
         }
         return false;
@@ -166,8 +160,8 @@ public class GoogleAuth {
             }
         }
 
-        protected void onGetAuthToken(Context context, String token) throws ClientProtocolException, IOException {
-            DefaultHttpClient defaultHttpClient = httpManager.getDefaultHttpClient();
+        protected void onGetAuthToken(Context c, String token) throws ClientProtocolException, IOException {
+            DefaultHttpClient defaultHttpClient = Runners.getHttpManager(c).getDefaultHttpClient();
             try {
                 defaultHttpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
                 HttpGet httpGet = new HttpGet(LOGIN_URL + token);
@@ -185,10 +179,10 @@ public class GoogleAuth {
                     }
                 }
                 if(acsidCookie != null) {
-                    Preferences.setGoogleAuthToken(context, token);
-                    Preferences.setGoogleAcsidCookie(context, acsidCookie);
-                    SyncService.startSyncProfile(context);
-                    SyncService.startDataSync(context);
+                    Preferences.setGoogleAuthToken(c, token);
+                    Preferences.setGoogleAcsidCookie(c, acsidCookie);
+                    SyncService.startSyncProfile(c);
+                    SyncService.startDataSync(c);
                 } else {
                     throw new ConnectionException(R.string.error_13);
                 }

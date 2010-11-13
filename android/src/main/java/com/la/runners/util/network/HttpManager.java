@@ -12,16 +12,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.content.Context;
@@ -51,26 +53,45 @@ public class HttpManager {
 
     private static final int HTTPS_PORT = 443;
 
-    private AbstractHttpClient client;
+    // Set the timeout in milliseconds until a connection is established.
+    private static final int TIMEOUT_CONNECTION = 3000;
+
+    // Set the default socket timeout (SO_TIMEOUT) 
+    // in milliseconds which is the timeout for waiting for data.
+    private static final int TIMEOUT_SOCKET = 27000;
+
+    
+    private DefaultHttpClient client;
 
     public HttpManager(Context context) {
+    	AppLogger.debug("New http manager");
         HttpParams params = new BasicHttpParams();
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         schemeRegistry.register(new Scheme(HTTP, PlainSocketFactory.getSocketFactory(), HTTP_PORT));
         schemeRegistry.register(new Scheme(HTTPS, SSLSocketFactory.getSocketFactory(), HTTPS_PORT));
-        ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+        HttpConnectionParams.setConnectionTimeout(params, TIMEOUT_CONNECTION);
+        HttpConnectionParams.setSoTimeout(params, TIMEOUT_SOCKET);
+        ConnManagerParams.setTimeout(params, TIMEOUT_CONNECTION);
+        ClientConnectionManager cm = new SingleClientConnManager(params, schemeRegistry);
         client = new DefaultHttpClient(cm, params);
     }
 
     public DefaultHttpClient getDefaultHttpClient() {
-        return (DefaultHttpClient)client;
+        return client;
+    }
+    
+    public InputStream getUrlAsStream(String url, Context context) {
+    	return getUrlAsStream(url, context, false);
     }
 
     public InputStream getUrlAsStream(String url, final Context context, boolean withDeviceUid) {
+    	AppLogger.debug("getUrlAsStream : " + url);
         if (!Network.isNetworkAvailable(context)) {
             throw new ConnectionException(R.string.error_6, url);
         }
+        AppLogger.debug("getting httpGet: " + url);
         HttpUriRequest get = new HttpGet(url);
+        AppLogger.debug("Get created");
         HttpResponse response;
         InputStream is = null;
         try {
@@ -84,19 +105,21 @@ public class HttpManager {
                 AppLogger.logVisibly("adding header : " + deviceUid);
                 get.addHeader(new BasicHeader(HEADER_DEVICE_UID, deviceUid));
             }
+            AppLogger.debug("Before execute");
             response = client.execute(get);
+            AppLogger.debug("After execute");
             HttpEntity entity = response.getEntity();
+            AppLogger.debug("Getting content from response");
             is = entity.getContent();
+            AppLogger.debug("Return is");
             return is;
         } catch (Exception e) {
+        	AppLogger.error(e);
             closeSilently(is);
             throw new ConnectionException(R.string.error_7, url, e.getMessage());
         }
     }
 
-    public InputStream getUrlAsStream(String url, Context context) {
-        return getUrlAsStream(url, context, false);
-    }
 
     public static final ByteArrayOutputStream download(HttpManager httpService, String url,
             Context context) {
@@ -158,6 +181,10 @@ public class HttpManager {
         } catch (Exception e) {
             closeSilently(is);
             throw new ConnectionException(R.string.error_5, url, e.getMessage());
+        } finally {
+        	if(httpPost != null) {
+        		httpPost.abort();
+        	}
         }
     }
 
@@ -167,20 +194,25 @@ public class HttpManager {
         }
         HttpDelete delete = new HttpDelete(url);
         HttpResponse response;
-        InputStream is = null;
         try {
             String acsidCookie = Preferences.getGoogleAcsidCookie(context);
             if (acsidCookie != null) {
                 delete.addHeader(COOKIES, acsidCookie);
             }
+            AppLogger.debug("executing delete");
             response = client.execute(delete);
             if (response != null && response.getStatusLine().getStatusCode() == 200) {
+            	AppLogger.debug("return 200");
                 return;
             }
+            AppLogger.debug("return 200");
             throw new ConnectionException();
-        } catch (Exception e) {
-            closeSilently(is);
+        } catch (Throwable e) {
             throw new ConnectionException(R.string.error_5, url, e.getMessage());
+        } finally {
+        	if(delete != null) {
+        		delete.abort();
+        	}
         }
     }
 

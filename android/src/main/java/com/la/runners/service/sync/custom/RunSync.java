@@ -29,6 +29,7 @@ public class RunSync extends BasicSync {
 
     @Override
     protected JsonParserIterator instanziateParser(InputStream urlAsStream) {
+    	AppLogger.debug("new run parser");
         return new RunParser(urlAsStream);
     }
 
