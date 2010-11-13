@@ -37,6 +37,7 @@ public class JdoLocationDao extends BaseDaoImpl<Location> implements
 			public void get(Query q) {
 				super.get(q);
 				q.setFilter(property + " == " + id);
+				q.setOrdering("timestamp desc");
 			}
 		});
 	}
