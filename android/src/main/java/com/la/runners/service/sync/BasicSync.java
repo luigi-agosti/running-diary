@@ -118,7 +118,7 @@ public abstract class BasicSync implements Syncable {
             	try {
             		String remoteId = Sync.remoteId(c);
             		Runners.getHttpManager(context).delete(context, url + "?remoteId=" + remoteId);
-            		//context.getContentResolver().delete(Sync.CONTENT_URI, Sync.REMOTE_ID + PARAMETER + " and " + Sync.CRUD + PARAMETER, new String[]{remoteId, "" + Sync.DELETE});
+            		context.getContentResolver().delete(Sync.CONTENT_URI, Sync.REMOTE_ID + PARAMETER + " and " + Sync.CRUD + PARAMETER, new String[]{remoteId, "" + Sync.DELETE});
             		AppLogger.debug("delete of the Sync row");
             	} catch (Throwable e) {
             		AppLogger.error(e);
