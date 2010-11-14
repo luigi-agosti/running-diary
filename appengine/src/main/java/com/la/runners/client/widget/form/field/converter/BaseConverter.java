@@ -1,5 +1,7 @@
 package com.la.runners.client.widget.form.field.converter;
 
+import com.google.gwt.i18n.client.NumberFormat;
+
 
 /**
  * Some util fact to remember 
@@ -11,5 +13,11 @@ package com.la.runners.client.widget.form.field.converter;
  *
  */
 public abstract class BaseConverter implements UnitConverter {
+	
+	private static final NumberFormat DECIMAL_FORMATTER = NumberFormat.getFormat("#.##");
+	
+	protected String formatDoubleTo2Decimals(double value) {
+		return DECIMAL_FORMATTER.format(value);
+	}
   
 }

@@ -14,11 +14,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.DeleteRunEvent;
 import com.la.runners.client.event.DeleteRunHandler;
-import com.la.runners.client.event.RunLoadEvent;
 import com.la.runners.client.event.RunCloneEvent;
-import com.la.runners.client.event.RunCloneHandler;
 import com.la.runners.client.event.RunListUpdateEvent;
 import com.la.runners.client.event.RunListUpdateHandler;
+import com.la.runners.client.event.RunLoadEvent;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.res.ResourceBundle;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
@@ -29,7 +28,7 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
     
     private static final DateTimeFormat YEAR_FORMATTER = DateTimeFormat.getFormat("dd - EEEE");
     private static final DateTimeFormat FULL_FORMATTER = DateTimeFormat.getFormat("yyyy/mm/dd"); 
-    private static final DateTimeFormat TIME_FORMATTER = DateTimeFormat.getFormat("HH:mm");
+    private static final DateTimeFormat TIME_FORMATTER = DateTimeFormat.getFormat("HH:mm:ss");
     private static final TimeZone TIME_ZONE = TimeZone.createTimeZone(0);
     
     private List<ExtraCheckBox> selection = new ArrayList<ExtraCheckBox>();
@@ -91,7 +90,7 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
 	                     FULL_FORMATTER.parse(run.getYear() + "/" + run.getMonth() + "/" + run.getDay())));
 	    	    addLabelCellToRow(index, unitConverter().customUnitDistance(run.getDistance()));
 	    	    addLabelCellToRow(index, TIME_FORMATTER.format(new Date(run.getTime()), TIME_ZONE));
-	    	    addLabelCellToRow(index, unitConverter().customUnitSpeed(run.getSpeed()).toString());
+	    	    addLabelCellToRow(index, unitConverter().customUnitSpeed(run.getSpeed()));
 	            if(profile().getHeartRate()) {
 	                addLabelCellToRow(index, run.getHeartRate());
 	            }

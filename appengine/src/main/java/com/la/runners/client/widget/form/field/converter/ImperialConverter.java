@@ -21,8 +21,8 @@ public class ImperialConverter extends BaseConverter implements UnitConverter {
     }
 
     @Override
-    public Double customUnitSpeed(Long value) {
-        return Double.valueOf(value * E6SPEED_CENTIMETER_TO_MILE_HOUR);
+    public String customUnitSpeed(Long value) {
+        return formatDoubleTo2Decimals(Double.valueOf(value * E6SPEED_CENTIMETER_TO_MILE_HOUR));
     }
 
     @Override

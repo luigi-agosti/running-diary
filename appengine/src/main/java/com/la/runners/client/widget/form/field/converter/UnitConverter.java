@@ -8,7 +8,7 @@ public interface UnitConverter {
     
     Long indipendentUnitDistance(Long value);
 
-    Double customUnitSpeed(Long value);
+    String customUnitSpeed(Long value);
     
     Long indipendentUnitSpeed(Long value);
 
