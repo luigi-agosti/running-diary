@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 import com.la.runners.client.res.Strings;
 import com.la.runners.client.widget.form.field.converter.UnitConverter;
 import com.la.runners.client.widget.grid.toolbar.MessageBar;
@@ -32,14 +32,14 @@ public abstract class BaseGrid extends Composite {
         container.add(topBar);
 
         grid = new FlexTable();
-        grid.setStyleName(ResourceBundle.INSTANCE.grid().table());
+        grid.setStyleName(Resources.INSTANCE.grid().table());
         container.add(grid);
         
         bottomBar = getBottomBar();
         container.add(bottomBar);
         
         initWidget(container);
-        setMainColorStyle(ResourceBundle.INSTANCE.grid().green());
+        setMainColorStyle(Resources.INSTANCE.grid().green());
     }
     
     protected Strings strings() {
@@ -90,7 +90,7 @@ public abstract class BaseGrid extends Composite {
     }
 
     public void setMainColorStyle(String mainColorStyle) {
-        setStyleName(ResourceBundle.INSTANCE.grid().grid());
+        setStyleName(Resources.INSTANCE.grid().grid());
         addStyleName(mainColorStyle);
     }
 

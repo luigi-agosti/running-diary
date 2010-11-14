@@ -5,12 +5,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.la.runners.client.res.style.Dialog;
 import com.la.runners.client.res.style.Form;
+import com.la.runners.client.res.style.Chart;
 import com.la.runners.client.res.style.Grid;
 import com.la.runners.client.res.style.Map;
 
-public interface ResourceBundle extends ClientBundle {
+public interface Resources extends ClientBundle {
     
-    public static final ResourceBundle INSTANCE = GWT.create(ResourceBundle.class);
+    public static final Resources INSTANCE = GWT.create(Resources.class);
     
     @Source("com/la/runners/client/res/style/map.css")
     public Map map();
@@ -23,6 +24,9 @@ public interface ResourceBundle extends ClientBundle {
     
     @Source("com/la/runners/client/res/style/dialog.css")
     public Dialog dialog();
+    
+    @Source("com/la/runners/client/res/style/chart.css")
+    public Chart chart();
 
     @Source("com/la/runners/client/res/image/locationIcon.png")
     ImageResource locationIcon();

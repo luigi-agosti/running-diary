@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.LocationsUpdateEvent;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 import com.la.runners.shared.Location;
 
 public class TrackingMap extends Composite {
@@ -57,7 +57,7 @@ public class TrackingMap extends Composite {
         this.context = context;
         panel = new FlowPanel();
         this.editMode = editMode;
-        panel.setStyleName(ResourceBundle.INSTANCE.map().container());
+        panel.setStyleName(Resources.INSTANCE.map().container());
         initMap();
         panel.clear();
         panel.add(map);
@@ -127,9 +127,9 @@ public class TrackingMap extends Composite {
             @Override
             protected Widget initialize(final MapWidget map) {
                 Panel container = new FlowPanel();
-                container.setStyleName(ResourceBundle.INSTANCE.map().distanceControllerContainer());
+                container.setStyleName(Resources.INSTANCE.map().distanceControllerContainer());
                 distance = new Label();
-                distance.setStyleName(ResourceBundle.INSTANCE.map().distanceController());
+                distance.setStyleName(Resources.INSTANCE.map().distanceController());
                 container.add(distance);
                 return container;
             }

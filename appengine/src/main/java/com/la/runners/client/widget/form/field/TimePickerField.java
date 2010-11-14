@@ -6,7 +6,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 
 public class TimePickerField extends FormField {
     
@@ -23,7 +23,7 @@ public class TimePickerField extends FormField {
         field = new ZoneIndipendentTimePicker(defaultValue, null, HOURS_FORMATTER, MINUTES_FORMATTER, SECONDS_FORMATTER);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));
-        panel.setStyleName(ResourceBundle.INSTANCE.form().editorTimePickerContainer());
+        panel.setStyleName(Resources.INSTANCE.form().editorTimePickerContainer());
         panel.add(field);
         setField(panel);
     }

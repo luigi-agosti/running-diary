@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 
 public class ListBoxField extends FormField {
 
@@ -15,12 +15,12 @@ public class ListBoxField extends FormField {
         super(null);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));
-        panel.setStyleName(ResourceBundle.INSTANCE.form().editorListBoxContainer());
+        panel.setStyleName(Resources.INSTANCE.form().editorListBoxContainer());
         field = new ListBox();
         for(String value : values) {
             field.addItem(value);
         }
-        field.setStyleName(ResourceBundle.INSTANCE.form().editorListBox());
+        field.setStyleName(Resources.INSTANCE.form().editorListBox());
         panel.add(field);
         setField(panel);
     }

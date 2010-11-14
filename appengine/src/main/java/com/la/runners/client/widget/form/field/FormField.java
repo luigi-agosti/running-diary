@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 
 public abstract class FormField extends Composite {
     
@@ -25,7 +25,7 @@ public abstract class FormField extends Composite {
     public FormField(String name) {
         this.name = name;
         panel = new FlowPanel();
-        panel.setStyleName(ResourceBundle.INSTANCE.form().editorField());
+        panel.setStyleName(Resources.INSTANCE.form().editorField());
         if(name != null) {
             panel.add(new Label(name + LABEL_SEPARATOR));
         }
@@ -62,14 +62,14 @@ public abstract class FormField extends Composite {
     
     public void showValidationError() {
         errorMessage.setVisible(Boolean.TRUE);
-        addStyleName(ResourceBundle.INSTANCE.form().editorNotValidField());
+        addStyleName(Resources.INSTANCE.form().editorNotValidField());
         
     }
     
     public void showValidationError(String customMessage) {
         errorMessage.setVisible(Boolean.TRUE);
         errorMessage.setText(customMessage);
-        addStyleName(ResourceBundle.INSTANCE.form().editorNotValidField());
+        addStyleName(Resources.INSTANCE.form().editorNotValidField());
     }
     
 
@@ -88,7 +88,7 @@ public abstract class FormField extends Composite {
     public void resetValidation() {
         errorMessage.setVisible(Boolean.FALSE);
         errorMessage.setText(EMPTY_LABEL);
-        removeStyleName(ResourceBundle.INSTANCE.form().editorNotValidField());
+        removeStyleName(Resources.INSTANCE.form().editorNotValidField());
     }
     
     public abstract void reset();

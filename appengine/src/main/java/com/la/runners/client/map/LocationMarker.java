@@ -7,15 +7,15 @@ import com.google.gwt.maps.client.geom.Size;
 import com.google.gwt.maps.client.overlay.Icon;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.MarkerOptions;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 import com.la.runners.shared.Location;
 
 public class LocationMarker extends Marker {
 
     private static final MarkerOptions options = MarkerOptions.newInstance();
     static {
-        Icon icon = Icon.newInstance(ResourceBundle.INSTANCE.locationIcon().getURL());
-        icon.setShadowURL(ResourceBundle.INSTANCE.locationIconShadow().getURL());
+        Icon icon = Icon.newInstance(Resources.INSTANCE.locationIcon().getURL());
+        icon.setShadowURL(Resources.INSTANCE.locationIconShadow().getURL());
         icon.setIconSize(Size.newInstance(12, 20));
         icon.setShadowSize(Size.newInstance(22, 20));
         icon.setIconAnchor(Point.newInstance(6, 20));

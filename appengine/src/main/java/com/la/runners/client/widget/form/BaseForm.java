@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.la.runners.client.Context;
 import com.la.runners.client.ServiceAsync;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 import com.la.runners.client.res.Strings;
 
 @Deprecated
@@ -27,9 +27,9 @@ public class BaseForm extends Composite {
     public BaseForm(Context context, String title) {
         this.context = context;
         panel = new FlowPanel();
-        addLabel(title, ResourceBundle.INSTANCE.form().editorHeader());
+        addLabel(title, Resources.INSTANCE.form().editorHeader());
         initWidget(panel);
-        setStyleName(ResourceBundle.INSTANCE.form().editor());
+        setStyleName(Resources.INSTANCE.form().editor());
     }
     
     protected Strings strings() {
@@ -45,26 +45,26 @@ public class BaseForm extends Composite {
     }
     
     protected void addLabel(String text) {
-        addLabel(text, ResourceBundle.INSTANCE.form().editorLabel());
+        addLabel(text, Resources.INSTANCE.form().editorLabel());
     }
 
     protected void addSubtitle(String text) {
-        addLabel(text, ResourceBundle.INSTANCE.form().editorSubTitle());
+        addLabel(text, Resources.INSTANCE.form().editorSubTitle());
     }
 
     protected TextBox addTextBox() {
         TextBox tb = new TextBox();
-        tb.setStyleName(ResourceBundle.INSTANCE.form().editorTextBox());
+        tb.setStyleName(Resources.INSTANCE.form().editorTextBox());
         panel.add(tb);
         return tb;
     }
 
     protected DatePicker addDateWithLabel(String text) {
         FlowPanel dateContainer = new FlowPanel();
-        dateContainer.setStylePrimaryName(ResourceBundle.INSTANCE.form().editorDateContainer());
+        dateContainer.setStylePrimaryName(Resources.INSTANCE.form().editorDateContainer());
         
         DatePicker dateInput = new DatePicker();
-        dateInput.setStyleName(ResourceBundle.INSTANCE.form().editorTextBox());
+        dateInput.setStyleName(Resources.INSTANCE.form().editorTextBox());
         dateContainer.add(dateInput);
         
         panel.add(dateContainer);
@@ -73,7 +73,7 @@ public class BaseForm extends Composite {
 
     protected TextArea addTextArea() {
         TextArea tb = new TextArea();
-        tb.setStyleName(ResourceBundle.INSTANCE.form().editorTextArea());
+        tb.setStyleName(Resources.INSTANCE.form().editorTextArea());
         panel.add(tb);
         return tb;
     }
@@ -90,7 +90,7 @@ public class BaseForm extends Composite {
 
     protected CheckBox addCheckBox() {
         CheckBox cb = new CheckBox();
-        cb.setStyleName(ResourceBundle.INSTANCE.form().editorCheckBox());
+        cb.setStyleName(Resources.INSTANCE.form().editorCheckBox());
         panel.add(cb);
         return cb;
     }
@@ -107,7 +107,7 @@ public class BaseForm extends Composite {
     protected void showMessage(String message) {
         if(footer == null) {
             footer = new Label();
-            footer.setStyleName(ResourceBundle.INSTANCE.form().editorFooter());
+            footer.setStyleName(Resources.INSTANCE.form().editorFooter());
             panel.add(footer);
         }
         footer.setText(message);
@@ -115,7 +115,7 @@ public class BaseForm extends Composite {
     
     protected void addButton(String text, ClickHandler clickHandler) {
         Button b = new Button(text);
-        b.setStyleName(ResourceBundle.INSTANCE.form().editorButton());
+        b.setStyleName(Resources.INSTANCE.form().editorButton());
         b.addClickHandler(clickHandler);
         panel.add(b);
     }

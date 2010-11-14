@@ -1,4 +1,4 @@
-package com.la.runners.client.widget.grid.toolbar;
+package com.la.runners.client.widget.custom;
 
 import java.util.Arrays;
 import java.util.Date;

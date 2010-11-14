@@ -5,7 +5,7 @@ import java.util.Date;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.datepicker.client.DatePicker;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 
 public class DatePickerField extends FormField {
 
@@ -21,7 +21,7 @@ public class DatePickerField extends FormField {
     public DatePickerField(String name, Date defaultValue) {
         super(name);
         field = new DatePicker();
-        field.setStyleName(ResourceBundle.INSTANCE.form().editorTextBox());
+        field.setStyleName(Resources.INSTANCE.form().editorTextBox());
         setField(field);
         setValue(defaultValue);
     }

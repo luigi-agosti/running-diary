@@ -114,4 +114,10 @@ public interface Strings extends Constants {
     String distanceInternational();
     String speedImperial();
     String distanceImperial();
+    
+    /*
+     * Charts
+     */
+    String chartDistance();
+    String chartDailyDistanceTitle();
 }

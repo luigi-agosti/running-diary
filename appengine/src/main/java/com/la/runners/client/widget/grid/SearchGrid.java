@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.la.runners.client.Context;
 import com.la.runners.client.event.SearchProfileEvent;
 import com.la.runners.client.event.SearchProfileHandler;
-import com.la.runners.client.res.ResourceBundle;
+import com.la.runners.client.res.Resources;
 import com.la.runners.shared.Profile;
 import com.la.runners.shared.ServerException;
 
@@ -25,12 +25,12 @@ public class SearchGrid extends BaseGrid implements SearchProfileHandler {
         if(result == null || result.isEmpty()) {
             showMessage("No data found, try to search for your friends");
         } else {
-            grid.setWidget(0,0, createLabel("Nickname", ResourceBundle.INSTANCE.grid().headerCell()));
-            grid.setWidget(0,1, createLabel("Add to your list", ResourceBundle.INSTANCE.grid().headerCell()));
-            grid.setWidget(0,2, createLabel("Profile Page", ResourceBundle.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,0, createLabel("Nickname", Resources.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,1, createLabel("Add to your list", Resources.INSTANCE.grid().headerCell()));
+            grid.setWidget(0,2, createLabel("Profile Page", Resources.INSTANCE.grid().headerCell()));
             int index = 1;
             for(Profile profile : result) {
-                grid.setWidget(index,0, createLabel(profile.getNickname(), ResourceBundle.INSTANCE.grid().cell()));
+                grid.setWidget(index,0, createLabel(profile.getNickname(), Resources.INSTANCE.grid().cell()));
                 final String userId = profile.getUserId();
                 Button btnProfile = new Button("See");
                 btnProfile.addClickHandler(new ClickHandler() {
