@@ -148,7 +148,7 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
 
     @Override
     public void sendInvite(String email, String message) throws ServerException {
-        if(email != null) {
+        if(email == null) {
             logger.log(Level.SEVERE, "Send invite can't procede because the email is null");
             throw new ServerException("Send invite can't procede because the email is not defined");
         }

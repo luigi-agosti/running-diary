@@ -28,7 +28,7 @@ public class SearchForm extends CustomForm {
             }
         });
         addSubtitle(strings().searchFormSendInviteSubtitle());
-        emailInput = addMandatoryTextBoxField(strings().searchFormNickname());
+        emailInput = addMandatoryTextBoxField(strings().searchFormEmailLabel());
         messageInput = addTextAreaField(strings().searchFormPersonalMessage());
         addButton(strings().searchFormSendInviteButton(), new ClickHandler() {
             @Override

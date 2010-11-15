@@ -4,7 +4,9 @@ import com.la.runners.R;
 import com.la.runners.Runners;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 public class BaseActivity extends Activity {
 
 	private static final int PREFERENCES_ID = 1;
+	private static final int EVENT_ID = 2;
 
 	protected Cursor managedQuery(Cursor cursor) {
 		if (cursor != null) {
@@ -39,16 +42,23 @@ public class BaseActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, PREFERENCES_ID, Menu.FIRST + 1, "Settings")
 				.setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(Menu.NONE, EVENT_ID, Menu.FIRST + 2, "Event")
+            .setIcon(android.R.drawable.ic_menu_preferences);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case PREFERENCES_ID: {
-			startActivity(Preferences.getPreferenceIntent(this));
-			break;
-		}
+    		case PREFERENCES_ID: {
+    			startActivity(Preferences.getPreferenceIntent(this));
+    			break;
+    		}
+    		case EVENT_ID: {
+    		    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=Hemsworth+Pontefract"));
+    		    startActivity(i);
+    		    break;
+    		}
 		}
 		return super.onOptionsItemSelected(item);
 	}
