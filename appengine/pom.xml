@@ -34,6 +34,7 @@
 			<groupId>novoda.clag</groupId>
 			<artifactId>clag</artifactId>
 			<version>0.1.0</version>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>

@@ -60,7 +60,9 @@ public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpda
             	if(cloneRunId != null) {
             		runId = cloneRunId;
             	}
-            	eventBus().fireEvent(new ShowMapEvent(runId, Boolean.TRUE));
+            	ShowMapEvent eventMap = new ShowMapEvent(runId, Boolean.TRUE);
+            	eventMap.setLocations(locations);
+            	eventBus().fireEvent(eventMap);
             }
         });
         addSubtitle(strings().runFormOptional());

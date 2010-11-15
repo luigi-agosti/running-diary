@@ -1,5 +1,7 @@
 package com.la.runners.client.widget.dialog;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,6 +12,7 @@ import com.la.runners.client.Context;
 import com.la.runners.client.event.ShowMapEvent;
 import com.la.runners.client.event.ShowMapHandler;
 import com.la.runners.client.map.TrackingMap;
+import com.la.runners.shared.Location;
 
 public class MapDialog extends CenteredDialog implements ShowMapHandler{
 
@@ -63,7 +66,12 @@ public class MapDialog extends CenteredDialog implements ShowMapHandler{
     
     private void load(ShowMapEvent event) {
         mapContainer.clear();
-        currentMap = new TrackingMap(context, event.getId(), event.getEditMode());
+        List<Location> locations = event.getLocations();
+        if(locations == null) {
+            currentMap = new TrackingMap(context, event.getId(), event.getEditMode());
+        } else {
+            currentMap = new TrackingMap(context, locations, event.getEditMode());            
+        }
         if(currentMap.isEditMode()) {
         	saveBtn.setVisible(Boolean.TRUE);
         } else {

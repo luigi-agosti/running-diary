@@ -44,6 +44,8 @@ public class LocationMarker extends Marker {
         if(markerDragEndHandler != null) {
             addMarkerDragEndHandler(markerDragEndHandler);
             options.setDraggable(Boolean.TRUE);
+        } else {
+            options.setDraggable(Boolean.FALSE);
         }
     }
 

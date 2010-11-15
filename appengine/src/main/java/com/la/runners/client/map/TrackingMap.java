@@ -74,6 +74,18 @@ public class TrackingMap extends Composite {
             }
         });
     }
+
+    public TrackingMap(Context context, List<Location> locations, boolean editMode) {
+        this.context = context;
+        panel = new FlowPanel();
+        this.editMode = editMode;
+        panel.setStyleName(Resources.INSTANCE.map().container());
+        initMap();
+        panel.clear();
+        panel.add(map);
+        initWidget(panel);
+        load(locations);
+    }
     
     public boolean isEditMode() {
     	return editMode;
@@ -203,7 +215,8 @@ public class TrackingMap extends Composite {
 		@Override
 		public void onUpdate(PolylineLineUpdatedEvent event) {				
 			String unit = context.getUnitConverter().getDistanceUnit(context.strings);
-			distance.setText(poly.getLength() + unit);
+			Long distanceConverted = context.getUnitConverter().customUnitDistance(Double.valueOf(poly.getLength() * 100).longValue());
+			distance.setText("" + distanceConverted.toString() + " " + unit);
 		}
     };
 

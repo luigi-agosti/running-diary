@@ -35,20 +35,27 @@ public class JdoInviteDao extends BaseDaoImpl<Invite> implements BaseDao<Invite>
         });
     }
 
-    public boolean isDuplication(final String senderUserId, final String receiverUserId, final String recipientEmail) {
+    public boolean isDuplicationByEmail(final String senderUserId, final String recipientEmail) {
+        return isDuplication(senderUserId, "receiverEmail", recipientEmail);
+    }
+
+    public boolean isDuplicationByUserId(final String senderUserId, final String receiverUserId) {
+        return isDuplication(senderUserId, "receiverUserId", receiverUserId);
+    }
+    
+    private boolean isDuplication(final String senderUserId, final String property, final String value) {
         List<Invite> invites = executeQuery(new QueryPersonalizer(Invite.class) {
             @Override
             public void get(Query q) {
                 super.get(q);
                 q.setFilter("senderUserId == '" + senderUserId + 
-                        "' && ( receiverUserId == '" + receiverUserId + "' || receiverEmail == '" +
-                        recipientEmail + "')");
+                        "' && " + property + " == '" + value + "'");
             }
         });
         if(invites.isEmpty()) {
-            return false;
+            return Boolean.FALSE;
         }
-        return true;
+        return Boolean.TRUE;
     }
-
+    
 }

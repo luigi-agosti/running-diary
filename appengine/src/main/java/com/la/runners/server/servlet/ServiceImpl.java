@@ -171,8 +171,14 @@ public class ServiceImpl extends RemoteServiceServlet implements Service {
             invite.setSenderUserId(getUserId());
         }        
         
-        if(inviteDao.isDuplication(invite.getSenderUserId(), recipientUserId, recipientEmail)) {
-            throw new ServerException("The invite is alredy waiting for the user to accept");
+        if(recipientEmail != null) {
+            if(inviteDao.isDuplicationByEmail(invite.getSenderUserId(), recipientEmail)) {
+                throw new ServerException("The invite is alredy waiting for the user to accept");
+            }
+        } else {
+            if(inviteDao.isDuplicationByUserId(invite.getSenderUserId(), recipientUserId)) {
+                throw new ServerException("The invite is alredy waiting for the user to accept");
+            }
         }
         
         if(recipientUserId != null) {
