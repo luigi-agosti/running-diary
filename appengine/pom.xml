@@ -204,7 +204,7 @@
 				<version>1.1.4</version>
 				<configuration>
 					<mappingIncludes>**/shared/*.class</mappingIncludes>
-					<verbose>true</verbose>
+					<verbose>false</verbose>
 					<enhancerName>ASM</enhancerName>
 					<api>JDO</api>
 				</configuration>
@@ -304,6 +304,20 @@
 							<goal>unpack</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>start-container</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -328,9 +342,7 @@
 					<additionalProjectnatures>
 						<projectnature>org.eclipse.jdt.core.javanature</projectnature>
 						<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
-						<!--
-							<projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature>
-						-->
+						<!-- <projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature> -->
 					</additionalProjectnatures>
 					<buildCommand>
 						<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
@@ -339,11 +351,38 @@
 						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
 						<classpathContainer>org.eclipse.jdt.junit.JUNIT_CONTAINER/4</classpathContainer>
 						<classpathContainer>com.google.gwt.eclipse.core.GWT_CONTAINER</classpathContainer>
-						<!--
-							<classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer>
-						-->
+						<!-- <classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer> -->
 					</classpathContainers>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<excludes>
+						<exclude>**/acceptance/*Test.java</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<testFailureIgnore>true</testFailureIgnore>
+							<skip>false</skip>
+							<excludes>
+								<exclude>none</exclude>
+							</excludes>
+							<includes>
+								<include>**/acceptance/*Test.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
