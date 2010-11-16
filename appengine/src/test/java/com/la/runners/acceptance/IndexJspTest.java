@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class IndexJspTest {
 
@@ -23,7 +23,7 @@ public class IndexJspTest {
 
     private static final String INDEXPAGE_SINGIN_LINK = "indexPage_singInLink";
 
-    private WebDriver driver = new HtmlUnitDriver();
+    private WebDriver driver = new FirefoxDriver();
 
     private void clearCurrentLogIn() {
         driver.get(Constants.Hosts.local + Constants.Jsp.index);
@@ -41,6 +41,7 @@ public class IndexJspTest {
     @After
     public void after() {
         clearCurrentLogIn();
+        driver.close();
     }
 
     @Test
@@ -54,7 +55,6 @@ public class IndexJspTest {
         assertTrue(isSignedIn());
     }
     
-    @Ignore
     @Test
     public void shouldBeAbleToGoToHomeIfLoggedIn() {
         signInWithDefaultUser();
