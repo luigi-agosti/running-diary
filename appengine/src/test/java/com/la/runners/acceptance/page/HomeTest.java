@@ -7,7 +7,7 @@ import com.la.runners.acceptance.Constants;
 
 public class HomeTest extends AuthenticatedPageTest {
 
-    public HomeTest(String page) {
+    public HomeTest() {
         super(Constants.Jsp.home);
     }
 

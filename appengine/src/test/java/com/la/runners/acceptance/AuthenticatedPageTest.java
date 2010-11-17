@@ -5,7 +5,7 @@ import org.junit.Before;
 
 import com.la.runners.acceptance.framework.ChromeSession;
 
-public class AuthenticatedPageTest {
+public abstract class AuthenticatedPageTest {
 
     protected AppEngineUserModule userModule = new AppEngineUserModule();
     protected ChromeSession session;
@@ -18,7 +18,7 @@ public class AuthenticatedPageTest {
     
     private void clearCurrentLogIn() {
         session.go(page);
-        userModule.signOut(session);
+        //userModule.signOut(session);
     }
     
     @Before
