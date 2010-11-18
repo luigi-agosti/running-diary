@@ -28,10 +28,8 @@ public class AppEngineUserModule {
      */
     public void signIn(Session session) {
         try {
-            session.stashRelativePath();
-            session.go(ADMIN);
+            session.go(ADMIN + "?continue=" + session.getCurrentUrl());
             session.clickOnItemByXpath(LOG_IN_XPATH);
-            session.applayStashedRelativePath();
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign in procedure : " + nsee.getMessage());
         }
