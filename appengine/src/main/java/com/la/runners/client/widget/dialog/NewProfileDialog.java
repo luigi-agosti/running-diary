@@ -11,7 +11,10 @@ import com.la.runners.shared.Profile;
 
 public abstract class NewProfileDialog extends CenteredDialog {
     
+    public static final String ID = "NewProfileDialog";
+    
     public NewProfileDialog(final Context context) {
+        ensureDebugId(ID);
         add(new Label(context.strings.dialogNewProfileInfo()));
         addToolbarButton(new Button(context.strings.dialogCancelButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {

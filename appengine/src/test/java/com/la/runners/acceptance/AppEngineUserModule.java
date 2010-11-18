@@ -14,21 +14,25 @@ public class AppEngineUserModule {
     private static final String ADMIN = "_ah/login";
     
     public void signOut(Session session) {
+        signOut(session, session.getCurrentUrl());
+    }
+    
+    public void signOut(Session session, String page) {
         try {
-            session.go(ADMIN + "?continue=" + session.getCurrentUrl());
+            session.go(ADMIN + "?continue=" + page);
             session.clickOnItemByXpath(LOG_OUT_XPATH);
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign out procedure : " + nsee.getMessage());
         }
     }
     
-    /**
-     * Sign in with default user.
-     * @param session
-     */
     public void signIn(Session session) {
+        signIn(session, session.getCurrentUrl());
+    }
+    
+    public void signIn(Session session, String page) {
         try {
-            session.go(ADMIN + "?continue=" + session.getCurrentUrl());
+            session.go(ADMIN + "?continue=" + page);
             session.clickOnItemByXpath(LOG_IN_XPATH);
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign in procedure : " + nsee.getMessage());

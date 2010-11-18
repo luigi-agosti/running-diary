@@ -24,7 +24,12 @@ public abstract class Session {
     }
     
     public WebElement getElementById(String id) {
-        return driver.findElement(By.id(id));
+        try {
+            return driver.findElement(By.id(id));
+        } catch(Exception e) {
+            Assert.fail("can't find element with id : " + id);
+            throw new RuntimeException();
+        }
     }
     
     public WebElement getElementByXpath(String xpath) {
@@ -85,6 +90,41 @@ public abstract class Session {
         WebElement element = getElementById(id);
         Assert.assertNotNull(element);
         element.click();
+    }
+    
+    
+    public void fillInputById(String username) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    /**
+     * Asserts
+     */
+    public void shouldHaveInputWithIdAndValue(String id, String value) {
+        WebElement element = getElementById(id);
+        assertNotNull("Can't find element for id : " + id, element);
+        
+    }
+    
+    public void shouldHaveElementWithText() {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void shouldHaveElementWithId(String id) {
+        WebElement element = getElementById(id);
+        assertNotNull("Can't find element for id : " + id, element);
+    }
+
+    public void shouldHaveElementWithIdAndText(String string, String username) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void shouldHaveElementWithText(String string) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

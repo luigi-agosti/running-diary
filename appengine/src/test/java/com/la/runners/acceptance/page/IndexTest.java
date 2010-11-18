@@ -75,10 +75,8 @@ public class IndexTest {
         assertFalse(Method.isSignedIn(session));
     }
 
-    /**
-     * Methods that are useful to other test are organized in this way for now.
-     */
     public static class Method {
+        
         public static boolean isSignedIn(Session session) {
             try {
                 WebElement element = session.getElementById(INDEXPAGE_SIGNOUT_LINK);
@@ -88,6 +86,7 @@ public class IndexTest {
                 return Boolean.FALSE;
             }
         }
+        
     }
     
 }
