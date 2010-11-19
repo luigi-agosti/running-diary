@@ -54,7 +54,7 @@ public class IndexTest {
         String url = session.getCurrentUrl();
         assertTrue(url + " is not as expected", url.startsWith(Constants.Hosts.local + "_ah/login"));
         assertTrue(url + " is not as expected", url.endsWith(Constants.Jsp.home));
-        session.clickOnItemByXpath(AppEngineUserModule.LOG_IN_XPATH);
+        session.clickByXpath(AppEngineUserModule.LOG_IN_XPATH);
         //resetting to the beggining state
         session.go(currentUrl);
         assertTrue(Method.isSignedIn(session));
@@ -79,8 +79,7 @@ public class IndexTest {
         
         public static boolean isSignedIn(Session session) {
             try {
-                WebElement element = session.getElementById(INDEXPAGE_SIGNOUT_LINK);
-                assertNotNull(element);
+                assertNotNull(session.getElementById(INDEXPAGE_SIGNOUT_LINK));
                 return Boolean.TRUE;
             } catch (NoSuchElementException nsee) {
                 return Boolean.FALSE;

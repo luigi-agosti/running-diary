@@ -11,12 +11,14 @@ import com.la.runners.shared.ServerException;
 
 public class SearchForm extends CustomForm {
     
+    public static final String ID = "searchForm";
+    
     private MandatoryTextBoxField nicknameInput;
     private MandatoryTextBoxField emailInput;
     private TextAreaField messageInput;
     
     public SearchForm(Context _context) {
-        super(_context, _context.strings.searchFormTitle());
+        super(_context, _context.strings.searchFormTitle(), ID);
         nicknameInput = addMandatoryTextBoxField(strings().searchFormNickname());
         addButton(strings().searchFormSearchButton(), new ClickHandler() {
             @Override

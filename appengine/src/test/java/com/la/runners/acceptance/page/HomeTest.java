@@ -1,16 +1,13 @@
 package com.la.runners.acceptance.page;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 
 import com.la.runners.acceptance.AuthenticatedPageTest;
 import com.la.runners.acceptance.Constants;
 import com.la.runners.acceptance.framework.Session;
 import com.la.runners.client.widget.dialog.NewProfileDialog;
+import com.la.runners.client.widget.form.RunForm;
+import com.la.runners.client.widget.grid.RunGrid;
 
 public class HomeTest extends AuthenticatedPageTest {
 
@@ -20,35 +17,26 @@ public class HomeTest extends AuthenticatedPageTest {
 
     @Test
     public void shouldAskToSetABasicProfile() {
-        session.shouldHaveElementWithId(NewProfileDialog.ID);
-        session.shouldHaveElementWithText();
-        session.shouldHaveInputWithIdAndValue("", "");
+        session.shouldHaveElementWithGwtDebugId(NewProfileDialog.ID);
     }
 
-    @Ignore
     @Test
-    public void shouldBeAbleToSetAProfile() {
-        session.shouldHaveElementWithId(NewProfileDialog.ID);
-        session.shouldHaveElementWithText("");
-        session.shouldHaveInputWithIdAndValue("", ""); //populate the input with the mail stripped of the domain
-        String username = "pippo";
-        session.fillInputById(username);
-        session.clickById("");
-        session.shouldHaveElementWithIdAndText("", username);
+    public void shouldBeAbleToSetAProfileAndLoadTheHome() {
+        session.shouldHaveElementWithGwtDebugId(NewProfileDialog.ID);
+        //session.shouldHaveElementWithText("");
+        //session.shouldHaveInputWithIdAndValue("", ""); //populate the input with the mail stripped of the domain
+        //String username = "pippo";
+        //session.fillInputById(username);
+        Method.saveNewProfile(session);
+        session.shouldHaveElementWithGwtDebugId(RunGrid.ID);
+        session.shouldHaveElementWithGwtDebugId(RunForm.ID);
     }
     
     public static class Method {
-
-        public static final void shouldAskForProfile(Session session) {
-            
-        }
         
-        public static final void saveNewProfile() {
-            
-        }
-        
-        public static final void deleteProfile() {
-            
+        public static final void saveNewProfile(Session session) {
+            session.clickByDebugId(NewProfileDialog.CONTINUE_ID);
+            session.confirmDialog();
         }
         
     }

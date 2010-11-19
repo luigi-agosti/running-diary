@@ -15,8 +15,10 @@ import com.la.runners.shared.ServerException;
 
 public class SearchGrid extends BaseGrid implements SearchProfileHandler {
 
+    public static final String ID = "searchGrid";
+    
     public SearchGrid(Context context) {
-        super(context);
+        super(context, ID);
         context.getEventBus().addHandler(SearchProfileEvent.TYPE, this);
     }
 

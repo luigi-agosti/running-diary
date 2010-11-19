@@ -83,6 +83,9 @@ public class Profile implements Serializable {
     }
 
     public Boolean getShoes() {
+        if(shoes == null) { 
+            return Boolean.FALSE;
+        }
         return shoes;
     }
 
@@ -91,6 +94,9 @@ public class Profile implements Serializable {
     }
 
     public Boolean getHeartRate() {
+        if(heartRate == null) { 
+            return Boolean.FALSE;
+        }
         return heartRate;
     }
 
@@ -99,6 +105,9 @@ public class Profile implements Serializable {
     }
 
     public Boolean getWeight() {
+        if(weight == null) { 
+            return Boolean.FALSE;
+        }
         return weight;
     }
 
@@ -123,6 +132,9 @@ public class Profile implements Serializable {
     }
 
     public Boolean getWeather() {
+        if(weather == null) { 
+            return Boolean.FALSE;
+        }
         return weather;
     }
 

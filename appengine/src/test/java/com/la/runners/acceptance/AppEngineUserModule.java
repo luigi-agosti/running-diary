@@ -20,7 +20,7 @@ public class AppEngineUserModule {
     public void signOut(Session session, String page) {
         try {
             session.go(ADMIN + "?continue=" + page);
-            session.clickOnItemByXpath(LOG_OUT_XPATH);
+            session.clickByXpath(LOG_OUT_XPATH);
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign out procedure : " + nsee.getMessage());
         }
@@ -33,10 +33,28 @@ public class AppEngineUserModule {
     public void signIn(Session session, String page) {
         try {
             session.go(ADMIN + "?continue=" + page);
-            session.clickOnItemByXpath(LOG_IN_XPATH);
+            session.clickByXpath(LOG_IN_XPATH);
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign in procedure : " + nsee.getMessage());
         }
     }
+    
+    public void tryToClearProfile(Session session) {
+        try {
+            String path = session.getRelativePath();
+            session.go("_ah/admin/datastore?kind=Profile");
+            try {
+                session.clickById("allkeys");
+                session.clickById("delete_button");
+                session.confirmDialog();
+            } catch(Throwable e) {
+                //Fine if fail
+            }
+            session.go(path);
+        } catch (NoSuchElementException nsee) {
+            Assert.fail("Can't finish the sign in procedure : " + nsee.getMessage());
+        }
+    }
+    
 
 }

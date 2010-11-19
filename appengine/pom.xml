@@ -293,6 +293,7 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>compile-before-deploy</id>
 						<configuration>
 							<runTarget>com.la.runners.home/home.jsp</runTarget>
 						</configuration>

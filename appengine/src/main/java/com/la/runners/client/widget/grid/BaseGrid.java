@@ -25,7 +25,7 @@ public abstract class BaseGrid extends Composite {
     
     private FlowPanel container;
     
-    public BaseGrid(Context context) {
+    public BaseGrid(Context context, String debugId) {
         this.context = context;
         container = new FlowPanel();
         topBar = getTopBar();
@@ -39,6 +39,7 @@ public abstract class BaseGrid extends Composite {
         container.add(bottomBar);
         
         initWidget(container);
+        ensureDebugId(debugId);
         setMainColorStyle(Resources.INSTANCE.grid().green());
     }
     

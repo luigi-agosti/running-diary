@@ -7,5 +7,5 @@ public class ChromeSession extends Session {
     public ChromeSession(String host) {
         super(host, new ChromeDriver());
     }
-    
+
 }

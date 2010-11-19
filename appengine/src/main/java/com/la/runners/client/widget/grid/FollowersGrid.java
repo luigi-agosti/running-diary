@@ -14,8 +14,10 @@ import com.la.runners.shared.Profile;
 
 public class FollowersGrid extends BaseGrid implements ProfileUpdateHandler {
     
+    public static final String ID = "followersGrid";
+    
     public FollowersGrid(Context context) {
-        super(context);
+        super(context, ID);
         eventBus().addHandler(ProfileUpdateEvent.TYPE, this);
         load();
     }

@@ -10,8 +10,14 @@ public abstract class AuthenticatedPageTest {
     protected AppEngineUserModule userModule = new AppEngineUserModule();
     protected ChromeSession session;
     private String page;
+    private boolean setProfile;
     
     public AuthenticatedPageTest(String page) {
+        this.page = page;
+        session = new ChromeSession(Constants.Hosts.local);
+    }
+    
+    public AuthenticatedPageTest(String page, boolean setProfile) {
         this.page = page;
         session = new ChromeSession(Constants.Hosts.local);
     }
@@ -20,6 +26,10 @@ public abstract class AuthenticatedPageTest {
     public void before() {
         userModule.signOut(session, "/" + page);
         userModule.signIn(session, "/" + page);
+        userModule.tryToClearProfile(session);
+        if(setProfile) {
+            
+        }
     }
 
     @After

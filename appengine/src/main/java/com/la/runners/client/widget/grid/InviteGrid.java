@@ -14,8 +14,10 @@ import com.la.runners.shared.Invite;
 
 public class InviteGrid extends BaseGrid implements ProfileUpdateHandler {
     
+    public static final String ID = "inviteGrid";
+    
     public InviteGrid(Context context) {
-        super(context);
+        super(context, ID);
         eventBus().addHandler(ProfileUpdateEvent.TYPE, this);
         setMainColorStyle(Resources.INSTANCE.grid().red());
         load();

@@ -41,20 +41,20 @@ public class HomeEntryPoint implements EntryPoint {
                     NewProfileDialog dialog = new NewProfileDialog(context) {
                         @Override
                         public void finish(Profile profile) {
-                            init();
+                            init(profile);
                         }
                     };
                     dialog.center();
                 } else {
-                    context.setProfile(result);
-                    init();
+                    init(result);
                 }
             }
         });
         new MapDialog(context);
     }
     
-    private void init() {
+    private void init(Profile profile) {
+        context.setProfile(profile);
         RunForm runEditor = new RunForm(context);
         RunGrid runGrid = new RunGrid(context);
         panel.add(runGrid);

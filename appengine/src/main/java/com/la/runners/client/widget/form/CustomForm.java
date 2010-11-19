@@ -32,11 +32,12 @@ public class CustomForm extends Composite {
     
     private Context context;
     
-    public CustomForm(Context context, String title) {
+    public CustomForm(Context context, String title, String debugId) {
         this.context = context;
         panel = new FlowPanel();
         addLabel(title, Resources.INSTANCE.form().editorHeader());
         initWidget(panel);
+        ensureDebugId(debugId);
         setStyleName(Resources.INSTANCE.form().editor());
     }
     

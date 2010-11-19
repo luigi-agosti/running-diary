@@ -10,11 +10,13 @@ import org.openqa.selenium.WebElement;
 
 public abstract class Session {
     
+    private static final String GWT_DEBUG_ID = "gwt-debug-";
+
     private WebDriver driver;
     
     private String host;
     
-    private String stashedRelativePath;
+    private String stashedRelativePath;    
     
     public Session(String host, WebDriver driver) {
         this.driver = driver;
@@ -80,7 +82,7 @@ public abstract class Session {
         go(stashedRelativePath);
     }
 
-    public void clickOnItemByXpath(String xpath) {
+    public void clickByXpath(String xpath) {
         WebElement element = getElementByXpath(xpath);
         Assert.assertNotNull(element);
         element.click();
@@ -92,6 +94,9 @@ public abstract class Session {
         element.click();
     }
     
+    public void confirmDialog() {
+        driver.switchTo().activeElement().submit();
+    }
     
     public void fillInputById(String username) {
         // TODO Auto-generated method stub
@@ -115,6 +120,14 @@ public abstract class Session {
     public void shouldHaveElementWithId(String id) {
         WebElement element = getElementById(id);
         assertNotNull("Can't find element for id : " + id, element);
+    }
+    
+    public void shouldHaveElementWithGwtDebugId(String id) {
+        shouldHaveElementWithId(GWT_DEBUG_ID + id);
+    }
+    
+    public void clickByDebugId(String id) {
+        clickById(GWT_DEBUG_ID + id);
     }
 
     public void shouldHaveElementWithIdAndText(String string, String username) {

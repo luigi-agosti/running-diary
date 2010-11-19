@@ -33,8 +33,10 @@ public class RunGrid extends BaseGrid implements RunListUpdateHandler, DeleteRun
     
     private List<ExtraCheckBox> selection = new ArrayList<ExtraCheckBox>();
     
+    public static final String ID = "runGrid";
+    
     public RunGrid(Context context) {
-        super(context);
+        super(context, ID);
         eventBus().addHandler(RunListUpdateEvent.TYPE, this);
         eventBus().addHandler(DeleteRunEvent.TYPE, this);
     }

@@ -2,7 +2,6 @@ package com.la.runners.client.widget.dialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -11,12 +10,13 @@ import com.la.runners.shared.Profile;
 
 public abstract class NewProfileDialog extends CenteredDialog {
     
-    public static final String ID = "NewProfileDialog";
+    public static final String ID = "newProfileDialog";
+    public static final String CONTINUE_ID = "continue";
     
     public NewProfileDialog(final Context context) {
         ensureDebugId(ID);
         add(new Label(context.strings.dialogNewProfileInfo()));
-        addToolbarButton(new Button(context.strings.dialogCancelButton(), new ClickHandler() {
+        addToolbarButton(new Button(context.strings.dialogContinueButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 context.getService().save(new Profile(), new AsyncCallback<Void>() {
                     @Override
@@ -32,12 +32,7 @@ public abstract class NewProfileDialog extends CenteredDialog {
                     }
                 });
             }
-        }));
-        addToolbarButton(new Button(context.strings.dialogContinueButton(), new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                Window.Location.replace("/profile.jsp");
-            }
-        }));
+        }), CONTINUE_ID);
     }
     
     public abstract void finish(Profile profile);

@@ -26,6 +26,8 @@ import com.la.runners.shared.Run;
 
 public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpdateHandler, RunCloneHandler {
 
+    public static final String ID = "runForm";
+    
 	private static final double E6_MULTI = 1000000D;
 
 	private List<Location> locations;
@@ -44,7 +46,7 @@ public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpda
     private CheckBoxField shareField;
     
     public RunForm(final Context context) {
-        super(context, context.strings.runFormTitle());
+        super(context, context.strings.runFormTitle(), ID);
         eventBus().addHandler(RunLoadEvent.TYPE, this);
         eventBus().addHandler(LocationsUpdateEvent.TYPE, this);
         eventBus().addHandler(RunCloneEvent.TYPE, this);

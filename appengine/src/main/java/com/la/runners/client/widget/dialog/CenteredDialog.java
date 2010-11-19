@@ -23,9 +23,15 @@ public class CenteredDialog extends DialogBox {
         panel.add(toolbar);
         super.add(panel);
     }
-        
+    
     public Button addToolbarButton(Button w) {
         toolbar.add(w);
+        return w;
+    }
+        
+    public Button addToolbarButton(Button w, String debugId) {
+        toolbar.add(w);
+        w.ensureDebugId(debugId);
         return w;
     }
     

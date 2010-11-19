@@ -16,6 +16,8 @@ import com.la.runners.shared.Profile;
 
 public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
 
+    public static final String ID = "profileForm";
+    
     private CheckBoxField heartRateInput;
     private CheckBoxField weightInput;
     private CheckBoxField shoesInput;
@@ -26,7 +28,7 @@ public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
     private Profile profile;
     
     public ProfileForm(final Context _context) {
-        super(_context, _context.strings.profileFormTitle());
+        super(_context, _context.strings.profileFormTitle(), ID);
         nicknameInput = addTextBoxField(strings().profileFormNickname());
         unitSystemInput = addListBoxField(strings().profileFormUnitSystem(), 
                 Arrays.asList(strings().profileFormInternationalSystem(), 
