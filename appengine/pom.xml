@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.la.runners</groupId>
 	<artifactId>appengine</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Running Diary AppEngine</name>
 	<description>Google AppEngine part of the project</description>
@@ -22,18 +22,32 @@
 		<downloadSources>true</downloadSources>
 		<gae.application.version>test</gae.application.version>
 		<gwt.style>DETAILED</gwt.style>
+		<junit.version>4.8.2</junit.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>clag-mvn-repo</id>
+			<name>Clag</name>
+			<url>http://clag.googlecode.com/svn/maven-repo/shapshots</url>
+		</repository>
+		<repository>
+			<id>appengine-commons-mvn-repo</id>
+			<name>appengine-commons</name>
+			<url>http://appengine-commons.googlecode.com/svn/maven-repo/shapshots</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.appengine.commons</groupId>
 			<artifactId>appengine-commons</artifactId>
-			<version>0.2.0</version>
+			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>novoda.clag</groupId>
 			<artifactId>clag</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
@@ -105,7 +119,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -338,6 +352,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
 				<configuration>
 					<additionalProjectnatures>
 						<projectnature>org.eclipse.jdt.core.javanature</projectnature>
