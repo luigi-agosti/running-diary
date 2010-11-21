@@ -81,7 +81,7 @@ public class IndexTest {
             try {
                 assertNotNull(session.getElementById(INDEXPAGE_SIGNOUT_LINK));
                 return Boolean.TRUE;
-            } catch (NoSuchElementException nsee) {
+            } catch (Throwable nsee) {
                 return Boolean.FALSE;
             }
         }
