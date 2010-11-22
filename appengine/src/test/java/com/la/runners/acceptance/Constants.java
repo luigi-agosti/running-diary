@@ -18,6 +18,8 @@ public interface Constants {
         String search = "search.jsp";
         
         String profile = "profile.jsp";
+        
+        String statistics = "statistics.jsp";
     }
 
 }

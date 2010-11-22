@@ -22,6 +22,8 @@ public abstract class FormField extends Composite {
     
     private boolean enabled = Boolean.TRUE;
     
+    private int widgetIndex = 0;
+    
     public FormField(String name) {
         this.name = name;
         panel = new FlowPanel();
@@ -36,8 +38,10 @@ public abstract class FormField extends Composite {
     }
     
     public void setField(Widget field) {
+        field.ensureDebugId(name + widgetIndex);
+        widgetIndex++;
+        panel.add(field);
         this.field = field;
-        panel.add(getField());
     }
     
     public boolean isValid() {

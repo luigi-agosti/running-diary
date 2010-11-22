@@ -3,8 +3,11 @@ package com.la.runners.acceptance.framework;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -31,6 +34,14 @@ public abstract class Session {
         } catch(Exception e) {
             Assert.fail("can't find element with id : " + id);
             throw new RuntimeException();
+        }
+    }
+    
+    public WebElement getElementByIdWithoutFail(String id) {
+        try {
+            return driver.findElement(By.id(id));
+        } catch(Exception e) {
+            return null;
         }
     }
     
@@ -94,13 +105,26 @@ public abstract class Session {
         element.click();
     }
     
-    public void confirmDialog() {
-        driver.switchTo().activeElement().submit();
+    public void replaceConfirmDialog() {
+        ((JavascriptExecutor)driver).executeScript("window.confirm = function(msg){return true;}");
+
+        //Other solution that fails
+        //JavascriptExecutor js = (JavascriptExecutor) driver; 
+        //js.executeScript("document.getElementById(\"delete_button\").onclick=null;");
+        
+        //Other solution that fails
+        //driver.switchTo().activeElement().click();        
     }
     
-    public void fillInputById(String username) {
-        // TODO Auto-generated method stub
-        
+    public void fillInputById(String id, Object value) {
+        WebElement element = getElementById(id);
+        if(value instanceof String) {
+            element.sendKeys((String)value);            
+        }
+    }
+    
+    public void implicitWait(int seconds) {
+        driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
     }
     
     /**

@@ -16,27 +16,27 @@ public class HomeTest extends AuthenticatedPageTest {
     }
 
     @Test
-    public void shouldAskToSetABasicProfile() {
+    public void askedToSetTheProfile() {
         session.shouldHaveElementWithGwtDebugId(NewProfileDialog.ID);
     }
 
     @Test
-    public void shouldBeAbleToSetAProfileAndLoadTheHome() {
+    public void beAbleToSetProfileAndLoadTheHome() {
         session.shouldHaveElementWithGwtDebugId(NewProfileDialog.ID);
-        //session.shouldHaveElementWithText("");
-        //session.shouldHaveInputWithIdAndValue("", ""); //populate the input with the mail stripped of the domain
-        //String username = "pippo";
-        //session.fillInputById(username);
-        Method.saveNewProfile(session);
-        session.shouldHaveElementWithGwtDebugId(RunGrid.ID);
-        session.shouldHaveElementWithGwtDebugId(RunForm.ID);
+        Method.saveNewProfileAndVerify(session);
+//        WebElement element = null;
+//        while(element == null) {
+//            element = session.getElementByIdWithoutFail(RunGrid.ID);
+//        }
+        //session.implicitWait(1);
     }
     
     public static class Method {
         
-        public static final void saveNewProfile(Session session) {
+        public static final void saveNewProfileAndVerify(Session session) {
             session.clickByDebugId(NewProfileDialog.CONTINUE_ID);
-            session.confirmDialog();
+            session.shouldHaveElementWithGwtDebugId(RunGrid.ID);
+            session.shouldHaveElementWithGwtDebugId(RunForm.ID);
         }
         
     }

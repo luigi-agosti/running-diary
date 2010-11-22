@@ -43,10 +43,10 @@ public class AppEngineUserModule {
         try {
             String path = session.getRelativePath();
             session.go("_ah/admin/datastore?kind=Profile");
+            session.replaceConfirmDialog();
             try {
                 session.clickById("allkeys");
                 session.clickById("delete_button");
-                session.confirmDialog();
             } catch(Throwable e) {
                 //Fine if fail
             }
