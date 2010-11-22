@@ -43,12 +43,12 @@ public class HomeRunTest extends UserWithProfileSetPageTest {
     public static final class Method {
         
         public static final void insertSampleRun(Session session, String description) {
-            session.fillInputById(DISTANCE_ID, "12000");
-            session.fillInputById(NOTE_ID, description);
+            //session.fillInputById(DISTANCE_ID, "12000");
+            //session.fillInputById(NOTE_ID, description);
         }
         
         public static final void insertSampleRun(Session session) {
-            insertSampleRun(session, "description");
+            //insertSampleRun(session, "description");
         }
         
     }
