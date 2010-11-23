@@ -18,8 +18,8 @@ public class TimePickerField extends FormField {
     
     private ZoneIndipendentTimePicker field;
     
-    public TimePickerField(String name, Date defaultValue) {
-        super(null);
+    public TimePickerField(String name, Date defaultValue, String debugId) {
+        super(null, debugId);
         field = new ZoneIndipendentTimePicker(defaultValue, null, HOURS_FORMATTER, MINUTES_FORMATTER, SECONDS_FORMATTER);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));

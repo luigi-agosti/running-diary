@@ -7,8 +7,8 @@ public class TextAreaField extends FormField {
 
     private TextArea textArea;
     
-    public TextAreaField(String name) {
-        super(name);
+    public TextAreaField(String name, String debugId) {
+        super(name, debugId);
         textArea = new TextArea();
         textArea.setStyleName(Resources.INSTANCE.form().editorTextArea());
         setField(textArea);

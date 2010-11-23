@@ -4,8 +4,8 @@ import com.la.runners.client.Context;
 
 public class NumericMandatoryBoxField extends MandatoryTextBoxField {
 
-    public NumericMandatoryBoxField(String name, Context context) {
-        super(name, context);
+    public NumericMandatoryBoxField(String name, Context context, String debugId) {
+        super(name, context, debugId);
     }
 
     @Override

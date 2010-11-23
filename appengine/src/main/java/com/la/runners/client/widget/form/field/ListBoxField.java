@@ -11,8 +11,8 @@ public class ListBoxField extends FormField {
 
     private ListBox field;
     
-    public ListBoxField(String name, List<String> values) {
-        super(null);
+    public ListBoxField(String name, List<String> values, String debugId) {
+        super(null, debugId);
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(new Label(name + LABEL_SEPARATOR));
         panel.setStyleName(Resources.INSTANCE.form().editorListBoxContainer());

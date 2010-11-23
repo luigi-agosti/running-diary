@@ -11,7 +11,7 @@ public class CenteredDialog extends DialogBox {
     private FlowPanel content;
     private FlowPanel toolbar;
     
-    public CenteredDialog() {
+    public CenteredDialog(String debugId) {
         setGlassEnabled(Boolean.TRUE);
         setAnimationEnabled(Boolean.TRUE);
         FlowPanel panel = new FlowPanel();
@@ -22,6 +22,7 @@ public class CenteredDialog extends DialogBox {
         panel.add(content);
         panel.add(toolbar);
         super.add(panel);
+        ensureDebugId(debugId);
     }
     
     public Button addToolbarButton(Button w) {

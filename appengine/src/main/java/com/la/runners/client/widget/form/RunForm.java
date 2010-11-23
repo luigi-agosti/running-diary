@@ -27,8 +27,20 @@ import com.la.runners.shared.Run;
 public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpdateHandler, RunCloneHandler {
 
     public static final String ID = "runForm";
+    private static final String EDIT_MAP = "editMap";
+    private static final String SAVE_RUN = "saveRun";
+    private static final String CANCEL_RUN_EDIT = "cancelRunEdit";
     
 	private static final double E6_MULTI = 1000000D;
+    private static final String SHARE_ID = "share";
+    private static final String NOTE_ID = "note";
+    private static final String SHOES_ID = "shoes";
+    private static final String WEIGHT_ID = "weight";
+    private static final String HEART_RATE_ID = "heartRate";
+    private static final String TIME_ID = "time";
+    private static final String DISTANCE_ID = "distance";
+    private static final String START_TIME_ID = "startTime";
+    private static final String START_DATE_ID = "startDate";
 
 	private List<Location> locations;
 	
@@ -51,10 +63,10 @@ public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpda
         eventBus().addHandler(LocationsUpdateEvent.TYPE, this);
         eventBus().addHandler(RunCloneEvent.TYPE, this);
         
-        startDateField = addDatePickerField(strings().runFormDate(), new Date());
-        startTimeField = addTimePickerField(strings().runFormStart(), new Date());
-        distanceField = addNumericMandatoryBoxField(strings().runFormDistance());
-        timeField = addTimePickerField(strings().runFormTime(), new Date(0));
+        startDateField = addDatePickerField(strings().runFormDate(), new Date(), START_DATE_ID);
+        startTimeField = addTimePickerField(strings().runFormStart(), new Date(), START_TIME_ID);
+        distanceField = addNumericMandatoryBoxField(strings().runFormDistance(), DISTANCE_ID);
+        timeField = addTimePickerField(strings().runFormTime(), new Date(0), TIME_ID);
         addButton(strings().runFormEditMap(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -66,19 +78,19 @@ public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpda
             	eventMap.setLocations(locations);
             	eventBus().fireEvent(eventMap);
             }
-        });
+        }, EDIT_MAP);
         addSubtitle(strings().runFormOptional());
         if(profile().getHeartRate()) {
-            heartRateField = addTextBoxField(strings().runFormHeartRate());
+            heartRateField = addTextBoxField(strings().runFormHeartRate(), HEART_RATE_ID);
         }
         if(profile().getWeight()) {
-            weightField = addTextBoxField(strings().runFormWeight());
+            weightField = addTextBoxField(strings().runFormWeight(), WEIGHT_ID);
         }
         if(profile().getShoes()) {
-            shoesField = addTextBoxField(strings().runFormShoes());
+            shoesField = addTextBoxField(strings().runFormShoes(), SHOES_ID);
         }
-        noteField = addTextAreaField(strings().runFormNote());
-        shareField = addCheckBoxField(strings().runFormShare());
+        noteField = addTextAreaField(strings().runFormNote(), NOTE_ID);
+        shareField = addCheckBoxField(strings().runFormShare(), SHARE_ID);
         addButton(strings().runFormSave(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -117,13 +129,13 @@ public class RunForm extends CustomForm implements RunLoadHandler, LocationsUpda
                     }
                 });
             }
-        });
+        }, SAVE_RUN);
         addButton(strings().runFormCancel(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 reset();
             }
-        });
+        }, CANCEL_RUN_EDIT);
         addFooterForMessages();
         reset();
     }

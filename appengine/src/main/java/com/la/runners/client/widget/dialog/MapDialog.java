@@ -16,6 +16,8 @@ import com.la.runners.shared.Location;
 
 public class MapDialog extends CenteredDialog implements ShowMapHandler{
 
+    public static final String ID = "mapDialog";
+    
     private static final String DOMAIN = "social-runners";
     private FlowPanel mapContainer;
     private Context context;
@@ -25,6 +27,7 @@ public class MapDialog extends CenteredDialog implements ShowMapHandler{
     private static boolean firstLoad = Boolean.TRUE;
     
     public MapDialog(final Context context) {
+        super(ID);
         this.context = context;
         mapContainer = new FlowPanel();
         add(mapContainer);

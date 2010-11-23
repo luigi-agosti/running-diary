@@ -17,6 +17,14 @@ import com.la.runners.shared.Profile;
 public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
 
     public static final String ID = "profileForm";
+    public static final String SAVE_PROFILE_ID = "saveProfile";
+    public static final String DELETE_PROFILE_ID = "deleteProfile";
+    public static final String NICKNAME_ID = "nickname";
+    public static final String UNIT_SYSTEM_ID = "unitSystemInput";
+    public static final String HEART_RATE_ID = "heartRateInput";
+    public static final String WEIGHT_ID = "weightInput";
+    public static final String WEATHER_ID = "weatherInput";
+    public static final String SHOES_ID = "shoesInput";
     
     private CheckBoxField heartRateInput;
     private CheckBoxField weightInput;
@@ -29,15 +37,15 @@ public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
     
     public ProfileForm(final Context _context) {
         super(_context, _context.strings.profileFormTitle(), ID);
-        nicknameInput = addTextBoxField(strings().profileFormNickname());
+        nicknameInput = addTextBoxField(strings().profileFormNickname(), NICKNAME_ID);
         unitSystemInput = addListBoxField(strings().profileFormUnitSystem(), 
                 Arrays.asList(strings().profileFormInternationalSystem(), 
-                        strings().profileFormImperialSystem(), strings().profileFormUSSystem()));
+                        strings().profileFormImperialSystem(), strings().profileFormUSSystem()), UNIT_SYSTEM_ID);
         addSubtitle(strings().profileFormSubtitle());
-        heartRateInput = addCheckBoxField(strings().profileFormInputLabelHeartRate());
-        weightInput = addCheckBoxField(strings().profileFormInputLabelWeight());
-        weatherInput  = addCheckBoxField(strings().profileFormInputLabelWeather());
-        shoesInput = addCheckBoxField(strings().profileFormInputLabelShoes());
+        heartRateInput = addCheckBoxField(strings().profileFormInputLabelHeartRate(), HEART_RATE_ID);
+        weightInput = addCheckBoxField(strings().profileFormInputLabelWeight(), WEIGHT_ID);
+        weatherInput  = addCheckBoxField(strings().profileFormInputLabelWeather(), WEATHER_ID);
+        shoesInput = addCheckBoxField(strings().profileFormInputLabelShoes(), SHOES_ID);
         addButton(strings().profileFormSaveButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -52,15 +60,15 @@ public class ProfileForm extends CustomForm implements ProfileUpdateHandler {
                     }
                 });
             }
-        });
+        }, SAVE_PROFILE_ID);
         addSubtitle(strings().profileFormSubtitlePrivacy());
         addButton(strings().profileFormDeleteAccountButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 DeleteProfileDialog dialogBox = new DeleteProfileDialog(_context);
-                dialogBox.show();
+                dialogBox.center();
             }
-        });
+        }, DELETE_PROFILE_ID);
         load(profile());
         addFooterForMessages();
     }

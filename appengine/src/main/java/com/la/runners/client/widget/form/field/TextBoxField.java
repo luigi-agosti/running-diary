@@ -7,8 +7,8 @@ public class TextBoxField extends FormField {
 
     private TextBox field;
     
-    public TextBoxField(String name) {
-        super(name);
+    public TextBoxField(String name, String debugId) {
+        super(name, debugId);
         field = new TextBox();
         field.setStyleName(Resources.INSTANCE.form().editorTextBox());
         setField(field);

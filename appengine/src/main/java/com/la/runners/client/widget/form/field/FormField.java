@@ -22,10 +22,11 @@ public abstract class FormField extends Composite {
     
     private boolean enabled = Boolean.TRUE;
     
-    private int widgetIndex = 0;
+    private String debugId;
     
-    public FormField(String name) {
+    public FormField(String name, String debugId) {
         this.name = name;
+        this.debugId = debugId;
         panel = new FlowPanel();
         panel.setStyleName(Resources.INSTANCE.form().editorField());
         if(name != null) {
@@ -38,8 +39,7 @@ public abstract class FormField extends Composite {
     }
     
     public void setField(Widget field) {
-        field.ensureDebugId(name + widgetIndex);
-        widgetIndex++;
+        field.ensureDebugId(debugId);
         panel.add(field);
         this.field = field;
     }

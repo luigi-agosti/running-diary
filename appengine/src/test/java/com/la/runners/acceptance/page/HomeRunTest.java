@@ -9,10 +9,6 @@ import com.la.runners.client.widget.form.RunForm;
 import com.la.runners.client.widget.grid.RunGrid;
 
 public class HomeRunTest extends UserWithProfileSetPageTest {
-
-    private static final String DISTANCE_ID = "Distance0";
-    
-    private static final String NOTE_ID = "Note0";
     
     public HomeRunTest() {
         super(Constants.Jsp.home);

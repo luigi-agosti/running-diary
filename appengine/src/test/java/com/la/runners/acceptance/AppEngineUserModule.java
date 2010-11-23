@@ -31,8 +31,13 @@ public class AppEngineUserModule {
     }
     
     public void signIn(Session session, String page) {
+        signIn(session, page, "user@test.com");
+    }
+    
+    public void signIn(Session session, String page, String user) {
         try {
             session.go(ADMIN + "?continue=" + page);
+            session.setValueOnInputById("email", user);
             session.clickByXpath(LOG_IN_XPATH);
         } catch (NoSuchElementException nsee) {
             Assert.fail("Can't finish the sign in procedure : " + nsee.getMessage());
@@ -43,7 +48,7 @@ public class AppEngineUserModule {
         try {
             String path = session.getRelativePath();
             session.go("_ah/admin/datastore?kind=Profile");
-            session.replaceConfirmDialog();
+            session.removeConfirmDialog();
             try {
                 session.clickById("allkeys");
                 session.clickById("delete_button");

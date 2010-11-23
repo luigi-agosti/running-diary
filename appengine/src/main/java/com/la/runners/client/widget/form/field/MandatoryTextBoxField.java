@@ -7,8 +7,8 @@ public class MandatoryTextBoxField extends TextBoxField {
     
     protected Context context;
     
-    public MandatoryTextBoxField(String name, Context context) {
-        super(name);
+    public MandatoryTextBoxField(String name, Context context, String debugId) {
+        super(name, debugId);
         this.context = context;
     }
 

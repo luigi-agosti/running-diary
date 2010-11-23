@@ -11,7 +11,12 @@ import com.la.runners.shared.ServerException;
 
 public class SearchForm extends CustomForm {
     
+    public static final String SEARCH = "search";
+    public static final String SEND_INVITE = "sendInvite";
     public static final String ID = "searchForm";
+    public static final String NICKNAME_ID = "nickname";
+    public static final String EMAIL_ID = "email";
+    public static final String MESSAGE_ID = "message";
     
     private MandatoryTextBoxField nicknameInput;
     private MandatoryTextBoxField emailInput;
@@ -19,7 +24,7 @@ public class SearchForm extends CustomForm {
     
     public SearchForm(Context _context) {
         super(_context, _context.strings.searchFormTitle(), ID);
-        nicknameInput = addMandatoryTextBoxField(strings().searchFormNickname());
+        nicknameInput = addMandatoryTextBoxField(strings().searchFormNickname(), NICKNAME_ID);
         addButton(strings().searchFormSearchButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -28,10 +33,10 @@ public class SearchForm extends CustomForm {
                     eventBus().fireEvent(new SearchProfileEvent(nicknameInput.getValue()));
                 }
             }
-        });
+        }, SEARCH);
         addSubtitle(strings().searchFormSendInviteSubtitle());
-        emailInput = addMandatoryTextBoxField(strings().searchFormEmailLabel());
-        messageInput = addTextAreaField(strings().searchFormPersonalMessage());
+        emailInput = addMandatoryTextBoxField(strings().searchFormEmailLabel(), EMAIL_ID);
+        messageInput = addTextAreaField(strings().searchFormPersonalMessage(), MESSAGE_ID);
         addButton(strings().searchFormSendInviteButton(), new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -55,7 +60,7 @@ public class SearchForm extends CustomForm {
                     showMessage(e.getMessage());
                 }
             }
-        });
+        }, SEND_INVITE);
         addFooterForMessages();
     }
 

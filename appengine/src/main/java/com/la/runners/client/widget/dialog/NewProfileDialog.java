@@ -14,7 +14,7 @@ public abstract class NewProfileDialog extends CenteredDialog {
     public static final String CONTINUE_ID = "continue";
     
     public NewProfileDialog(final Context context) {
-        ensureDebugId(ID);
+        super(ID);
         add(new Label(context.strings.dialogNewProfileInfo()));
         addToolbarButton(new Button(context.strings.dialogContinueButton(), new ClickHandler() {
             public void onClick(ClickEvent event) {

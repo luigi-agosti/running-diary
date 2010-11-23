@@ -18,8 +18,8 @@ public class DatePickerField extends FormField {
     
     private DatePicker field;
     
-    public DatePickerField(String name, Date defaultValue) {
-        super(name);
+    public DatePickerField(String name, Date defaultValue, String debugId) {
+        super(name, debugId);
         field = new DatePicker();
         field.setStyleName(Resources.INSTANCE.form().editorTextBox());
         setField(field);

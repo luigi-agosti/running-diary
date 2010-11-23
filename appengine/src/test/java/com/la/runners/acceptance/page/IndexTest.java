@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import com.la.runners.acceptance.AppEngineUserModule;
 import com.la.runners.acceptance.Constants;
+import com.la.runners.acceptance.framework.AssertThatPageHas;
 import com.la.runners.acceptance.framework.ChromeSession;
 import com.la.runners.acceptance.framework.Session;
 
@@ -43,7 +44,7 @@ public class IndexTest {
 
     @Test
     public void shouldBeLoggedOutByDefaultRun() {
-        session.assertPresenceOfButton(INDEXPAGE_SINGIN_LINK, Constants.Jsp.home, "try it now!");
+        new AssertThatPageHas(session).assertPresenceOfButton(INDEXPAGE_SINGIN_LINK, Constants.Jsp.home, "try it now!");
     }
 
     @Test
@@ -62,13 +63,13 @@ public class IndexTest {
     @Test
     public void shouldBeAbleToGoToHomeIfLoggedIn() {
         userModule.signIn(session);
-        session.assertPresenceOfButton(INDEXPAGE_GOTOHOME, Constants.Jsp.home, "go to your home");
+        new AssertThatPageHas(session).assertPresenceOfButton(INDEXPAGE_GOTOHOME, Constants.Jsp.home, "go to your home");
     }
     
     @Test
     public void shouldBeAbleToLogOfFromHome() {
         userModule.signIn(session);
-        WebElement element = session.getElementById(INDEXPAGE_SIGNOUT_LINK);
+        WebElement element = session.findElementById(INDEXPAGE_SIGNOUT_LINK);
         assertNotNull(element);
         element.click();
         assertFalse(Method.isSignedIn(session));
@@ -78,7 +79,7 @@ public class IndexTest {
         
         public static boolean isSignedIn(Session session) {
             try {
-                assertNotNull(session.getElementById(INDEXPAGE_SIGNOUT_LINK));
+                assertNotNull(session.findElementById(INDEXPAGE_SIGNOUT_LINK));
                 return Boolean.TRUE;
             } catch (Throwable nsee) {
                 return Boolean.FALSE;

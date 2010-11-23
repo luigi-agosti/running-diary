@@ -72,8 +72,9 @@ public class CustomForm extends Composite {
         return field;
     }
     
-    protected void addButton(String text, ClickHandler clickHandler) {
+    protected void addButton(String text, ClickHandler clickHandler, String debugId) {
         Button b = new Button(text);
+        b.ensureDebugId(debugId);
         b.setStyleName(Resources.INSTANCE.form().editorButton());
         b.addClickHandler(clickHandler);
         panel.add(b);
@@ -96,36 +97,36 @@ public class CustomForm extends Composite {
         showMessage("");
     }
     
-    protected TextBoxField addTextBoxField(String name) {
-        return (TextBoxField)addField(new TextBoxField(name));
+    protected TextBoxField addTextBoxField(String name, String debugId) {
+        return (TextBoxField)addField(new TextBoxField(name, debugId));
     }
 
-    protected NumericMandatoryBoxField addNumericMandatoryBoxField(String name) {
-        return (NumericMandatoryBoxField)addField(new NumericMandatoryBoxField(name, context));
+    protected NumericMandatoryBoxField addNumericMandatoryBoxField(String name, String debugId) {
+        return (NumericMandatoryBoxField)addField(new NumericMandatoryBoxField(name, context, debugId));
     }
 
-    protected CheckBoxField addCheckBoxField(String name) {
-        return (CheckBoxField)addField(new CheckBoxField(name));
+    protected CheckBoxField addCheckBoxField(String name, String debugId) {
+        return (CheckBoxField)addField(new CheckBoxField(name, debugId));
     }
     
-    protected ListBoxField addListBoxField(String name, List<String> list) {
-        return (ListBoxField)addField(new ListBoxField(name, list));
+    protected ListBoxField addListBoxField(String name, List<String> list, String debugId) {
+        return (ListBoxField)addField(new ListBoxField(name, list, debugId));
     }
     
-    protected MandatoryTextBoxField addMandatoryTextBoxField(String name) {
-        return (MandatoryTextBoxField)addField(new MandatoryTextBoxField(name, context));
+    protected MandatoryTextBoxField addMandatoryTextBoxField(String name, String debugId) {
+        return (MandatoryTextBoxField)addField(new MandatoryTextBoxField(name, context, debugId));
     }
 
-    protected TextAreaField addTextAreaField(String name) {
-        return (TextAreaField)addField(new TextAreaField(name));
+    protected TextAreaField addTextAreaField(String name, String debugId) {
+        return (TextAreaField)addField(new TextAreaField(name, debugId));
     }
 
-    protected TimePickerField addTimePickerField(String name, Date defaultValue) {
-        return (TimePickerField)addField(new TimePickerField(name, defaultValue));
+    protected TimePickerField addTimePickerField(String name, Date defaultValue, String debugId) {
+        return (TimePickerField)addField(new TimePickerField(name, defaultValue, debugId));
     }
 
-    protected DatePickerField addDatePickerField(String name, Date defaultValue) {
-        return (DatePickerField)addField(new DatePickerField(name, defaultValue));
+    protected DatePickerField addDatePickerField(String name, Date defaultValue, String debugId) {
+        return (DatePickerField)addField(new DatePickerField(name, defaultValue, debugId));
     }
     
 }
