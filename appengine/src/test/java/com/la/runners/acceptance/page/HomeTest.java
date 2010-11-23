@@ -23,7 +23,7 @@ public class HomeTest extends AuthenticatedPageTest {
     @Test
     public void beAbleToSetProfileAndLoadTheHome() {
         session.shouldHaveElementWithGwtDebugId(NewProfileDialog.ID);
-        Method.saveNewProfileAndVerify(session);
+        Method.saveNewProfileAndVerify(session, RunForm.ID, RunGrid.ID);
 //        WebElement element = null;
 //        while(element == null) {
 //            element = session.getElementByIdWithoutFail(RunGrid.ID);
@@ -33,10 +33,12 @@ public class HomeTest extends AuthenticatedPageTest {
     
     public static class Method {
         
-        public static final void saveNewProfileAndVerify(Session session) {
+        public static final void saveNewProfileAndVerify(Session session, String...ids) {
+
             session.clickByDebugId(NewProfileDialog.CONTINUE_ID);
-            session.shouldHaveElementWithGwtDebugId(RunGrid.ID);
-            session.shouldHaveElementWithGwtDebugId(RunForm.ID);
+            for(String id: ids) {
+                session.shouldHaveElementWithGwtDebugId(id);
+            }
         }
         
     }

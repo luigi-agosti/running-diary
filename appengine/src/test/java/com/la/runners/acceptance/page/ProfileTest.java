@@ -2,12 +2,18 @@ package com.la.runners.acceptance.page;
 
 import org.junit.Test;
 
+import com.la.runners.acceptance.Constants;
 import com.la.runners.acceptance.UserWithProfileSetPageTest;
 
 public class ProfileTest extends UserWithProfileSetPageTest {
 
-    public ProfileTest(String page) {
-        super(page);
+    public ProfileTest() {
+        super(Constants.Jsp.profile);
+    }
+    
+    @Override
+    protected String[] getIds() {
+        return new String[] {};
     }
     
     @Test

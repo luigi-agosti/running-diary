@@ -11,6 +11,11 @@ public class StatisticsTest extends UserWithProfileSetPageTest {
         super(Constants.Jsp.statistics);
     }
     
+    @Override
+    protected String[] getIds() {
+        return new String[] {};
+    }
+    
     @Test
     public void montlyStatistics() {
         //insert couple of runs

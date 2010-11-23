@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.la.runners.client.res.Resources;
+import com.la.runners.client.widget.dialog.NewProfileDialog;
 import com.la.runners.client.widget.form.ProfileForm;
 import com.la.runners.client.widget.grid.FollowersGrid;
 import com.la.runners.client.widget.grid.InviteGrid;
@@ -17,11 +18,15 @@ public class ProfileEntryPoint implements EntryPoint {
     
     private Context context;
     
+    private FlowPanel panel;
+    
     @Override
     public void onModuleLoad() {
         Resources.INSTANCE.form().ensureInjected();
         Resources.INSTANCE.map().ensureInjected();
         Resources.INSTANCE.grid().ensureInjected();
+        panel = new FlowPanel();
+        RootPanel.get(GWT_HOOK).add(panel);
         context = new Context();
         context.getService().getProfile(new AsyncCallback<Profile>() {
             @Override
@@ -30,19 +35,27 @@ public class ProfileEntryPoint implements EntryPoint {
             }
             @Override
             public void onSuccess(Profile result) {
-                context.setProfile(result);
-                init();
+                if(result == null) {
+                    NewProfileDialog dialog = new NewProfileDialog(context) {
+                        @Override
+                        public void finish(Profile profile) {
+                            init(profile);
+                        }
+                    };
+                    dialog.center();
+                } else {
+                    init(result);
+                }
             }
         });
     }
     
-    private void init(){
-        FlowPanel panel = new FlowPanel();
+    private void init(Profile profile){
+        context.setProfile(profile);
         panel.add(new InviteGrid(context));
         panel.add(new FollowersGrid(context));
         panel.add(new ProfileForm(context));
         panel.setStyleName(Resources.INSTANCE.form().entryPoint());
-        RootPanel.get(GWT_HOOK).add(panel);
     }
 
 }

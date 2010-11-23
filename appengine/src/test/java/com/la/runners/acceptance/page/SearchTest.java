@@ -11,6 +11,11 @@ public class SearchTest extends UserWithProfileSetPageTest {
         super(Constants.Jsp.search);
     }
     
+    @Override
+    protected String[] getIds() {
+        return new String[] {};
+    }
+    
     @Test
     public void findUser() {
         

@@ -17,6 +17,10 @@ public abstract class Session {
 	
 	private static final Logger logger = Logger.getLogger(Session.class.getName());
 
+	private static final int TIME_OUT = 1500;
+	
+	private static final int CLICK_DELAY = 1500;
+	
 	private static final String GWT_DEBUG_ID = "gwt-debug-";
 
 	private WebDriver driver;
@@ -31,10 +35,11 @@ public abstract class Session {
 		// this.driver.manage().setSpeed(Speed.SLOW);
 		this.host = host;
 	}
+	
 
 	public WebElement getElementById(String id) {
 		try {
-			return findElement(driver, By.id(id), 3);
+			return findElement(By.id(id), TIME_OUT);
 //			return driver.findElement();
 		} catch (Exception e) {
 			Assert.fail("can't find element with id : " + id);
@@ -44,7 +49,7 @@ public abstract class Session {
 
 	public WebElement getElementByIdWithoutFail(String id) {
 		try {
-			return driver.findElement(By.id(id));
+			return getElementById(id);
 		} catch (Exception e) {
 			return null;
 		}
@@ -114,13 +119,6 @@ public abstract class Session {
 	public void replaceConfirmDialog() {
 		((JavascriptExecutor) driver)
 				.executeScript("window.confirm = function(msg){return true;}");
-
-		// Other solution that fails
-		// JavascriptExecutor js = (JavascriptExecutor) driver;
-		// js.executeScript("document.getElementById(\"delete_button\").onclick=null;");
-
-		// Other solution that fails
-		// driver.switchTo().activeElement().click();
 	}
 
 	public void fillInputById(String id, Object value) {
@@ -149,8 +147,7 @@ public abstract class Session {
 	}
 
 	public void shouldHaveElementWithId(String id) {
-		WebElement element = getElementById(id);
-		assertNotNull("Can't find element for id : " + id, element);
+	    getElementById(id);
 	}
 
 	public void shouldHaveElementWithGwtDebugId(String id) {
@@ -158,6 +155,11 @@ public abstract class Session {
 	}
 
 	public void clickByDebugId(String id) {
+	    try {
+            Thread.sleep(CLICK_DELAY);
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
 		clickById(GWT_DEBUG_ID + id);
 	}
 
@@ -171,10 +173,10 @@ public abstract class Session {
 
 	}
 
-	private WebElement findElement(WebDriver webDriver, By by, int timeout) {
+	private WebElement findElement(By by, int timeout) {
 		int iSleepTime = 1000;
 		for (int i = 0; i < timeout; i += iSleepTime) {
-			List<WebElement> oWebElements = webDriver.findElements(by);
+			List<WebElement> oWebElements = driver.findElements(by);
 			if (oWebElements.size() > 0) {
 				return oWebElements.get(0);
 			} else {

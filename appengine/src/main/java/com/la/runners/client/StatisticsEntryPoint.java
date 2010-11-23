@@ -32,20 +32,20 @@ public class StatisticsEntryPoint implements EntryPoint {
                     NewProfileDialog dialog = new NewProfileDialog(context) {
                         @Override
                         public void finish(Profile profile) {
-                            init();
+                            init(profile);
                         }
                     };
                     dialog.center();
                 } else {
-                    context.setProfile(result);
-                    init();
+                    init(result);
                 }
             }
         });
         new MapDialog(context);
 	}
 	
-	public void init() {
+	public void init(Profile profile) {
+	    context.setProfile(profile);
 		VisualizationUtils.loadVisualizationApi(new Runnable() {
 			public void run() {
 				RootPanel.get(GWT_HOOK).add(new DailyDistanceColumnChart(context));

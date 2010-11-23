@@ -5,6 +5,8 @@ import org.junit.Test;
 import com.la.runners.acceptance.Constants;
 import com.la.runners.acceptance.UserWithProfileSetPageTest;
 import com.la.runners.acceptance.framework.Session;
+import com.la.runners.client.widget.form.RunForm;
+import com.la.runners.client.widget.grid.RunGrid;
 
 public class HomeRunTest extends UserWithProfileSetPageTest {
 
@@ -16,6 +18,11 @@ public class HomeRunTest extends UserWithProfileSetPageTest {
         super(Constants.Jsp.home);
     }
     
+    @Override
+    protected String[] getIds() {
+        return new String[] {RunForm.ID, RunGrid.ID};
+    }
+
     @Test
     public void shouldInsert() {
         Method.insertSampleRun(session);
@@ -52,4 +59,5 @@ public class HomeRunTest extends UserWithProfileSetPageTest {
         }
         
     }
+
 }
