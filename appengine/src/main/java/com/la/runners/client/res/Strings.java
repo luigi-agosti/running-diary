@@ -27,6 +27,7 @@ public interface Strings extends Constants {
     /*
      * Profile Form
      */
+    @DefaultStringValue("Profile Editor")
     String profileFormTitle();
     String profileFormNickname();
     String profileFormDeleteAccountButton();

@@ -1,12 +1,18 @@
 package com.la.runners.acceptance;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
+import com.google.gwt.i18n.client.Constants.DefaultStringValue;
 import com.la.runners.acceptance.framework.AssertThatPageHas;
 import com.la.runners.acceptance.framework.ChromeSession;
 import com.la.runners.client.res.Strings;
@@ -62,6 +68,16 @@ public abstract class AuthenticatedPageTest {
     
     protected static String getString(String key) {
         return strings.getProperty(key);
+    }
+
+    protected static String getString(Class<?> clazz, String key) {
+        try {
+            Method method = clazz.getDeclaredMethod(key);
+            DefaultStringValue defaultValue = method.getAnnotation(DefaultStringValue.class);
+            return defaultValue.value();
+        } catch (Exception e) {
+            throw new RuntimeException("default value is not present " + e.getMessage());
+        }
     }
     
     protected static final String PROFILE_FORM_SAVE_SUCCESS = "profileFormSaveSuccess";

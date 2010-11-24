@@ -5,7 +5,6 @@ import org.junit.Test;
 import com.la.runners.acceptance.Constants;
 import com.la.runners.acceptance.UserWithProfileSetPageTest;
 import com.la.runners.acceptance.framework.AssertThatPageHas;
-import com.la.runners.acceptance.framework.ChromeSession;
 import com.la.runners.acceptance.framework.Session;
 import com.la.runners.client.widget.dialog.DeleteProfileDialog;
 import com.la.runners.client.widget.form.ProfileForm;
